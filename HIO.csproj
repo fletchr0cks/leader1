@@ -4,12 +4,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D88F3938-EEF6-4D39-9123-8573E7298A67}</ProjectGuid>
+    <ProjectGuid>{8F621C3D-9D73-4FDC-AD27-AEAB2338007C}</ProjectGuid>
     <ProjectTypeGuids>{603c0e0b-db56-11dc-be95-000d561079b0};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LB3</RootNamespace>
-    <AssemblyName>LB3</AssemblyName>
+    <RootNamespace>HIO</RootNamespace>
+    <AssemblyName>HIO</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
   </PropertyGroup>
@@ -68,44 +68,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataRepository.cs" />
-    <Compile Include="Models\lb3data.designer.cs">
+    <Compile Include="Models\hio.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>lb3data.dbml</DependentUpon>
+      <DependentUpon>hio.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\jquery.mobile-1.1.0.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.7.2.js" />
-    <Content Include="Scripts\jquery-1.7.min.js" />
-    <Content Include="Scripts\jquery-mobile-1.1.0.js" />
-    <Content Include="Scripts\jquery.mobile-1.1.0.min.js" />
-    <Content Include="Views\Home\CourseGroups.aspx" />
-    <Content Include="Views\Home\Front.aspx" />
-    <Content Include="Views\Home\Hole.aspx" />
-    <Content Include="Views\Home\CourseCardPartial.ascx" />
-    <Content Include="Views\Home\CourseCard.aspx" />
-    <Content Include="Views\Home\Hole2.aspx" />
-    <Content Include="Views\Home\HoleCard.aspx" />
-    <Content Include="Views\Home\PlayersPartial.ascx" />
-    <Content Include="Views\Home\PlayerPartialNew.ascx" />
-    <Content Include="Views\Home\GroupPartialNew.ascx" />
-    <Content Include="Views\Home\GroupPartial.ascx" />
-    <Content Include="Views\Home\HolePartialNew.ascx" />
-    <Content Include="Views\Home\HolePartialEdit.ascx" />
-    <Content Include="Views\Home\CourseHoles.aspx" />
-    <Content Include="Views\Home\CourseDetails.aspx" />
-    <Content Include="Views\Home\Groups.aspx" />
-    <Content Include="Views\Home\GroupsList.aspx" />
-    <Content Include="Views\Home\HolePartial.ascx" />
-    <Content Include="Views\Home\Ptest.ascx" />
-    <Content Include="Views\Home\SaveHole.aspx" />
-    <Content Include="Views\Home\Years.aspx" />
+    <Content Include="Scripts\jquery.ui.map.js" />
+    <Content Include="Views\Home\Save.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery-1.3.2.js" />
@@ -128,9 +102,9 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\lb3data.dbml">
+    <None Include="Models\hio.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>lb3data.designer.cs</LastGenOutput>
+      <LastGenOutput>hio.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -138,8 +112,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\lb3data.dbml.layout">
-      <DependentUpon>lb3data.dbml</DependentUpon>
+    <None Include="Models\hio.dbml.layout">
+      <DependentUpon>hio.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +134,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>4560</DevelopmentServerPort>
+          <DevelopmentServerPort>3192</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

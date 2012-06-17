@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LB3")]
+[assembly: AssemblyTitle("HIO")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Thomson Reuters")]
-[assembly: AssemblyProduct("LB3")]
+[assembly: AssemblyProduct("HIO")]
 [assembly: AssemblyCopyright("Copyright © Thomson Reuters 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a3c0b104-e358-4bfc-b17d-b46853253696")]
+[assembly: Guid("96476100-a22c-4926-90af-538301330012")]
 
 // Version information for an assembly consists of the following four values:
 //

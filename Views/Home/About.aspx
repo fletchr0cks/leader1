@@ -4,10 +4,6 @@
     About Us
 </asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="PageTitleContent" runat="server">
-    Beer Index here
-</asp:Content>
-
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>About</h2>
     <p>
