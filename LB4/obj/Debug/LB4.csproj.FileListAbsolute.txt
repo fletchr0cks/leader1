@@ -1,5 +1,5 @@
-C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2008\Projects\LB4\LB4\bin\LB4.dll
-C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2008\Projects\LB4\LB4\bin\LB4.pdb
-C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2008\Projects\LB4\LB4\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2008\Projects\LB4\LB4\obj\Debug\LB4.dll
-C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2008\Projects\LB4\LB4\obj\Debug\LB4.pdb
+g:\nick\visual studio 2010\Projects\LB4\LB4\bin\LB4.dll
+g:\nick\visual studio 2010\Projects\LB4\LB4\bin\LB4.pdb
+g:\nick\visual studio 2010\Projects\LB4\LB4\obj\Debug\ResolveAssemblyReference.cache
+g:\nick\visual studio 2010\Projects\LB4\LB4\obj\Debug\LB4.dll
+g:\nick\visual studio 2010\Projects\LB4\LB4\obj\Debug\LB4.pdb

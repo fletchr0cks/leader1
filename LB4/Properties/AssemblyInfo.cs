@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("LB4")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Thomson Reuters")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("LB4")]
-[assembly: AssemblyCopyright("Copyright © Thomson Reuters 2012")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("22bf2108-5ac4-4f47-a4fa-9581fed25758")]
+[assembly: Guid("877caa80-260f-4a26-b19e-aac675b97c7c")]
 
 // Version information for an assembly consists of the following four values:
 //

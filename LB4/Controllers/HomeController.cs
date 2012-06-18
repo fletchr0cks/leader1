@@ -11,7 +11,7 @@ namespace LB4.Controllers
     {
         public ActionResult Index()
         {
-            ViewData["Message"] = "Welcome to ASP.NET MVC!";
+            ViewData["Message"] = "Welcome to ASP.NET MVC 2!";
 
             return View();
         }
