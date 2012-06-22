@@ -1,6 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<LB3.Models.Group>>" %>
 
-<div data-role="collapsible" data-theme="c" data-content-theme="d">
+<div data-role="collapsible" data-theme="b" data-content-theme="d">
 <h3>Groups</h3>    
  <% foreach (var item in Model)
     {
@@ -8,7 +8,7 @@
         
       %>
       
-<div data-role="collapsible" data-theme="c" data-content-theme="d" data-mini="true">
+<div data-role="collapsible" data-theme="b" data-content-theme="d" data-mini="true">
 	<h3><%=item.GroupName %></h3>
 	
 	
@@ -20,10 +20,10 @@
     
     %>
  <div class="ui-block-a">
-<div id="user_<%=(player.User.UserID)%>"><%=player.User.Name %></div></td>
+<div id="user_<%=(player.User.UserID)%>"><%=player.User.Name %></div>
  </div>	
  <div class="ui-block-b" style="cursor:pointer">
- Remove
+<a href="#" onclick="removeUser(<%=player.User.UserID %>,<%=item.GID %> )" data-role="button" data-icon="delete" data-iconpos="notext"></a>
  </div>
  
 	<% } %>
@@ -32,6 +32,11 @@
 	<div class="ui-grid-a">
 	
 	<div class="ui-block-a" id="newPlayer_<%=(item.GID)%>"></div>
+	
+	</div>
+    <div class="ui-grid-b">
+	
+	
 	<div class="ui-block-b" onclick="addPlayer(<%=item.GID %>)">add player</div>
 	</div>
 	</div>   

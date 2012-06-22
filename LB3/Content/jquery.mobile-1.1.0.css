@@ -2060,4 +2060,7 @@ span.ui-slider-label-b { z-index: 0; right: 0; text-indent: 1.5em;}
 .sliderforpin .ui-slider-switch.ui-slider-mini { width: 10em; margin-bottom:5px }
 .sliderforLD .ui-slider-switch.ui-slider-mini { width: 9em; margin-bottom:5px }
 
-.thin { font-weight:bold; margin: 0px; padding: 0px; }
+.H1thin { font-weight:bold; margin: 0px; padding: 0px; font-size:20px }
+.thin { margin: 0px; padding: 0px;font-size:14px;color:Orange; display:inline}
+
+td.tdright { text-align: right }

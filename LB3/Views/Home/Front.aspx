@@ -14,6 +14,6 @@
 	<li><%=Html.ActionLink("Courses and Groups", "Years", "Home", new { target = "CourseGroups" }, null)%></li>
 	<li><%=Html.ActionLink("Edit Scorecards", "Years", "Home", new { target = "CourseHoles" }, null) %></li>
 	<li><%=Html.ActionLink("View Scorecards", "Years", "Home", new { target = "CourseHolesView" }, null)%></li>
-	<li><%=Html.ActionLink("Results Feed", "Results", "Home") %></li>
+	<li><%=Html.ActionLink("Results Feed", "Events", "Home") %></li>
 </ul>
 </asp:Content>

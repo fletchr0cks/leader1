@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataSource" Class="lb3dataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=b440b8fd-fb24-4822-869d-a06200d343e6.sqlserver.sequelizer.com;User ID=vpdgdiikikowcpcz" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DataSourceConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbb440b8fdfb244822869da06200d343e6" Class="lb3dataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=b440b8fd-fb24-4822-869d-a06200d343e6.sqlserver.sequelizer.com;Initial Catalog=dbb440b8fdfb244822869da06200d343e6;Persist Security Info=True;User ID=vpdgdiikikowcpcz" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="dbb440b8fdfb244822869da06200d343e6ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Course" Member="Courses">
     <Type Name="Course">
       <Column Name="CID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -9,16 +9,6 @@
       <Column Name="YID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Course_Group" Member="Groups" ThisKey="CID" OtherKey="CourseID" Type="Group" />
       <Association Name="Course_Hole" Member="Holes" ThisKey="CID" OtherKey="CourseID" Type="Hole" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Event" Member="Events">
-    <Type Name="Event">
-      <Column Name="EID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Name" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
-      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="User_Event" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Year" Member="Years">
@@ -100,11 +90,11 @@
       <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Nickname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Rating" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="User_Event" Member="Events" ThisKey="UserID" OtherKey="UserID" Type="Event" />
       <Association Name="User_Handicap" Member="Handicaps" ThisKey="UserID" OtherKey="UserID" Type="Handicap" />
       <Association Name="User_Leaderboard" Member="Leaderboards" ThisKey="UserID" OtherKey="UserID" Type="Leaderboard" />
       <Association Name="User_UserGroup" Member="UserGroups" ThisKey="UserID" OtherKey="UserID" Type="UserGroup" />
       <Association Name="User_Score" Member="Scores" ThisKey="UserID" OtherKey="UserID" Type="Score" />
+      <Association Name="User_Event" Member="Events" ThisKey="UserID" OtherKey="UserID" Type="Event" />
     </Type>
   </Table>
   <Table Name="dbo.UserGroup" Member="UserGroups">
@@ -129,6 +119,16 @@
       <Association Name="Hole_Score" Member="Hole" ThisKey="HoleID" OtherKey="HoleID" Type="Hole" IsForeignKey="true" />
       <Association Name="User_Score" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
       <Association Name="Year_Score" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Event" Member="Events">
+    <Type Name="Event">
+      <Column Name="EID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="User_Event" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -133,6 +133,48 @@ namespace LB3.Controllers
             return View("Hole", data);
         }
 
+        public ActionResult Events()
+        {
+            return View();
+        }
+
+        public ActionResult getAllEvents()
+        {
+            var dataContext = new lb3dataDataContext();
+
+            var allevents = from e in dataContext.Events
+                               orderby e.Timestamp descending
+                               select new
+                               {
+                                   UserID = e.UserID,
+                                   Comment = e.Comment,
+                                   Name = e.Name,
+                                   Timest = Convert.ToString(e.Timestamp),
+                                   EID = e.EID
+                               };
+
+            return Json(new { events = allevents });
+        }
+
+        public ActionResult getLatestEvents(int EID)
+        {
+            var dataContext = new lb3dataDataContext();
+
+            var allevents = from e in dataContext.Events
+                            orderby e.Timestamp descending
+                            where e.EID > EID
+                            select new
+                            {
+                                UserID = e.UserID,
+                                Comment = e.Comment,
+                                Name = e.Name,
+                                Timest = Convert.ToString(e.Timestamp),
+                                ID = e.EID
+                            };
+
+            return Json(new { events = allevents });
+        }
+
         public ActionResult CourseDetails(int CID, int YID, string course)
         {
             var dataContext = new lb3dataDataContext();
@@ -542,6 +584,7 @@ namespace LB3.Controllers
                     sc.HoleID = HID;
                     dataRepository.Add(sc);
                     dataRepository.Save();
+                    dataRepository.CheckScore(0, GID, YID, HID, UserID);
                 }
                 else if (LD == 1)
                 {
@@ -553,6 +596,7 @@ namespace LB3.Controllers
                     sc.HoleID = HID;
                     dataRepository.Add(sc);
                     dataRepository.Save();
+                    dataRepository.CheckScore(0, GID, YID, HID, UserID);
                     
                 }
                 else
@@ -565,6 +609,7 @@ namespace LB3.Controllers
 
                     dataRepository.Add(sc);
                     dataRepository.Save();
+                    dataRepository.InitTimer(0, GID, YID, HID, UserID);
 
                 }
             }
