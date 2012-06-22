@@ -109,7 +109,7 @@
 
 
           function drawCanvas(num) {
-           $("#canvas" + num).width(400);
+           $("#canvas" + num).width(422);
            $("#canvas" + num).height(80);
 
            var canvas = $("#canvas" + num).get(0);
@@ -118,26 +118,43 @@
                var canvasContext = canvas.getContext('2d');
 
                if (canvasContext) {
-                   canvasContext.canvas.width = 400;
+                   canvasContext.canvas.width = 422;
                    canvasContext.canvas.height = 80;
 
                    //canvasContext.font = "bold 14px serif";
                    //canvasContext.fillText("Canvas is supported", 10, 20);
                    canvasContext.strokeStyle = "#2489CE";
-                   canvasContext.moveTo(20, 65);
-                   canvasContext.lineTo(380, 65);
+                   canvasContext.moveTo(0, 20);
+                   canvasContext.lineTo(420, 20);
                    
                    canvasContext.stroke();
 
-                   canvasContext.font = "bold 10px sans-serif";
-                   canvasContext.fillStyle = "#999";
-                   canvasContext.fillText("2008", 95, 78);
+                   canvasContext.font = "14px sans-serif";
+                   canvasContext.fillStyle = "#000000";
+                   canvasContext.fillText("2006", 8, 15);
+                   canvasContext.fillStyle = "#EAEAEA";
+                   canvasContext.fillRect(12, 21, 25, 55);
+           
+                   canvasContext.font = "14px sans-serif";
+                   canvasContext.fillStyle = "#000000";
+                   canvasContext.fillText("2007", 63, 15);
+                   canvasContext.fillStyle = "#EAEAEA";
+                   canvasContext.fillRect(68, 21, 25, 35);
 
-                   canvasContext.fillStyle = "#999";
-                   canvasContext.fillRect(100, 10, 20, 55);
+                   canvasContext.font = "bold 20px sans-serif";
+                   canvasContext.fillStyle = "#555555";
+                   canvasContext.fillText("8", 18, 70);
+
+                   canvasContext.font = "bold 20px sans-serif";
+                   canvasContext.fillStyle = "#555555";
+                   canvasContext.fillText("6", 74, 50);
 
 
-                   $("#canvas" + num).trigger('refresh').fadeIn(2000);
+                   $("#canvasdiv" + num).slideDown(2000).delay(2000);
+                    $("#canvas" + num).slideDown(2000).delay(2000);
+                    $("#canvas" + num).trigger('refresh');
+                    $("#canvas" + num).fadeIn(2000);
+                   
                }
        
 
@@ -161,11 +178,10 @@
                 <div class="thin" style="display:inline" id="scoretxt_<%=item.UserID %>">ready</div></div>
             </td>
            <td><a href="#" onclick="drawCanvas(<%=item.UserID %>)" data-role="button" data-icon="info" data-iconpos="notext">Stats</a></td>
-           <td rowspan="3"><canvas style="border:1px solid #999;display:none" "width="400px" height="80px" id="canvas<%=item.UserID %>">Canvas is not supported</canvas></td>
         </tr>
         <tr><td>
      
-        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+        <fieldset data-role="controlgroup" data-type="horizontal">
     	<% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 2)
    { %>
     	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,2,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-0" value="2" checked="checked"/>
@@ -206,23 +222,58 @@
     	 <% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 5)
    { %>
     	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,5,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-3" value="5" checked="checked"/>
-    	<label for="radio-mini-3">5</label>
-    	
+    	<label for="radio-mini-3">5</label>    	
     	<% }
    else
    { %>
     	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,5,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-3" value="5" />
-    	<label for="radio-mini-3">5</label>
-    	
+    	<label for="radio-mini-3">5</label>   	
     	<% } %>  	
+        	
+    	 <% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 6)
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,6,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-4" value="6" checked="checked"/>
+    	<label for="radio-mini-4">6</label>    	
+    	<% }
+   else
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,6,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-4" value="6" />
+    	<label for="radio-mini-4">6</label>   	
+    	<% } %>  
+          	 <% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 7)
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,7,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-5" value="7" checked="checked"/>
+    	<label for="radio-mini-5">7</label>    	
+    	<% }
+   else
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,7,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-5" value="7" />
+    	<label for="radio-mini-5">7</label>   	
+    	<% } %>  
+        <% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 8)
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,8,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-6" value="8" checked="checked"/>
+    	<label for="radio-mini-6">8</label>    	
+    	<% }
+   else
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,8,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-6" value="8" />
+    	<label for="radio-mini-6">8</label>   	
+    	<% } %> 
+        <% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 9)
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,9,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-7" value="9" checked="checked"/>
+    	<label for="radio-mini-7">9</label>    	
+    	<% }
+   else
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,9,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-7" value="9" />
+    	<label for="radio-mini-7">9</label>   	
+    	<% } %> 
     	
 </fieldset>
 </td>
 <td></td>
-        <td>
-         
-         
-        </td>
 </tr>
 <tr>
 <td>
@@ -260,8 +311,11 @@
 	<%} %>
 </select></div>
 <% } %>
-        </td><td></td>      
+        </td> <td></td>     
         </tr>
+        <tr>
+<td colspan="3"><div style="height:80px;display:none" id="canvasdiv<%=item.UserID %>"><canvas width="422px" height="80px" id="canvas<%=item.UserID %>">Canvas is not supported</canvas></div></td>
+</tr>
      </table></div>
          <p class="thin">&nbsp;</p>
     <% } %>
