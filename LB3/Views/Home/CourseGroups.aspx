@@ -6,7 +6,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
- <%= Html.ActionLink("Back to Years", "Years", "Home", new { target = "CourseGroups" }, null)%>
+ <%= Html.ActionLink("Back", "Years", "Home", new { target = "CourseGroups" }, null)%>
     
     <h1>Courses and Groups</h1>
 </asp:Content>

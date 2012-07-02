@@ -72,6 +72,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Group.cs" />
     <Compile Include="Models\DataRepository.cs" />
     <Compile Include="Models\lb3data.designer.cs">
       <AutoGen>True</AutoGen>
@@ -92,6 +93,7 @@
     <Content Include="Content\jquery.mobile-1.1.0.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\app_local.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
@@ -99,12 +101,17 @@
     <Content Include="Scripts\jquery-1.7.2.js" />
     <Content Include="Scripts\jquery-1.7.min.js" />
     <Content Include="Scripts\jquery-mobile-1.1.0.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.mobile-1.1.0.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Views\Home\Copy of HolePartial.ascx" />
+    <Content Include="Views\Home\HolePartial.ascx" />
+    <Content Include="Views\Home\CourseHolesView.aspx" />
+    <Content Include="Views\Home\ScoreDetails.aspx" />
     <Content Include="Views\Home\Events.aspx" />
     <Content Include="Views\Home\CourseGroups.aspx" />
     <Content Include="Views\Home\Front.aspx" />
@@ -123,9 +130,10 @@
     <Content Include="Views\Home\CourseDetails.aspx" />
     <Content Include="Views\Home\Groups.aspx" />
     <Content Include="Views\Home\GroupsList.aspx" />
-    <Content Include="Views\Home\HolePartial.ascx" />
+    <Content Include="Views\Home\ScorePartial.ascx" />
     <Content Include="Views\Home\Ptest.ascx" />
     <Content Include="Views\Home\SaveHole.aspx" />
+    <Content Include="Views\Home\Weather.aspx" />
     <Content Include="Views\Home\Years.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />

@@ -34,6 +34,25 @@ namespace LB3.Controllers
 
             ViewData["YearTarget"] = target;
 
+            var cookietxt = "";
+
+            if (target == "CourseGroups") {
+
+               cookietxt = "Courses and Groups";
+
+            } else if (target == "CourseHoles") {
+
+                cookietxt = "Enter Scores";
+
+            } else  if (target == "CourseHolesView") {
+
+                cookietxt = "View Scores";
+            }
+
+            var histCookie = new HttpCookie("last", cookietxt);
+            histCookie.Expires = DateTime.Now.AddDays(1);
+            Response.AppendCookie(histCookie);
+
             return View("Index", data);
         }
 
@@ -47,17 +66,35 @@ namespace LB3.Controllers
                        orderby y.GroupName ascending
                        select y;
 
+            var year = (from y in dataContext.Years
+                        where y.YID == YID
+                        select y).First().Year1.ToString();
+            
             ViewData["YID"] = YID;
             ViewData["CID"] = CID;
             ViewData["course"] = course;
+            ViewData["year"] = year;
 
-            
             ViewData["GroupTarget"] = target;
+
+            string cookie = Request.Cookies["last"].Value;
+
+            var cookietxt = cookie + ", " + year + ", " + course;
+
+            var histCookie = new HttpCookie("last", cookietxt);
+            histCookie.Expires = DateTime.Now.AddDays(1);
+            Response.AppendCookie(histCookie);
+
 
             return View("Groups", data);
         }
 
         public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Weather()
         {
             return View();
         }
@@ -79,7 +116,28 @@ namespace LB3.Controllers
             ViewData["YearID"] = YID;
             ViewData["Year"] = year;
 
+          
             return View("CourseHoles", data);
+        }
+
+        public ActionResult CourseHolesView(int YID)
+        {
+            var dataContext = new lb3dataDataContext();
+
+            var year = (from y in dataContext.Years
+                        where y.YID == YID
+                        select y).First().Year1.ToString();
+
+
+            var data = from c in dataContext.Courses
+                       where c.YID == YID
+                       //orderby u.Timestamp descending
+                       select c;
+
+            ViewData["YearID"] = YID;
+            ViewData["Year"] = year;
+
+            return View("CourseHolesView", data);
         }
 
         public ActionResult CourseGroups(int YID)
@@ -99,12 +157,20 @@ namespace LB3.Controllers
             ViewData["YearID"] = YID;
             ViewData["Year"] = year;
 
+            string cookie = Request.Cookies["last"].Value;
+
+            var cookietxt = cookie + ", " + year;
+
+            var histCookie = new HttpCookie("last", cookietxt);
+            histCookie.Expires = DateTime.Now.AddDays(1);
+            Response.AppendCookie(histCookie);
+
             return View("CourseGroups", data);
         }
 
         public ActionResult Index()
         {
-
+            
             return View("Front");
         }
 
@@ -117,18 +183,51 @@ namespace LB3.Controllers
                         where y.YID == YID
                         select y).First().Year1.ToString();
 
+            var group = from c in dataContext.Groups
+                       where c.GID == GID
+                       select c;
 
             var data = from c in dataContext.Holes
                        where c.CourseID == CID
                        where c.YearID == YID
-                       //orderby u.Timestamp descending
                        select c;
+
+            var grouplist = from y in db.UserGroups
+                            where y.GID == GID
+                            select new
+                            {
+                                name = y.User.Nickname
+                            };
+
+            var gplist = "";
+            int gpint = 0;
+
+            foreach (var sc in grouplist)
+            {
+                if (gpint == 3)
+                {
+                    gplist = gplist + " and " + sc.name;
+                }
+                else if (gpint == 0)
+                {
+                    gplist = sc.name;
+                }
+
+                else
+                {
+                    gplist = gplist + ", " + sc.name;
+                }
+
+                gpint++;
+            }
 
             ViewData["YearID"] = YID;
             ViewData["Year"] = year;
             ViewData["GID"] = GID;
             ViewData["CID"] = CID;
             ViewData["course"] = course;
+            ViewData["Group"] = group.First().GroupName;
+            ViewData["names"] = gplist;
 
             return View("Hole", data);
         }
@@ -149,8 +248,9 @@ namespace LB3.Controllers
                                    UserID = e.UserID,
                                    Comment = e.Comment,
                                    Name = e.Name,
-                                   Timest = Convert.ToString(e.Timestamp),
-                                   EID = e.EID
+                                   Timest = Convert.ToDateTime(e.Timestamp).ToShortTimeString(),
+                                   EID = e.EID,
+                                   type = e.Type
                                };
 
             return Json(new { events = allevents });
@@ -160,19 +260,29 @@ namespace LB3.Controllers
         {
             var dataContext = new lb3dataDataContext();
 
-            var allevents = from e in dataContext.Events
-                            orderby e.Timestamp descending
-                            where e.EID > EID
-                            select new
-                            {
-                                UserID = e.UserID,
-                                Comment = e.Comment,
-                                Name = e.Name,
-                                Timest = Convert.ToString(e.Timestamp),
-                                ID = e.EID
-                            };
+            if (EID > 0)
+            {
 
-            return Json(new { events = allevents });
+                var allevents = from e in dataContext.Events
+                                orderby e.Timestamp descending
+                                where e.EID > EID
+                                select new
+                                {
+                                    UserID = e.UserID,
+                                    Comment = e.Comment,
+                                    Name = e.Name,
+                                    Timest = Convert.ToDateTime(e.Timestamp).ToShortTimeString(),
+                                    EID = e.EID,
+                                    type = e.Type
+                                };
+
+                return Json(new { events = allevents });
+
+            }
+            else
+            {
+                return Json(new { events = "no events" });
+            }
         }
 
         public ActionResult CourseDetails(int CID, int YID, string course)
@@ -202,8 +312,97 @@ namespace LB3.Controllers
             ViewData["Groups"] = data_group;
             ViewData["CourseID"] = CID;
             ViewData["YID"] = YID;
-                //topqa_ad.Union(topqa.Take(5 - admin_ct)).OrderBy(t => t.Marks.First().Timestamp);
+
+            var userList = (from u in dataContext.Users
+                            orderby u.Name ascending
+
+                            select new
+                            {
+                                name = u.Name,
+                                id = u.UserID,
+
+                            }).ToArray();
+
+            var dd_items = "";
+
+            dd_items = "<option>Select User</option>";
+
+            foreach (var item in userList)
+            {
+                dd_items = dd_items + "<option value=" + item.id + ">" + item.name + "</option>";
+            }
+
+            ViewData["dd_vals"] = dd_items;
+
+            string cookie = Request.Cookies["last"].Value;
+
+            var cookietxt = cookie + ", " + year + ", " + course;
+
+            var histCookie = new HttpCookie("last", cookietxt);
+            histCookie.Expires = DateTime.Now.AddDays(1);
+            Response.AppendCookie(histCookie);
+
             return View("CourseDetails");
+        }
+
+        public ActionResult ScoreDetails(int GID, string course, int YID, int CID)
+        {
+            var dataContext = new lb3dataDataContext();
+
+            ViewData["YID"] = YID;
+            ViewData["Course"] = course;
+            ViewData["GID"] = GID;
+            ViewData["CID"] = CID;
+
+            var group = from c in dataContext.Groups
+                        where c.GID == GID
+                        select c;
+
+            ViewData["Group"] = group.First().GroupName;
+
+            var year = (from y in dataContext.Years
+                        where y.YID == YID
+                        select y).First().Year1.ToString();
+
+            ViewData["Year"] = year;
+
+            var data = from c in dataContext.Groups
+                       where c.GID == GID
+                       select c;
+
+            var data2 = from c in dataContext.Holes
+                       where c.CourseID == data.First().CourseID
+                       where c.YearID == data.First().YearID
+                       orderby c.HoleNum ascending
+                       select c;
+
+            ViewData["HID"] = data2.First().HoleID;
+
+            var userList = (from u in dataContext.UserGroups
+                            where u.GID == GID
+                            orderby u.User.Nickname ascending
+
+                            select new
+                            {
+                                name = u.User.Nickname,
+                                id = u.UserID,
+
+                            }).ToArray();
+
+            var dd_items = "";
+
+            dd_items = "<option>Select User</option>";
+
+            foreach (var item in userList)
+            {
+                dd_items = dd_items + "<option value=" + item.id + ">" + item.name + "</option>";
+            }
+
+            ViewData["dd_vals"] = dd_items;
+
+
+            //topqa_ad.Union(topqa.Take(5 - admin_ct)).OrderBy(t => t.Marks.First().Timestamp);
+            return View("ScoreDetails");
         }
 
         public ActionResult CourseCard(int CID, int YID, string course, int GID)
@@ -419,8 +618,14 @@ namespace LB3.Controllers
             ViewData["CourseID"] = CID;
             ViewData["YID"] = YID;
             ViewData["NextNum"] = holeNum + 1;
+            ViewData["coll"] = "data-collapsed=\"false\"";
             return PartialView("HolePartial", data);
 
+        }
+
+        public void deleteHole(int HID)
+        {
+            dataRepository.DeleteHole(HID);
         }
 
         public PartialViewResult GroupPartialNew(int CID, int YID)
@@ -497,20 +702,96 @@ namespace LB3.Controllers
             dataRepository.Add(ug);
             dataRepository.Save();
 
+            var data = from c in dataContext.UserGroups                      
+                       where c.GID == GID
+                       //orderby u.Timestamp descending
+                       select c;
+            ViewData["GID"] = GID;
+
+            var userList = (from u in dataContext.Users
+                            orderby u.Name ascending
+
+                            select new
+                            {
+                                name = u.Name,
+                                id = u.UserID,
+
+                            }).ToArray();
+
+            var dd_items = "";
+
+            dd_items = "<option>Select User</option>";
+
+            foreach (var item in userList)
+            {
+                dd_items = dd_items + "<option value=" + item.id + ">" + item.name + "</option>";
+            }
+
+            ViewData["dd_vals"] = dd_items;
+
+            return PartialView("PlayersPartial", data);
+
+        }
+
+        public ActionResult removePlayer(int GID, int UserID)
+        {
+            var dataContext = new lb3dataDataContext();
+
+            dataRepository.RemovePlayer(GID,UserID);            
+           
             var data = from c in dataContext.UserGroups
-                       
                        where c.GID == GID
                        //orderby u.Timestamp descending
                        select c;
 
+            ViewData["GID"] = GID;
+
+            var userList = (from u in dataContext.Users
+                            orderby u.Name ascending
+
+                            select new
+                            {
+                                name = u.Name,
+                                id = u.UserID,
+
+                            }).ToArray();
+
+            var dd_items = "";
+
+            dd_items = "<option>Select User</option>";
+
+            foreach (var item in userList)
+            {
+                dd_items = dd_items + "<option value=" + item.id + ">" + item.name + "</option>";
+            }
+
+            ViewData["dd_vals"] = dd_items;
+
             return PartialView("PlayersPartial", data);
+
+        }
+
+        public ActionResult getScore(int HID, int UserID, int GID)
+        {
+            var dataContext = new lb3dataDataContext();
+            //gp
+            
+            var data = from c in dataContext.Scores
+                       where c.HoleID == HID
+                       where c.UserID == UserID
+                       //orderby u.Timestamp descending
+                       select c;
+            ViewData["HID"] = HID;
+            ViewData["GID"] = GID;
+            ViewData["UserID"] = UserID;
+            return PartialView("ScorePartial", data);
 
         }
 
         public JsonResult newScore(int GID, int YID, int HID, int UserID, int score, int Pin, int LD)
         {
             var dataContext = new lb3dataDataContext();
-
+           
             var otherplayers = from users in dataContext.UserGroups
                                where users.GID == GID
                                where users.UserID != UserID
@@ -559,13 +840,14 @@ namespace LB3.Controllers
                     {
                         dataRepository.ResetPin(YID, HID);
                         dataRepository.UpdatePin(ck_score.First().ScID, UserID);
+                        dataRepository.CheckScorePLD(HID, UserID, "Pin");
                     }
 
                     if (LD == 1)
                     {
                         dataRepository.ResetLD(YID, HID);
                         dataRepository.UpdateLD(ck_score.First().ScID, UserID);
-
+                        dataRepository.CheckScorePLD(HID, UserID, "LD");
                     }
                 
                 }
@@ -585,6 +867,7 @@ namespace LB3.Controllers
                     dataRepository.Add(sc);
                     dataRepository.Save();
                     dataRepository.CheckScore(0, GID, YID, HID, UserID);
+                    dataRepository.CheckScorePLD(HID, UserID, "Pin");
                 }
                 else if (LD == 1)
                 {
@@ -597,7 +880,7 @@ namespace LB3.Controllers
                     dataRepository.Add(sc);
                     dataRepository.Save();
                     dataRepository.CheckScore(0, GID, YID, HID, UserID);
-                    
+                    dataRepository.CheckScorePLD(HID, UserID, "LD");
                 }
                 else
                 {
@@ -609,7 +892,7 @@ namespace LB3.Controllers
 
                     dataRepository.Add(sc);
                     dataRepository.Save();
-                    dataRepository.InitTimer(0, GID, YID, HID, UserID);
+                    dataRepository.CheckScore(0, GID, YID, HID, UserID);
 
                 }
             }

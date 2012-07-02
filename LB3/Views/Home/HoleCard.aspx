@@ -5,8 +5,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
- <%= Html.ActionLink("Hole List", "Hole", "Home", new { YID = ViewData["YID"], course = ViewData["course"], CID = ViewData["CID"], GID = ViewData["GID"] }, null)%>
- <h1><%=ViewData["course"] %>, hole <%=ViewData["HoleNum"] %></h1>
+ <%= Html.ActionLink("Back", "Hole", "Home", new { YID = ViewData["YID"], course = ViewData["course"], CID = ViewData["CID"], GID = ViewData["GID"] }, null)%>
+ <h1>Enter Scores</h1>
  <% if (ViewData["NextHoleID"] == null)
     {
     }
@@ -23,7 +23,7 @@
 
        $(function () {
            //var sizedWindowWidth = $(window).width() / 4;
-           $('#scoretxt_2').html("refresh").trigger('refresh');
+           //$('#scoretxt_2').html("refresh").trigger('refresh');
                   });
 
 
@@ -109,7 +109,7 @@
 
 
           function drawCanvas(num) {
-           $("#canvas" + num).width(422);
+           $("#canvas" + num).width(258);
            $("#canvas" + num).height(80);
 
            var canvas = $("#canvas" + num).get(0);
@@ -118,14 +118,14 @@
                var canvasContext = canvas.getContext('2d');
 
                if (canvasContext) {
-                   canvasContext.canvas.width = 422;
+                   canvasContext.canvas.width = 258;
                    canvasContext.canvas.height = 80;
 
                    //canvasContext.font = "bold 14px serif";
                    //canvasContext.fillText("Canvas is supported", 10, 20);
                    canvasContext.strokeStyle = "#2489CE";
                    canvasContext.moveTo(0, 20);
-                   canvasContext.lineTo(420, 20);
+                   canvasContext.lineTo(258, 20);
                    
                    canvasContext.stroke();
 
@@ -160,12 +160,10 @@
 
            }
 
-       }
-
-       
+       }       
 
 </script>
-
+ <h4><%=ViewData["course"] %>, Hole <%=ViewData["HoleNum"] %></h4>
     <% foreach (var item in Model) { %>
    
     <div class="ui-body ui-body-d">
@@ -175,13 +173,13 @@
             
             <td>
                 <div class="H1thin"><%= Html.Encode(item.User.Nickname) %>
-                <div class="thin" style="display:inline" id="scoretxt_<%=item.UserID %>">ready</div></div>
+                <div class="thin" style="display:inline" id="scoretxt_<%=item.UserID %>">Ready</div></div>
             </td>
-           <td><a href="#" onclick="drawCanvas(<%=item.UserID %>)" data-role="button" data-icon="info" data-iconpos="notext">Stats</a></td>
+           <td><a href="#" onclick="drawCanvas(<%=item.UserID %>)" data-role="button" data-icon="info" data-iconpos="notext"></a></td>
         </tr>
         <tr><td>
      
-        <fieldset data-role="controlgroup" data-type="horizontal">
+        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
     	<% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 2)
    { %>
     	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,2,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-0" value="2" checked="checked"/>
@@ -314,7 +312,7 @@
         </td> <td></td>     
         </tr>
         <tr>
-<td colspan="3"><div style="height:80px;display:none" id="canvasdiv<%=item.UserID %>"><canvas width="422px" height="80px" id="canvas<%=item.UserID %>">Canvas is not supported</canvas></div></td>
+<td colspan="3"><div style="height:80px;display:none" id="canvasdiv<%=item.UserID %>"><canvas width="258px" height="80px" id="canvas<%=item.UserID %>">Canvas is not supported</canvas></div></td>
 </tr>
      </table></div>
          <p class="thin">&nbsp;</p>

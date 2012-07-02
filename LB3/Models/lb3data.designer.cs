@@ -2843,6 +2843,8 @@ namespace LB3.Models
 		
 		private string _Comment;
 		
+		private string _Type;
+		
 		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
@@ -2859,6 +2861,8 @@ namespace LB3.Models
     partial void OnNameChanged();
     partial void OnCommentChanging(string value);
     partial void OnCommentChanged();
+    partial void OnTypeChanging(string value);
+    partial void OnTypeChanged();
     #endregion
 		
 		public Event()
@@ -2967,6 +2971,26 @@ namespace LB3.Models
 					this._Comment = value;
 					this.SendPropertyChanged("Comment");
 					this.OnCommentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="NVarChar(50)")]
+		public string Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
 				}
 			}
 		}

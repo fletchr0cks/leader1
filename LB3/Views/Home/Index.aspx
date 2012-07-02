@@ -5,17 +5,18 @@
 </asp:Content>
  
 <asp:Content ID="Content3" ContentPlaceHolderID="PageTitleContent" runat="server">
- <%= Html.ActionLink("Back to Menu", "Index", "Home", null)%>
+<%= Html.ActionLink("Back", "Index", "Home", null)%>
+
  <% if (Convert.ToString(ViewData["YearTarget"]) == "CourseGroups") { %>
  <h1>Courses and Groups</h1>
   <% }
     else if (Convert.ToString(ViewData["YearTarget"]) == "CourseHoles")
     { %>
-<h1>Edit Scorecards</h1>
+<h1>Enter Scores</h1>
  <% }
     else
     { %>
-<h1>View Scorecards</h1>
+<h1>View Scores</h1>
  <%   } %>
 
 </asp:Content>

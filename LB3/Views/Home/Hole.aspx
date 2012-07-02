@@ -6,15 +6,14 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
-<%= Html.ActionLink("Back to Groups", "CourseHoles", "Home", new { YID = ViewData["YearID"], GID = ViewData["GID"], course = ViewData["course"], CID = ViewData["CID"], target= "Hole" }, null)%>
-
-    <h1>Edit Scorecard</h1>
-    
+<%= Html.ActionLink("Back", "Groups", "Home", new { YID = ViewData["YearID"], GID = ViewData["GID"], course = ViewData["course"], CID = ViewData["CID"], target = "Hole" }, null)%>
+    <h1>Enter Scores</h1>
 </asp:Content>
 
  
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-  <h4>Select hole for <%=ViewData["course"] %>,  <%=ViewData["Year"] %></h4>
+  <h4>Select hole for <%=ViewData["course"] %>,  <%=ViewData["Year"] %> </h4>
+  <h5><%=ViewData["Group"] %>: <%=ViewData["names"] %></h5>
   <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
  <% foreach (var item in Model)
     {

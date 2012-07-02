@@ -8,42 +8,36 @@
    <link rel="stylesheet" href="../../Content/jquery.mobile-1.1.0.css" />
    <script src="../../Scripts/jquery-1.6.4.js" type="text/javascript"></script>
    <script type="text/javascript" src="../../Scripts/jquery-mobile-1.1.0.js"></script>
-
-  
-  
+    <script type="text/javascript" src="../../Scripts/jquery.cookie.js"></script>
+ 
    <script type="text/javascript">
+   
 
+       $(document).bind("pageinit", function () {
+           $(function () {
+               var ck = $.cookie('urlLink');
+               var linkde = decodeURIComponent(ck);
+               //alert(ck);
+               $('#linktxt').html(linkde).trigger("create");
+               $("#linkd").attr("href", linkde);
+               //$("#linkd").attr("href", linkde);
+               //alert("changed");
+           });
 
-       $(function () {
-           //var sizedWindowWidth = $(window).width() / 4;
-           
-          
-            });
+           $(document).delegate('.back', 'click', function () {
+               window.location.href= "/";
+           });
 
+           $(document).click(function (event) {
+ //              var link = encodeURIComponent(event.target);
+               //alert(link);
+ //              $.cookie("urlLink", "" + link + "");
+ //              $(document).unbind("click");
+ //              var linkde = decodeURIComponent(link);
+               //alert(linkde);
+           });
 
-
-
-
-            $(document).ready(function () {
-
-                var timerA;
-                var timerB;
-                //$("#canvas4").slideToggle("slow");
-
-                $("#hole_2").keyup(function () {
-                    clearTimeout(timerA);
-                    timerA = setTimeout(changeTxtA, 3000);
-
-                });
-
-                var changeTxtA = function () {
-                    //Change label text here.
-                    $("#user_2").html("saved").trigger("create");
-                    $("input#user_3").focus();
-                };
-
-
-            });
+       });
 
       
        
@@ -71,7 +65,39 @@
        }
 
        function deleteHole(HoleID) {
-           $('#holeRow_' + HoleID).slideUp();
+           
+           $.ajax({
+               type: "POST",
+               url: "/Home/deleteHole",
+               data: "HID=" + HoleID,
+               dataType: "html",
+               success: function () {
+                   //$('#grouplist_' + CID).html(data).trigger("create");
+                   $('#holeRow_' + HoleID).slideUp();
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               }
+           });
+           return false;
+       }
+
+       function removePlayer(UserID,GID) {
+
+           $.ajax({
+               type: "POST",
+               url: "/Home/removePlayer",
+               data: "GID=" + GID + "&UserID=" + UserID,
+               dataType: "html",
+               success: function (response) {
+                   //$('#grouplist_' + CID).html(data).trigger("create");
+                   $('#playerList_' + GID).html(response).trigger("create");
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               }
+           });
+           return false;
        }
 
        function addGroup(YID, CID) {
@@ -106,7 +132,7 @@
                data: "YID=" + YID + "&CID=" + CID + "&groupname=" + groupname,
                dataType: "html",
                success: function(data) {
-                   $('#grouplist').html(data).trigger("create");
+                   $('#grouplist_' + CID).html(data).trigger("create");
                },
                error: function(xhr, error) {
                    console.debug(xhr); console.debug(error);
@@ -160,6 +186,28 @@
            });
        }
 
+       function getScores(UserID,HID,GID) {
+           //$('#scores_' + GID).html(" ").trigger("create"); ;
+           $.ajax({
+               type: "POST",
+               url: "/Home/getScore",
+               data: "HID=" + HID + "&GID=" + GID + "&UserID=" + UserID,
+               dataType: "html",
+               //success: onSuccess
+               success: function (response) {
+
+                   //gotohere add ids to div areas
+                   $('#scores_' + GID).html(response).trigger("create");
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               },
+               complete: function () {
+
+               }
+           });
+       }
+
        function saveHole(CID, YID) {
            var hole = document.getElementById("hole_" + CID).value;
            var par = document.getElementById("par_" + CID).value;
@@ -176,7 +224,7 @@
                success: function(data) {
 
                $('#holelist_' + CID).html(data).trigger("create");
-               $('#newHole_' + CID).html().trigger("create");
+               
                },
               error: function(xhr, error) {
                    console.debug(xhr); console.debug(error);
@@ -199,14 +247,14 @@
  
 <body>
 <div data-role="page">
-    <div data-role="header">
+    <div data-role="header" data-position="fixed">
         <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
     </div>
-    <div data-role="content" data-theme="b">
+    <div data-role="content">
          <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
-    <div data-role="footer" class="ui-bar">
-        <%= Html.ActionLink("About", "About", "Home")  %>
+    <div data-role="footer" class="ui-bar" data-position="fixed">
+<a data-role="button" data-icon="home" class="back">Home</a>
     </div>
 </div>
 </body>

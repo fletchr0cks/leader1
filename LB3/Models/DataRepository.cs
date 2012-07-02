@@ -15,6 +15,7 @@ namespace LB3.Models
         private lb3dataDataContext db = new lb3dataDataContext();
 
         Timer myTimer = new Timer();
+        Timer myTimerPLD = new Timer();
 
         public void UpdateScore(int ScoreID, int score)
         {
@@ -25,17 +26,27 @@ namespace LB3.Models
             sc.Score1 = score;
             db.SubmitChanges();
 
-            InitTimer(ScoreID,0,0,0,0);
+            CheckScore(ScoreID, 0, 0, 0, 0);
 
         }
 
-        public void InitTimer(int ScoreID, int GID, int YID, int HID, int UserID)
+        public void InitTimerScore(int ScoreID, int GID, int YID, int HID, int UserID)
         {
             myTimer.AutoReset = false;
             
          myTimer.Elapsed += delegate { CheckScore(ScoreID,GID,YID,HID,UserID); };
             myTimer.Interval = 8000;
             myTimer.Start();
+
+        }
+
+        public void InitTimerPLD(int HID, int UserID, string type)
+        {
+            myTimerPLD.AutoReset = false;
+
+            myTimerPLD.Elapsed += delegate { CheckScorePLD(HID, UserID, type); };
+            myTimerPLD.Interval = 8000;
+            myTimerPLD.Start();
 
         }
 
@@ -60,25 +71,131 @@ namespace LB3.Models
 
                 var courseID = hole.First().CourseID;
 
-                var holeNum = hole.First().HoleNum;
-
                 var course = from c in db.Courses
                              where c.CID == courseID
                              select c;
 
-                myTimer.Stop();
+                var courseName = course.First().CourseName;
+
+                var holeNum = hole.First().HoleNum;
+
+                var nextHoleNum = hole.First().HoleNum + 1;
+
+                var nextHole = from c in db.Holes
+                               where c.HoleNum == nextHoleNum
+                               where c.CourseID == courseID
+                               where c.YearID == YID
+                               select c;
+
+                var nextCmt = "";
+                var nextType = "";
+
+                try
+                {
+
+                    if (nextHoleNum == 18)
+                    {
+                        nextCmt = "Are on to the 18th at " + courseName + ", closing out their day.";
+                    }
+
+                    if (nextHole.First().L_drive == 1)
+                    {
+                        nextCmt = "Are about to tee off on their Longest Drive hole (" + nextHoleNum + ").";
+                        nextType = "Drive";
+                    }
+                    else if (nextHole.First().N_pin == 1)
+                    {
+                        nextCmt = "Are about to tee off on their Nearest The Pin hole (" + nextHoleNum + ").";
+                        nextType = "Pin";
+                    }
+                    else
+                    {
+                        nextCmt = "Are on to hole " + nextHoleNum + " at " + courseName + ".";
+                    }
+
+                }
+                catch
+                {
+
+                }
+
+          
+
+                //myTimer.Stop();
 
                 if (score_ct == 4)
                 {
+                    var ev_scores = from s in db.Scores
+                                    where s.HoleID == HID
+                                    where s.YearID == YID
+                                    orderby s.Score1 ascending
+                                    select new
+                                    {
+                                       name = s.User.Nickname,
+                                       score = Convert.ToInt32(s.Score1)
+
+                                    };
+                    var comts = "";
+                    var gplist = "";
+                    int gpint = 0;
+                    int scint = 0;
+                    //ev_scores.OrderBy(u => u.score);
+
+                    foreach (var sc in ev_scores) {
+                        if (scint == 0)
+                        {
+                            comts = sc.name + ": " + sc.score + "<br />";
+                        }
+                        else if (scint == 3)
+                        {
+                            comts = comts + sc.name + ": " + sc.score;
+                        }
+                        else
+                        {
+                            comts = comts + sc.name + ": " + sc.score + "<br />";
+                        }
+                        scint++;
+                    }
+
+                    foreach (var sc in ev_scores)
+                    {
+                        if (gpint == 3)
+                        {
+                            gplist = gplist + " and " + sc.name;
+                        }
+                        else if (gpint == 0)
+                        {
+                            gplist = sc.name;
+                        }
+
+                        else
+                        {
+                            gplist = gplist + ", " + sc.name;
+                        }
+
+
+                        gpint++;
+                    }
+
                     Event e = new Event();
                     e.Timestamp = DateTime.Now;
-                    e.Name = course.First().CourseName + ", hole " + holeNum;
-                    e.Comment = "Hole complete";
-
-                    
-
+                    e.Name = course.First().CourseName + ", Hole " + holeNum;
+                    e.Comment = comts;                 
                     Add(e);
                     Save();
+
+                    if (nextCmt.Length > 5)
+                    {
+
+                        Event e2 = new Event();
+                        e2.Timestamp = DateTime.Now;
+                        e2.Name = gplist;
+                        e2.Comment = nextCmt;
+                        e2.Type = nextType;
+                        Add(e2);
+                        Save();
+
+                    }
                 }
                                 
 
@@ -111,14 +228,31 @@ namespace LB3.Models
                                  where c.CID == courseID
                                  select c;
 
-                    myTimer.Stop();
+                    //myTimer.Stop();
 
                     if (score_ct == 4)
                     {
+
+                         var ev_scores = from s in db.Scores
+                                    where s.ScID == ScoreID
+                                    select new
+                                    {
+                                       name = s.User.Nickname,
+                                       score = Convert.ToInt32(s.Score1)
+
+                                    };
+                    var comts = "";
+                    //ev_scores.OrderBy(u => u.score);
+
+                    foreach (var sc in ev_scores) {
+                        comts = comts + sc.name + ": " + sc.score;
+                    }
+
+
                         Event e = new Event();
                         e.Timestamp = DateTime.Now;
-                        e.Name = course.First().CourseName + ", hole " + holeNum;
-                        e.Comment = "Hole modified and complete";
+                        e.Name = course.First().CourseName + ", Hole " + holeNum;
+                        e.Comment = "Modified. " + comts;
 
 
                         Add(e);
@@ -130,7 +264,50 @@ namespace LB3.Models
 
 
                 }
-          
+        public void CheckScorePLD(int HID, int UserID, string type)
+        {
+            
+            var hole = from c in db.Holes
+                       where c.HoleID == HID
+                       select c;
+
+            var courseID = hole.First().CourseID;
+
+            var holeNum = hole.First().HoleNum;
+
+            var course = from c in db.Courses
+                         where c.CID == courseID
+                         select c;
+
+            var user = from c in db.Users
+                         where c.UserID == UserID
+                         select c;
+
+            
+
+            if (type == "Pin")
+            {
+                Event e = new Event();
+                e.Timestamp = DateTime.Now;
+                e.Name = course.First().CourseName + ", Hole " + holeNum;
+                e.Comment = user.First().Nickname + " was nearest the pin";
+                e.UserID = UserID;
+                Add(e);
+                Save();
+            }
+            else
+            {
+                Event e = new Event();
+                e.Timestamp = DateTime.Now;
+                e.Name = course.First().CourseName + ", Hole " + holeNum;
+                e.Comment = user.First().Nickname + " had the longest drive";
+                e.UserID = UserID;
+                Add(e);
+                Save();
+            }
+
+
+        }
 
         
 
@@ -170,7 +347,7 @@ namespace LB3.Models
                 .Where(s => s.ScID == ScoreID)
                 .First();
 
-            sc.PinUserID = LDuserid;
+            sc.DriveUserID = LDuserid;
             db.SubmitChanges();
         }
 
@@ -191,6 +368,27 @@ namespace LB3.Models
             {
 
             }
+        }
+
+        public void DeleteHole(int HID)
+        {
+            var hole = db.Holes
+                       .Where(h => h.HoleID == HID)
+                       .First();
+
+            db.Holes.DeleteOnSubmit(hole);
+            db.SubmitChanges();
+        }
+
+        public void RemovePlayer(int GID, int UserID)
+        {
+            var hole = db.UserGroups
+                       .Where(h => h.GID == GID)
+                       .Where(h => h.UserID == UserID)
+                       .First();
+
+            db.UserGroups.DeleteOnSubmit(hole);
+            db.SubmitChanges();
         }
 
 

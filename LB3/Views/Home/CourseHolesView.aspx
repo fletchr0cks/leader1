@@ -6,8 +6,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
- <%= Html.ActionLink("Back", "Years", "Home", new { target = "CourseHoles" }, null)%>
-   <h1>Enter Scores</h1>
+ <%= Html.ActionLink("Back", "Years", "Home", new { target = "CourseHolesView" }, null)%>
+   <h1>View Scores</h1>
     
 </asp:Content>
 
@@ -20,7 +20,7 @@
         var CID = item.CID;
       %>
       
-   <li><%= Html.ActionLink(item.CourseName, "Groups", "Home", new { YID = ViewData["YearID"], course = item.CourseName, CID = item.CID, target = "Hole"}, null)%></li>
+   <li><%= Html.ActionLink(item.CourseName, "Groups", "Home", new { YID = ViewData["YearID"], course = item.CourseName, CID = item.CID, target = "ViewHole"}, null)%></li>
    
  <% } %>
     </ul>

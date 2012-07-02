@@ -8,3 +8,8 @@ G:\Nick\Visual Studio 2008\Projects\LB3\LB3\bin\LB3.pdb
 G:\Nick\Visual Studio 2008\Projects\LB3\LB3\obj\Debug\ResolveAssemblyReference.cache
 G:\Nick\Visual Studio 2008\Projects\LB3\LB3\obj\Debug\LB3.dll
 G:\Nick\Visual Studio 2008\Projects\LB3\LB3\obj\Debug\LB3.pdb
+C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2010\Projects\LB3\LB3\bin\LB3.dll
+C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2010\Projects\LB3\LB3\bin\LB3.pdb
+C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2010\Projects\LB3\LB3\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2010\Projects\LB3\LB3\obj\Debug\LB3.dll
+C:\Documents and Settings\nick.fletcher\My Documents\MyLocal\Visual Studio 2010\Projects\LB3\LB3\obj\Debug\LB3.pdb
