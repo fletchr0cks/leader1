@@ -301,7 +301,7 @@
 
 
    </script>
-
+ <h4>Beaconsfied next 24 Hours</h4>
 <canvas width="300px" height="600px" id="wcanvas">Canvas is not supported</canvas>
 
 </asp:Content>
