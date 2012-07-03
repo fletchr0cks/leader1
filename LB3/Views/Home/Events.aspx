@@ -115,19 +115,7 @@
  
 
 <ul data-role="listview" data-theme="d" id="thelist">
-			<li>
-				<h3>Stephen Weber</h3>
-				<p><strong>You've been invited to a meeting at Filament Group in Boston, MA</strong></p>
-				<p>Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
-				<p class="ui-li-aside"><strong>6:24</strong>PM</p>
-			</li>
-			<li>
-     	<h3>I'm just a div with bar classes and a </h3>
-				<p>Are playing for nearest the pin</p>
-				
-				<p class="ui-li-aside"><a href="About" data-rel="dialog" data-transition="flip" data-inline="true" data-theme="e" data-role="button" data-mini="true">Place bets now!</a></p>
-
-			</li>
+			
 		</ul>
 
 <%=Html.Hidden("EID", "0") %>
