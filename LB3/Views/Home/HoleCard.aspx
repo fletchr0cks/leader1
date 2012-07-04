@@ -107,61 +107,6 @@
            return false;
        }
 
-
-          function drawCanvas(num) {
-           $("#canvas" + num).width(258);
-           $("#canvas" + num).height(80);
-
-           var canvas = $("#canvas" + num).get(0);
-
-           if (canvas) {
-               var canvasContext = canvas.getContext('2d');
-
-               if (canvasContext) {
-                   canvasContext.canvas.width = 258;
-                   canvasContext.canvas.height = 80;
-
-                   //canvasContext.font = "bold 14px serif";
-                   //canvasContext.fillText("Canvas is supported", 10, 20);
-                   canvasContext.strokeStyle = "#2489CE";
-                   canvasContext.moveTo(0, 20);
-                   canvasContext.lineTo(258, 20);
-                   
-                   canvasContext.stroke();
-
-                   canvasContext.font = "14px sans-serif";
-                   canvasContext.fillStyle = "#000000";
-                   canvasContext.fillText("2006", 8, 15);
-                   canvasContext.fillStyle = "#EAEAEA";
-                   canvasContext.fillRect(12, 21, 25, 55);
-           
-                   canvasContext.font = "14px sans-serif";
-                   canvasContext.fillStyle = "#000000";
-                   canvasContext.fillText("2007", 63, 15);
-                   canvasContext.fillStyle = "#EAEAEA";
-                   canvasContext.fillRect(68, 21, 25, 35);
-
-                   canvasContext.font = "bold 20px sans-serif";
-                   canvasContext.fillStyle = "#555555";
-                   canvasContext.fillText("8", 18, 70);
-
-                   canvasContext.font = "bold 20px sans-serif";
-                   canvasContext.fillStyle = "#555555";
-                   canvasContext.fillText("6", 74, 50);
-
-
-                   $("#canvasdiv" + num).slideDown(2000).delay(2000);
-                    $("#canvas" + num).slideDown(2000).delay(2000);
-                    $("#canvas" + num).trigger('refresh');
-                    $("#canvas" + num).fadeIn(2000);
-                   
-               }
-       
-
-           }
-
-       }       
-
 </script>
  <h4><%=ViewData["course"] %>, Hole <%=ViewData["HoleNum"] %></h4>
     <% foreach (var item in Model) { %>
@@ -175,7 +120,7 @@
                 <div class="H1thin"><%= Html.Encode(item.User.Nickname) %>
                 <div class="thin" style="display:inline" id="scoretxt_<%=item.UserID %>">Ready</div></div>
             </td>
-           <td><a href="#" onclick="drawCanvas(<%=item.UserID %>)" data-role="button" data-icon="info" data-iconpos="notext"></a></td>
+           <td></td>
         </tr>
         <tr><td>
      
