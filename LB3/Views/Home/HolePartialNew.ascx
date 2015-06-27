@@ -2,13 +2,13 @@
 <form name="frm">
 <div class="ui-grid-e">
  <div class="ui-block-a"><p>
- <input type="text" type="number" value="<%=ViewData["NextNum"]%>" name="name" id="hole_<%=ViewData["CID"] %>" data-mini="true" style="width:20px"/>
+ <input type="number" value="<%=ViewData["NextNum"]%>" name="name" id="hole_<%=ViewData["CID"] %>" data-mini="true" style="width:40px"/>
  </p></div>
  <div class="ui-block-b"><p>
- <input type="text" type="number" name="name" id="par_<%=ViewData["CID"] %>" data-mini="true" style="width:20px"/>
+ <input type="number" name="par" id="par_<%=ViewData["CID"] %>" data-mini="true" style="width:40px"/>
  </p></div>
  <div class="ui-block-c"><p>
-   <input type="text" type="number" name="name" id="SI_<%=ViewData["CID"] %>" data-mini="true" style="width:20px"/>
+   <input type="number" name="si" id="SI_<%=ViewData["CID"] %>" data-mini="true" style="width:40px"/>
  </p></div>
  <div class="ui-block-d">
 <p><input type="checkbox" name="pin_<%=ViewData["CID"] %>" id="pin_<%=ViewData["CID"] %>" class="custom" data-role="none"/></p>

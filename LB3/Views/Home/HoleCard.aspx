@@ -96,9 +96,9 @@
                    var json = eval('(' + data + ')');
 
                    var type = json.type;
-
+                   var winner = json.winner; // ['winners']['nickname'];
                    $('#scoretxt_' + userid).html(type).trigger("create");
-
+                  
                },
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
@@ -108,7 +108,7 @@
        }
 
 </script>
- <h4><%=ViewData["course"] %>, Hole <%=ViewData["HoleNum"] %></h4>
+ <h2>No. <%=ViewData["HoleNum"] %>, Par <%=ViewData["par"] %>, <%=ViewData["course"] %></h2>
     <% foreach (var item in Model) { %>
    
     <div class="ui-body ui-body-d">
@@ -264,6 +264,5 @@
     <% } %>
 
    
-    
 </asp:Content>
 

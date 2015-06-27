@@ -9,7 +9,7 @@
    <script src="../../Scripts/jquery-1.6.4.js" type="text/javascript"></script>
    <script type="text/javascript" src="../../Scripts/jquery-mobile-1.1.0.js"></script>
     <script type="text/javascript" src="../../Scripts/jquery.cookie.js"></script>
- 
+ <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
    <script type="text/javascript">
    
 
@@ -39,7 +39,97 @@
 
        });
 
-      
+       var audiotypes = {
+           "mp3": "audio/mpeg",
+           "mp4": "audio/mp4",
+           "ogg": "audio/ogg",
+           "wav": "audio/wav"
+       }
+
+       function ss_soundbits(sound) {
+           var audio_element = document.createElement('audio')
+           if (audio_element.canPlayType) {
+               for (var i = 0; i < arguments.length; i++) {
+                   var source_element = document.createElement('source')
+                   source_element.setAttribute('src', arguments[i])
+                   if (arguments[i].match(/\.(\w+)$/i))
+                       source_element.setAttribute('type', audiotypes[RegExp.$1])
+                   audio_element.appendChild(source_element)
+               }
+               audio_element.load()
+               audio_element.playclip = function () {
+                   audio_element.pause()
+                   audio_element.currentTime = 0
+                   audio_element.play()
+               }
+               return audio_element
+           }
+       }
+       var clicksound = ss_soundbits('../Content/sounds/applause.mp3');
+       var timerX;
+
+       $(document).ready(function () {
+           
+           refresh_feed();
+           $('#evticker').html('Loading news feed, stand by ...').trigger('create');
+       });
+
+       function refresh_feed() {
+           
+           clearTimeout(timerX);
+           timerX = setTimeout(getEventsPopup, 10000);
+       }
+
+       function getEventsPopup() {
+           //alert("latest" + $("#EID").val());
+           var html = "";
+           clicksound.pause();
+           $.ajax({
+               type: "POST",
+               url: "/Home/getLatestEvents",
+               data: "EID=" + $("#EIDx").val(),
+               dataType: "html",
+               success: function (data) {
+                   var json = eval('(' + data + ')');
+                   //alert(json);
+                   //var html = "Loading news here ...";
+                   $("#EIDx").val(result.EID);
+                   $.each(json.events.reverse(), function (i, result) {
+                       if (result.events = "none") {
+
+                       } else {
+                           
+                           if (result.UserID > 0) {
+                               html = "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
+
+                           } else if (result.type == "Pin") {
+                               html = "<li class=\"ui-li ui-li-static ui-body-d\"><p class=\"ui-li-aside\"><a href=\"About\" data-rel=\"dialog\" data-transition=\"flip\" data-inline=\"true\" data-theme=\"e\" data-role=\"button\" data-mini=\"true\">Place bets now!</a></p><h3 class=\"ui-li-heading\">" + result.Name + "</h3><p class=\"ui-li-desc\">" + result.Comment + "</p></li>";
+
+                           } else {
+                               html = "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
+
+                           }
+
+                       }
+
+                   });
+
+                   $('#evticker').html(html).trigger('create');
+                   //clicksound.playclip();
+
+                   $.each(json.speech.reverse(), function (i, result) {
+                       responsiveVoice.speak(result.speech);
+                   });
+
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               }
+           });
+           refresh_feed();
+           //setTimeout(getLatestEvents(EID), 10000);
+       }
+
        
        function addHole(YID,CID) {
 
@@ -255,6 +345,7 @@
     </div>
     <div data-role="footer" class="ui-bar" data-position="fixed">
 <a data-role="button" data-icon="home" class="back">Home</a>
+<div id="evticker"></div><%=Html.Hidden("EIDx", "0") %>
     </div>
 </div>
 </body>

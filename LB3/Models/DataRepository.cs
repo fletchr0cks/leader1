@@ -69,6 +69,8 @@ namespace LB3.Models
                            where c.HoleID == HID
                            select c;
 
+                int par = Convert.ToInt32(hole.First().Par);
+
                 var courseID = hole.First().CourseID;
 
                 var course = from c in db.Courses
@@ -87,6 +89,10 @@ namespace LB3.Models
                                where c.YearID == YID
                                select c;
 
+                var grouplist = from y in db.UserGroups
+                                where y.GID == GID
+                                select y;
+
                 var nextCmt = "";
                 var nextType = "";
 
@@ -95,22 +101,22 @@ namespace LB3.Models
 
                     if (nextHoleNum == 18)
                     {
-                        nextCmt = "Are on to the 18th at " + courseName + ", closing out their day.";
+                        nextCmt = "are on to the 18th at " + courseName + ", closing out their day.";
                     }
 
-                    if (nextHole.First().L_drive == 1)
+                    else if (nextHole.First().L_drive == 1)
                     {
-                        nextCmt = "Are about to tee off on their Longest Drive hole (" + nextHoleNum + ").";
+                        nextCmt = "are about to tee off on their Longest Drive hole (" + nextHoleNum + ").";
                         nextType = "Drive";
                     }
                     else if (nextHole.First().N_pin == 1)
                     {
-                        nextCmt = "Are about to tee off on their Nearest The Pin hole (" + nextHoleNum + ").";
+                        nextCmt = "are about to tee off on their Nearest The Pin hole (" + nextHoleNum + ").";
                         nextType = "Pin";
                     }
                     else
                     {
-                        nextCmt = "Are on to hole " + nextHoleNum + " at " + courseName + ".";
+                        nextCmt = "are on to hole " + nextHoleNum + " at " + courseName + ".";
                     }
 
                 }
@@ -123,7 +129,7 @@ namespace LB3.Models
 
                 //myTimer.Stop();
 
-                if (score_ct == 4)
+                if (score_ct == grouplist.Count()) //all scores are done for the hole
                 {
                     var ev_scores = from s in db.Scores
                                     where s.HoleID == HID
@@ -137,29 +143,58 @@ namespace LB3.Models
                                     };
                     var comts = "";
                     var gplist = "";
+                    
                     int gpint = 0;
                     int scint = 0;
                     //ev_scores.OrderBy(u => u.score);
 
                     foreach (var sc in ev_scores) {
+                        var sctype = "";
+                        var speech = "";
+                        if (sc.score == par)
+                        {
+                            sctype = "Par";
+                        }
+                        else if (sc.score < par)
+                        {
+                            if (sc.score == (par - 1))
+                            {
+                                //birdie
+                                sctype = "<strong>Birdie</strong>";
+                                speech = sc.name.First() + "scored a birdie on hole" + hole.First().HoleNum;
+                            }
+
+                            else if (sc.score == (par - 2))
+                            {
+                                //eagle
+                                sctype = "<strong>eagle</strong>";
+                                speech = sc.name.First() + "scored an eagle on hole" + hole.First().HoleNum;
+                            }
+                        }
+
+                        if (sc.score == 1)
+                        {
+                            sctype = "<strong>HOLE IN ONE!!!</strong>";
+                        }
+
                         if (scint == 0)
                         {
-                            comts = sc.name + ": " + sc.score + "<br />";
+                            comts = sc.name + ": " + sc.score + "(" + sctype + ")<br />";
                         }
-                        else if (scint == 3)
+                        else if (scint == (grouplist.Count() - 1))
                         {
-                            comts = comts + sc.name + ": " + sc.score;
+                            comts = comts + sc.name + ": " + sc.score + "(" + sctype + ")";
                         }
                         else
                         {
-                            comts = comts + sc.name + ": " + sc.score + "<br />";
+                            comts = comts + sc.name + ": " + sc.score + "(" + sctype + ")<br />";
                         }
                         scint++;
                     }
 
                     foreach (var sc in ev_scores)
                     {
-                        if (gpint == 3)
+                        if (gpint == (grouplist.Count() - 1))
                         {
                             gplist = gplist + " and " + sc.name;
                         }
@@ -204,7 +239,9 @@ namespace LB3.Models
                                  where s.ScID == ScoreID
                                  select s;
 
-                   
+                    var grouplist = from y in db.UserGroups
+                                    where y.GID == GID
+                                    select y;
 
                     HID = Convert.ToInt32(score.First().HoleID);
                     YID = Convert.ToInt32(score.First().YearID);
@@ -230,7 +267,7 @@ namespace LB3.Models
 
                     //myTimer.Stop();
 
-                    if (score_ct == 4)
+                    if (score_ct == grouplist.Count())
                     {
 
                          var ev_scores = from s in db.Scores
@@ -292,6 +329,7 @@ namespace LB3.Models
                 e.Name = course.First().CourseName + ", Hole " + holeNum;
                 e.Comment = user.First().Nickname + " was nearest the pin";
                 e.UserID = UserID;
+                e.Speech = user.First().Nickname + "nearest the pin for group" + user.First().UserGroups.First().Group + "was" + user.First().Nickname;
                 Add(e);
                 Save();
             }
@@ -301,6 +339,7 @@ namespace LB3.Models
                 e.Timestamp = DateTime.Now;
                 e.Name = course.First().CourseName + ", Hole " + holeNum;
                 e.Comment = user.First().Nickname + " had the longest drive";
+                e.Speech = user.First().Nickname + "longest drive for group" + user.First().UserGroups.First().Group + "was" + user.First().Nickname;
                 e.UserID = UserID;
                 Add(e);
                 Save();

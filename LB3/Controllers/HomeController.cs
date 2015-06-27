@@ -29,7 +29,7 @@ namespace LB3.Controllers
             var dataContext = new lb3dataDataContext();
 
             var data = from y in dataContext.Years
-                       //orderby u.Timestamp descending
+                      orderby y.YID descending
                        select y;
 
             ViewData["YearTarget"] = target;
@@ -204,7 +204,7 @@ namespace LB3.Controllers
 
             foreach (var sc in grouplist)
             {
-                if (gpint == 3)
+                if (gpint == (grouplist.Count() -1))
                 {
                     gplist = gplist + " and " + sc.name;
                 }
@@ -227,6 +227,7 @@ namespace LB3.Controllers
             ViewData["CID"] = CID;
             ViewData["course"] = course;
             ViewData["Group"] = group.First().GroupName;
+            ViewData["GroupCount"] = grouplist.Count();
             ViewData["names"] = gplist;
 
             return View("Hole", data);
@@ -234,6 +235,8 @@ namespace LB3.Controllers
 
         public ActionResult Events()
         {
+
+
             return View();
         }
 
@@ -260,7 +263,7 @@ namespace LB3.Controllers
         {
             var dataContext = new lb3dataDataContext();
 
-            if (EID > 0)
+            if (EID > 0) //not first load
             {
 
                 var allevents = from e in dataContext.Events
@@ -276,12 +279,50 @@ namespace LB3.Controllers
                                     type = e.Type
                                 };
 
-                return Json(new { events = allevents });
+                var speech_item = from e in dataContext.Events
+                                orderby e.Timestamp descending
+                                where e.EID > EID && e.Speech != null
+                                select new
+                                {
+                                    speech = e.Speech
+                                };
+
+                if (allevents.Count() > 0)
+                {
+
+                    return Json(new { events = allevents, speech = speech_item });
+
+                }
+                else
+                {
+                    return Json(new { events = "none", speech = "none" });
+                }
 
             }
             else
             {
-                return Json(new { events = "no events" });
+                var allevents = from e in dataContext.Events
+                                orderby e.Timestamp descending
+                                where e.EID > EID
+                                select new
+                                {
+                                    UserID = e.UserID,
+                                    Comment = e.Comment,
+                                    Name = e.Name,
+                                    Timest = Convert.ToDateTime(e.Timestamp).ToShortTimeString(),
+                                    EID = e.EID,
+                                    type = e.Type
+                                };
+
+                var speech_item = from e in dataContext.Events
+                                  orderby e.Timestamp descending
+                                  where e.EID > EID && e.Speech != null
+                                  select new
+                                  {
+                                      speech = e.Speech
+                                  };
+
+                return Json(new { events = allevents.Take(1), speech = speech_item.Take(1)});
             }
         }
 
@@ -444,6 +485,8 @@ namespace LB3.Controllers
                        where h.HoleID == HoleID
                        select h;
 
+            var par = hole.First().Par;
+
             var HoleNum = hole.First().HoleNum;
             
 
@@ -471,7 +514,7 @@ namespace LB3.Controllers
             ViewData["CID"] = CID;
             ViewData["YID"] = YID;
             ViewData["HoleNum"] = HoleNum;
-            
+            ViewData["Par"] = par;
             
             var pin = (from p in dataContext.Holes
                                where p.HoleID == HoleID
@@ -802,10 +845,7 @@ namespace LB3.Controllers
 
             var winner = from users in dataContext.Users
                                where users.UserID == UserID
-                               select new
-                               {
-                                   nickname = users.Nickname
-                               };
+                               select users;
 
 
             var ck_score = from s in dataContext.Scores
@@ -894,15 +934,16 @@ namespace LB3.Controllers
                     dataRepository.Save();
                     dataRepository.CheckScore(0, GID, YID, HID, UserID);
 
+                   
                 }
             }
             if (type == "Saved")
             {
-                return Json(new { members = otherplayers, winners = winner, type = "Saved" });
+                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Saved" });
             }
             else
             {
-                return Json(new { members = otherplayers, winners = winner, type = "Updated" });
+                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Updated" });
             }
         }
 

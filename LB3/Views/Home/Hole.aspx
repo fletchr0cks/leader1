@@ -13,12 +13,12 @@
  
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
   <h4>Select hole for <%=ViewData["course"] %>,  <%=ViewData["Year"] %> </h4>
-  <h5><%=ViewData["Group"] %>: <%=ViewData["names"] %></h5>
+  <h5>Group Name: <%=ViewData["Group"] %>: (<%=ViewData["names"] %>)</h5>
   <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
  <% foreach (var item in Model)
     {
         var comptxt = "";
-        if (item.Scores.Count() == 4)
+        if (item.Scores.Count() == Convert.ToInt32(ViewData["GroupCount"]))
         {
             comptxt = "<span class=\"ui-li-count\">Completed</span>";
         }
