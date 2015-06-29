@@ -179,15 +179,15 @@ namespace LB3.Models
 
                         if (scint == 0)
                         {
-                            comts = sc.name + ": " + sc.score + "(" + sctype + ")<br />";
+                            comts = sc.name + ": " + sc.score;// + "(" + sctype + ")<br />";
                         }
                         else if (scint == (grouplist.Count() - 1))
                         {
-                            comts = comts + sc.name + ": " + sc.score + "(" + sctype + ")";
+                            comts = comts + sc.name + ": " + sc.score;// +"(" + sctype + ")";
                         }
                         else
                         {
-                            comts = comts + sc.name + ": " + sc.score + "(" + sctype + ")<br />";
+                            comts = comts + sc.name + ": " + sc.score;// +"(" + sctype + ")<br />";
                         }
                         scint++;
                     }
@@ -214,7 +214,7 @@ namespace LB3.Models
 
                     Event e = new Event();
                     e.Timestamp = DateTime.Now;
-                    e.Name = course.First().CourseName + ", Hole " + holeNum;
+                    e.Name = course.First().CourseName + ", Hole: " + holeNum + ", Par: " + par;
                     e.Comment = comts;                 
                     Add(e);
                     Save();
@@ -256,7 +256,7 @@ namespace LB3.Models
                     var hole = from c in db.Holes
                                where c.HoleID == HID
                                select c;
-
+                    int par = Convert.ToInt32(hole.First().Par);
                     var courseID = hole.First().CourseID;
 
                     var holeNum = hole.First().HoleNum;
@@ -288,7 +288,7 @@ namespace LB3.Models
 
                         Event e = new Event();
                         e.Timestamp = DateTime.Now;
-                        e.Name = course.First().CourseName + ", Hole " + holeNum;
+                        e.Name = course.First().CourseName + ", Hole " + holeNum + ", Par: " + par;
                         e.Comment = "Modified. " + comts;
 
 

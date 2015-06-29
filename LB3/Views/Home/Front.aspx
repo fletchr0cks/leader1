@@ -9,6 +9,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<div>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li><%=Html.ActionLink("Profiles", "Users", "Home") %></li>
 	<li><%=Html.ActionLink("Courses and Groups", "Years", "Home", new { target = "CourseGroups" }, null)%></li>
@@ -17,15 +18,9 @@
 	<li><%=Html.ActionLink("Results Feed", "Events", "Home") %></li>
     <li><%=Html.ActionLink("Weather", "Weather", "Home") %></li>
 </ul>
-<% try
-   { %>
-<h4 data-inset="true">Previous Selection</h4>
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-<li><a id="linkd" href="#"><div id="linktxt"><%= Request.Cookies["last"].Value%></div></a></li>
-</ul>
-<% }
-   catch
-   { %>
-
-<% } %>
+</div>
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
+<a data-role="button" data-icon="home" class="back">Home</a>
+<div id="evticker"></div><div id="EIDxy">0</div>
 </asp:Content>

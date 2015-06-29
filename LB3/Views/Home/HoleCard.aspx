@@ -265,4 +265,8 @@
 
    
 </asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
+<a data-role="button" data-icon="home" class="back">Home</a>
+<div id="evticker"></div><div id="EIDxy">0</div>
+</asp:Content>
 

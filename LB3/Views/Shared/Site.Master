@@ -70,8 +70,8 @@
 
        $(document).ready(function () {
            
-           refresh_feed();
-           $('#evticker').html('Loading news feed, stand by ...').trigger('create');
+           //refresh_feed();
+           //$('#evticker').html('Loading news feed, stand by ...').trigger('create');
        });
 
        function refresh_feed() {
@@ -81,24 +81,21 @@
        }
 
        function getEventsPopup() {
-           //alert("latest" + $("#EID").val());
-           var html = "";
-           clicksound.pause();
+           //alert("latest" + $("#EIDx").val());
+           var eid = document.getElementById('EIDxy').innerHTML;
+           //alert(eid);
+           //var html = "to be replaced";
+           //clicksound.pause();
            $.ajax({
                type: "POST",
                url: "/Home/getLatestEvents",
-               data: "EID=" + $("#EIDx").val(),
+               data: "EID=" + eid,
                dataType: "html",
                success: function (data) {
                    var json = eval('(' + data + ')');
-                   //alert(json);
-                   //var html = "Loading news here ...";
-                   $("#EIDx").val(result.EID);
-                   $.each(json.events.reverse(), function (i, result) {
-                       if (result.events = "none") {
-
-                       } else {
-                           
+                   //alert(json.events.length);
+                   if (parseInt(json.events.length) > 0) {
+                       $.each(json.events.reverse(), function (i, result) {
                            if (result.UserID > 0) {
                                html = "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
 
@@ -110,9 +107,12 @@
 
                            }
 
-                       }
+                           $("#EIDxy").html(result.EID).trigger('create');
+                           //alert(result.EID);
 
-                   });
+                       });
+
+                   }
 
                    $('#evticker').html(html).trigger('create');
                    //clicksound.playclip();
@@ -124,6 +124,9 @@
                },
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
+               },
+               complete: function (data) {
+
                }
            });
            refresh_feed();
@@ -343,10 +346,10 @@
     <div data-role="content">
          <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
-    <div data-role="footer" class="ui-bar" data-position="fixed">
-<a data-role="button" data-icon="home" class="back">Home</a>
-<div id="evticker"></div><%=Html.Hidden("EIDx", "0") %>
+     <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+      <asp:ContentPlaceHolder ID="FooterContent" runat="server" /> 
     </div>
+
 </div>
 </body>
 </html>

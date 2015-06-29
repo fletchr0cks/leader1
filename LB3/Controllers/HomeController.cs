@@ -287,16 +287,16 @@ namespace LB3.Controllers
                                     speech = e.Speech
                                 };
 
-                if (allevents.Count() > 0)
-                {
+              //  if (allevents.Count() > 0)
+              //  {
 
-                    return Json(new { events = allevents, speech = speech_item });
+                    return Json(new { events = allevents, speech = speech_item }, JsonRequestBehavior.AllowGet);
 
-                }
-                else
-                {
-                    return Json(new { events = "none", speech = "none" });
-                }
+             //   }
+             //   else
+            //    {
+            //        return Json(new { events = "none", speech = "none" }, JsonRequestBehavior.AllowGet);
+            //    }
 
             }
             else
@@ -322,7 +322,7 @@ namespace LB3.Controllers
                                       speech = e.Speech
                                   };
 
-                return Json(new { events = allevents.Take(1), speech = speech_item.Take(1)});
+                return Json(new { events = allevents.Take(1), speech = speech_item.Take(1) }, JsonRequestBehavior.AllowGet);
             }
         }
 
