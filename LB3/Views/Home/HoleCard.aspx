@@ -17,16 +17,14 @@
    
 </asp:Content>
 
+
+
+
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     
    <script type="text/javascript">
 
-       $(function () {
-           //var sizedWindowWidth = $(window).width() / 4;
-           //$('#scoretxt_2').html("refresh").trigger('refresh');
-                  });
-
-
+           
 
        function SliderForLD(slval, userid, HID, YID, GID) {
            $.ajax({
@@ -266,7 +264,10 @@
    
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
-<a data-role="button" data-icon="home" class="back">Home</a>
-<div id="evticker"></div><div id="EIDxy">0</div>
+<div data-role="footer" style="overflow:hidden;">
+<div data-theme="a" id="eventsfeed"></div>
+<div data-role="navbar">
+<ul><li><a href="#">Home</a></li> <li><a onclick="refresh_feed()" href="#">Refresh Events Feed</a></li> <li><a href="#">Check Connection</a></li></ul>
+</div></div>
 </asp:Content>
 

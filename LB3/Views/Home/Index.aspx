@@ -22,7 +22,11 @@
 </asp:Content>
  
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-<h4>Select a Year </h4>
+<h4>Setup a Tournament </h4>
+ <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+	<li><%=Html.ActionLink("New Tournament", "AddTourn", "Home") %></li>
+</ul>
+<h4>Select an existing Tournament </h4>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
  <% foreach (var item in Model)
     {

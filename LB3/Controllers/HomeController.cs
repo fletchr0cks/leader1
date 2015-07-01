@@ -170,7 +170,15 @@ namespace LB3.Controllers
 
         public ActionResult Index()
         {
-            
+            var dataContext = new lb3dataDataContext();
+
+            var data = from c in dataContext.Events
+                       //where c.CourseID == CID
+                       orderby c.Timestamp descending
+                        select c;
+
+            ViewData["Holes"] = data.Take(1);
+
             return View("Front");
         }
 
@@ -624,6 +632,18 @@ namespace LB3.Controllers
             return PartialView("HolePartialNew");
         }
 
+        public PartialViewResult EventsPartial2()
+        {
+            var dataContext = new lb3dataDataContext();
+
+            var data = from c in dataContext.Events
+                       //where c.CourseID == CID
+                       orderby c.Timestamp descending
+                       select c;
+
+            return PartialView("EventsPartial2", data.Take(1));
+        }
+
        
         public ActionResult saveHole(int CID, int YID, int holeNum, int par, int SIndx, string pin_v, string drive_v)
         {
@@ -679,6 +699,19 @@ namespace LB3.Controllers
             ViewData["CID"] = CID;
             ViewData["YID"] = YID;
             return PartialView("GroupPartialNew");
+        }
+
+        public ActionResult EventsFeed() //used
+        {
+            var dataContext = new lb3dataDataContext();
+             
+            var allevents = from e in dataContext.Events
+                            orderby e.Timestamp descending
+                            select e;
+
+           
+
+            return PartialView("EventsPartial", allevents.Take(1));
         }
 
         public ActionResult saveGroup(int CID, int YID, string groupname)

@@ -12,15 +12,24 @@
 <div>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li><%=Html.ActionLink("Profiles", "Users", "Home") %></li>
-	<li><%=Html.ActionLink("Courses and Groups", "Years", "Home", new { target = "CourseGroups" }, null)%></li>
+</ul>
+
+ <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+	<li><%=Html.ActionLink("Tournaments", "Years", "Home", new { target = "CourseGroups" }, null)%></li>
 	<li><%=Html.ActionLink("Enter Scores", "Years", "Home", new { target = "CourseHoles" }, null) %></li>
 	<li><%=Html.ActionLink("View Scores", "Years", "Home", new { target = "CourseHolesView" }, null)%></li>
 	<li><%=Html.ActionLink("Results Feed", "Events", "Home") %></li>
+</ul>
+ <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
     <li><%=Html.ActionLink("Weather", "Weather", "Home") %></li>
 </ul>
 </div>
+
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
-<a data-role="button" data-icon="home" class="back">Home</a>
-<div id="evticker"></div><div id="EIDxy">0</div>
+<div data-role="footer" style="overflow:hidden;">
+<div data-theme="a" id="eventsfeed"></div>
+<div data-role="navbar">
+<ul><li><a href="#">Home</a></li> <li><a onclick="refresh_feed()" href="#">Refresh Events Feed</a></li> <li><a href="#">Check Connection</a></li></ul>
+</div></div>
 </asp:Content>

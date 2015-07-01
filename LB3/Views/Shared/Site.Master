@@ -69,15 +69,42 @@
        var timerX;
 
        $(document).ready(function () {
-           
-           //refresh_feed();
+           //alert("ready");
+           $('#eventsfeed').html("Loading Events Feed").trigger('create');
+          refresh_feed();
+           //$('#eventsfeed').html("<div id=\"eventsfeed_inner\">inner</div>").trigger('create');
+           //getEventsFeed();
            //$('#evticker').html('Loading news feed, stand by ...').trigger('create');
        });
 
        function refresh_feed() {
            
            clearTimeout(timerX);
-           timerX = setTimeout(getEventsPopup, 10000);
+           timerX = setTimeout(getEventsFeed, 10000);
+       }
+
+       function getEventsFeed() {
+           //$('#eventsfeed').slideUp();
+           //$('#eventsfeed').html("");
+           
+           $.ajax({
+               type: "POST",
+               url: "/Home/EventsFeed",
+               //data: "YID=" + YID + "&CID=" + CID + "&groupname=" + groupname,
+               dataType: "html",
+               success: function (data) {
+
+                   $('#eventsfeed').html(data).trigger('create');
+                   //$('#eventsfeed_front').html(data).trigger("create");
+                   //$('#eventsfeed').slideDown();
+                   refresh_feed();
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               }
+           });
+           return false;
+          
        }
 
        function getEventsPopup() {
