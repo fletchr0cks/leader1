@@ -1,7 +1,7 @@
 <%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" manifest="home/manifest">>
 <head id="Head1" runat="server">
      <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
      <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -71,7 +71,7 @@
        $(document).ready(function () {
            //alert("ready");
            $('#eventsfeed').html("Loading Events Feed").trigger('create');
-          refresh_feed();
+          //refresh_feed();
            //$('#eventsfeed').html("<div id=\"eventsfeed_inner\">inner</div>").trigger('create');
            //getEventsFeed();
            //$('#evticker').html('Loading news feed, stand by ...').trigger('create');

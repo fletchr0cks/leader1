@@ -56,6 +56,27 @@ namespace LB3.Controllers
             return View("Index", data);
         }
 
+        public ActionResult Offline()
+        {
+            return View();
+        }
+
+        public ActionResult CacheTest()
+        {
+            Response.Cache.SetCacheability(
+                System.Web.HttpCacheability.NoCache);
+            return View();
+        }
+
+        public ActionResult Manifest()
+        {
+            Response.ContentType = "text/cache-manifest";
+            Response.ContentEncoding = System.Text.Encoding.UTF8;
+            Response.Cache.SetCacheability(
+                System.Web.HttpCacheability.NoCache);
+            return View();
+        }
+
         public ActionResult Groups(string target, int YID, int CID, string course)
         {
             var dataContext = new lb3dataDataContext();

@@ -108,11 +108,14 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Views\Home\CacheTest.aspx" />
     <Content Include="Views\Home\EventsPartial2.ascx" />
     <Content Include="Views\Home\Copy of HolePartial.ascx" />
     <Content Include="Views\Home\EventsPartial.ascx" />
     <Content Include="Views\Home\HolePartial.ascx" />
     <Content Include="Views\Home\CourseHolesView.aspx" />
+    <Content Include="Views\Home\Manifest.aspx" />
+    <Content Include="Views\Home\Offline.aspx" />
     <Content Include="Views\Home\ScoreDetails.aspx" />
     <Content Include="Views\Home\Events.aspx" />
     <Content Include="Views\Home\CourseGroups.aspx" />
