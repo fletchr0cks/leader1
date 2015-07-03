@@ -68,13 +68,32 @@ namespace LB3.Controllers
             return View();
         }
 
-        public ActionResult Manifest()
+        public ActionResult Manifesto()
         {
             Response.ContentType = "text/cache-manifest";
             Response.ContentEncoding = System.Text.Encoding.UTF8;
             Response.Cache.SetCacheability(
                 System.Web.HttpCacheability.NoCache);
             return View();
+        }
+
+        public ActionResult Manifest()
+        {
+            var manifest = "CACHE MANIFEST" + Environment.NewLine +
+                  //"# App Markup Date: " + System.IO.File.GetLastWriteTime(Server.MapPath("~/Views/Mobile/Index.cshtml")) + Environment.NewLine +
+                  "# Server Assembly Version: " + this.GetType().Assembly.GetName().Version + Environment.NewLine +
+                  "NETWORK:" + Environment.NewLine +
+                  "*" + Environment.NewLine +
+                  "CACHE:" + Environment.NewLine +
+                  Url.Action("Index", "Home") + Environment.NewLine +
+                  Url.Content("~/content/jquery.mobile-1.2.0.min.css") + Environment.NewLine +
+                  Url.Content("~/scripts/jquery-1.8.3.min.js") + Environment.NewLine +
+                  Url.Content("~/scripts/jquery.mobile-1.2.0.min.js") + Environment.NewLine +
+                  Url.Content("~/home/offline") + Environment.NewLine +
+                  Url.Content("~/content/images/21.png") + Environment.NewLine +
+                  Url.Content("~/home/cachetest") + Environment.NewLine;
+
+            return Content(manifest, "text/cache-manifest");
         }
 
         public ActionResult Groups(string target, int YID, int CID, string course)

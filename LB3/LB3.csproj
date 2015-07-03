@@ -83,6 +83,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\2.png" />
+    <Content Include="Content\images\21.png" />
+    <Content Include="Content\images\22.png" />
     <Content Include="Content\images\3.PNG" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\ajax-loader.png" />
@@ -114,7 +117,7 @@
     <Content Include="Views\Home\EventsPartial.ascx" />
     <Content Include="Views\Home\HolePartial.ascx" />
     <Content Include="Views\Home\CourseHolesView.aspx" />
-    <Content Include="Views\Home\Manifest.aspx" />
+    <Content Include="Views\Home\Manifest_o.aspx" />
     <Content Include="Views\Home\Offline.aspx" />
     <Content Include="Views\Home\ScoreDetails.aspx" />
     <Content Include="Views\Home\Events.aspx" />
