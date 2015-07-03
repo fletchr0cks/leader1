@@ -52,7 +52,7 @@
                         
                         $("#EID").val(result.EID);
                         if (result.UserID > 0) {
-                            var imghtml = "<img src=../Content/images/" + result.UserID + ".PNG class=\"ui-li-thumb\"/>";
+                            var imghtml = "<img src=/Content/images/" + result.UserID + ".PNG class=\"ui-li-thumb\"/>";
                             var html_li = "<li class=\"ui-li ui-li-static ui-body-d ui-li-has-thumb\" style=\"display:none\">" + imghtml + "<p class=\"ui-li-aside ui-li-desc\"><strong>" + result.Timest + "</strong></p><h3 class=\"ui-li-heading\">" + result.Name + "</h3><p class=\"ui-li-desc\">" + result.Comment + "</p></li>";
                             $(html_li).trigger('create').hide().prependTo('#thelist').fadeIn();
                         } else if (result.type == "Pin") {
@@ -88,7 +88,7 @@
                        
                         $("#EID").val(result.EID);
                         if (result.UserID > 0) {
-                            var imghtml = "<img src=../Content/images/" + result.UserID + ".PNG class=\"ui-li-thumb\"/>";
+                            var imghtml = "<img src=/Content/images/" + result.UserID + ".PNG class=\"ui-li-thumb\"/>";
                             var html_li = "<li class=\"ui-li ui-li-static ui-body-d ui-li-has-thumb\" style=\"display:none\">" + imghtml + "<p class=\"ui-li-aside ui-li-desc\"><strong>" + result.Timest + "</strong></p><h3 class=\"ui-li-heading\">" + result.Name + "</h3><p class=\"ui-li-desc\">" + result.Comment + "</p></li>";
                             $(html_li).trigger('create').hide().prependTo('#thelist').fadeIn();
                         } else if (result.type == "Pin") {
