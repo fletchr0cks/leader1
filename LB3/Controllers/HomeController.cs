@@ -86,12 +86,15 @@ namespace LB3.Controllers
                   "*" + Environment.NewLine +
                   "CACHE:" + Environment.NewLine +
                   Url.Action("Index", "Home") + Environment.NewLine +
-                  Url.Content("~/content/jquery.mobile-1.2.0.min.css") + Environment.NewLine +
-                  Url.Content("~/scripts/jquery-1.8.3.min.js") + Environment.NewLine +
-                  Url.Content("~/scripts/jquery.mobile-1.2.0.min.js") + Environment.NewLine +
-                  Url.Content("~/home/offline") + Environment.NewLine +
-                  Url.Content("~/content/images/21.png") + Environment.NewLine +
-                  Url.Content("~/home/cachetest") + Environment.NewLine;
+                  Url.Content("~/Content/jquery.mobile-1.1.0.css") + Environment.NewLine +
+                  Url.Content("~/Scripts/jquery-1.6.4.js") + Environment.NewLine +
+                  Url.Content("~/Scripts/jquery-mobile-1.1.0.js") + Environment.NewLine +
+                  Url.Content("~/Home/Offline") + Environment.NewLine +
+                  Url.Content("~/Content/images/21.png") + Environment.NewLine +
+                  Url.Content("~/Home/CacheTest") + Environment.NewLine +
+                  Url.Content("~/Home/CacheTest") + Environment.NewLine +
+                  "FALLBACK:" + Environment.NewLine +
+                  Url.Content("/") + " " + Url.Content("/Home/Offline");
 
             return Content(manifest, "text/cache-manifest");
         }
