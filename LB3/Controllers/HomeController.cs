@@ -13,7 +13,10 @@ using System.Xml;
 using System.Xml.Xsl;
 using System.Xml.XPath;
 using System.Xml.Serialization;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Utilities;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace LB3.Controllers
 {
@@ -77,7 +80,7 @@ namespace LB3.Controllers
             return View();
         }
 
-        public ActionResult Manifest()
+        public ActionResult Manifest_x()
         {
             var manifest = "CACHE MANIFEST" + Environment.NewLine +
                   //"# App Markup Date: " + System.IO.File.GetLastWriteTime(Server.MapPath("~/Views/Mobile/Index.cshtml")) + Environment.NewLine +
@@ -85,14 +88,14 @@ namespace LB3.Controllers
                   "NETWORK:" + Environment.NewLine +
                   "*" + Environment.NewLine +
                   "CACHE:" + Environment.NewLine +
-                  Url.Action("Index", "Home") + Environment.NewLine +
+                  //Url.Action("Index", "Home") + Environment.NewLine +
                   Url.Content("~/Content/jquery.mobile-1.1.0.css") + Environment.NewLine +
                   Url.Content("~/Scripts/jquery-1.6.4.js") + Environment.NewLine +
                   Url.Content("~/Scripts/jquery-mobile-1.1.0.js") + Environment.NewLine +
                   Url.Content("~/Home/Offline") + Environment.NewLine +
                   Url.Content("~/Content/images/21.png") + Environment.NewLine +
                   Url.Content("~/Home/CacheTest") + Environment.NewLine +
-                  Url.Content("~/Home/CacheTest") + Environment.NewLine +
+                  //Url.Content("~/Home/CacheTest") + Environment.NewLine +
                   "FALLBACK:" + Environment.NewLine +
                   Url.Content("/") + " " + Url.Content("/Home/Offline");
 
@@ -120,13 +123,13 @@ namespace LB3.Controllers
 
             ViewData["GroupTarget"] = target;
 
-            string cookie = Request.Cookies["last"].Value;
+            //string cookie = Request.Cookies["last"].Value;
 
-            var cookietxt = cookie + ", " + year + ", " + course;
+            //var cookietxt = cookie + ", " + year + ", " + course;
 
-            var histCookie = new HttpCookie("last", cookietxt);
-            histCookie.Expires = DateTime.Now.AddDays(1);
-            Response.AppendCookie(histCookie);
+            //var histCookie = new HttpCookie("last", cookietxt);
+            //histCookie.Expires = DateTime.Now.AddDays(1);
+            //Response.AppendCookie(histCookie);
 
 
             return View("Groups", data);
@@ -243,18 +246,45 @@ namespace LB3.Controllers
                        where c.YearID == YID
                        select c;
 
+            var holedataJ = from c in dataContext.Holes
+                            where c.CourseID == CID
+                            where c.YearID == YID
+                            select new
+                            {
+                                HoleID = c.HoleID,
+                                HoleNum = c.HoleNum,
+                                HolePin = c.N_pin,
+                                HoleLD = c.L_drive
+                                
+                            };
+
+            var grouplistJ = from y in db.UserGroups
+                            where y.GID == GID
+                            select new
+                            {
+                                Nickname = y.User.Nickname,
+                                UserID = y.UserID
+                               
+                            };
+
             var grouplist = from y in db.UserGroups
                             where y.GID == GID
                             select new
                             {
                                 name = y.User.Nickname
+                                
                             };
 
             var gplist = "";
             int gpint = 0;
 
+            System.Collections.Generic.List<string> UserArray = new System.Collections.Generic.List<string>();
+
             foreach (var sc in grouplist)
             {
+                //UserArray.Add(sc.name);
+                //UserArray.Add(Convert.ToString(sc.userid));
+
                 if (gpint == (grouplist.Count() -1))
                 {
                     gplist = gplist + " and " + sc.name;
@@ -272,6 +302,20 @@ namespace LB3.Controllers
                 gpint++;
             }
 
+           
+                var nexthole = from h in dataContext.Holes
+                               where h.HoleNum == 1
+                               where h.YearID == YID
+                               where h.CourseID == CID
+                               select h;
+                var NextHoleID = nexthole.First().HoleID;
+
+
+
+
+            string jsonUsers = JsonConvert.SerializeObject(grouplistJ.ToArray());
+            string jsonHoleData = JsonConvert.SerializeObject(holedataJ.ToArray());
+
             ViewData["YearID"] = YID;
             ViewData["Year"] = year;
             ViewData["GID"] = GID;
@@ -280,6 +324,10 @@ namespace LB3.Controllers
             ViewData["Group"] = group.First().GroupName;
             ViewData["GroupCount"] = grouplist.Count();
             ViewData["names"] = gplist;
+            ViewData["NextHoleID"] = NextHoleID;
+            ViewData["HoleCount"] = data.Count(); ;
+            ViewData["JSONnames"] = jsonUsers;
+            ViewData["JSONHoleData"] = jsonHoleData;
 
             return View("Hole", data);
         }
@@ -309,6 +357,13 @@ namespace LB3.Controllers
 
             return Json(new { events = allevents });
         }
+
+        public ActionResult LocalHoleCard()
+        {
+
+
+            return View();
+        } 
 
         public ActionResult getLatestEvents(int EID)
         {
@@ -906,6 +961,25 @@ namespace LB3.Controllers
             return PartialView("ScorePartial", data);
 
         }
+
+
+        public ActionResult getMiniLB(int YID, int GID)
+        {
+            var dataContext = new lb3dataDataContext();
+            //gp
+
+            var data = from c in dataContext.Scores
+                       where c.Year.Groups.First().GID == GID
+                       where c.Year.YID == YID
+                       //where YID== to get tournament scores
+                       //order by score
+                       orderby c.Year.Scores.First().Score1 descending
+                       select c;
+           //take sum of scores
+            return PartialView("MiniLBPartial", data);
+
+        }
+
 
         public JsonResult newScore(int GID, int YID, int HID, int UserID, int score, int Pin, int LD)
         {

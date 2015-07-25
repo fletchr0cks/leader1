@@ -2062,6 +2062,6 @@ span.ui-slider-label-b { z-index: 0; right: 0; text-indent: 1.5em;}
 .sliderforLD .ui-slider-switch.ui-slider-mini { width: 9em; margin-bottom:5px }
 
 .H1thin { font-weight:bold; margin: 0px; padding: 0px; font-size:20px }
-.thin { margin: 0px; padding: 0px;font-size:14px;color:Orange; display:inline}
+.thin { margin: 0px; padding: 0px;font-size:14px;color:rgb(0, 110, 255); text-align:right}
 
 td.tdright { text-align: right }

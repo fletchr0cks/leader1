@@ -8,6 +8,7 @@ namespace LB3.Models
 {
     public partial class UserGroup
     {
+       
         private lb3dataDataContext db = new lb3dataDataContext();
 
         public IEnumerable<Hole> GetHolesForCourse(int CID, int YID, int HoleNum)

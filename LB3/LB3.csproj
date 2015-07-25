@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json.Net35, Version=4.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Newtonsoft.Json.Net35.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -111,7 +115,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\modernizr-dev.js" />
     <Content Include="Views\Home\CacheTest.aspx" />
+    <Content Include="Views\Home\LocalHoleCard.aspx" />
+    <Content Include="Views\Home\MiniLBPartial.ascx" />
     <Content Include="Views\Home\EventsPartial2.ascx" />
     <Content Include="Views\Home\Copy of HolePartial.ascx" />
     <Content Include="Views\Home\EventsPartial.ascx" />

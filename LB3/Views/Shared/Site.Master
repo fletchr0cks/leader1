@@ -9,12 +9,13 @@
    <script src="../../Scripts/jquery-1.6.4.js" type="text/javascript"></script>
    <script type="text/javascript" src="../../Scripts/jquery-mobile-1.1.0.js"></script>
     <script type="text/javascript" src="../../Scripts/jquery.cookie.js"></script>
+       <script type="text/javascript" src="../../Scripts/modernizr-dev.js"></script>
  <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
    <script type="text/javascript">
    
-
+ /* 
        $(document).bind("pageinit", function () {
-           $(function () {
+         $(function () {
                var ck = $.cookie('urlLink');
                var linkde = decodeURIComponent(ck);
                //alert(ck);
@@ -38,12 +39,50 @@
            });
 
        });
-
+       */
        var audiotypes = {
            "mp3": "audio/mpeg",
            "mp4": "audio/mp4",
            "ogg": "audio/ogg",
            "wav": "audio/wav"
+       }
+
+       function saveHistoryModel(index,url) {
+
+           var model = getHistoryModel(index);
+           model.URL = url;
+           localStorage.setItem(index,
+                    JSON.stringify(model));
+           //alert("pin'" + HolePin + "' score saved locally.");
+       }
+
+       function getHistory(index) {
+           
+           var url = "";
+           //alert("H_" + HID + "_" + UserID);
+           if (model == null) {
+               //return "0";
+           }
+           else {
+               url = model.URL;
+           }
+
+           return url;
+
+       }
+
+       function getHistoryModel(index) {
+           var model = {
+               URL: "",
+               Key: "",
+               ID: ""
+           };
+
+           if (localStorage[index] != null) {
+               model = JSON.parse(localStorage[index]);
+           }
+           model.Key = index;
+           return model;
        }
 
        function ss_soundbits(sound) {
@@ -327,6 +366,29 @@
                }
            });
        }
+
+       function getMiniLB(YID, GID, HID) {
+           //$('#scores_' + GID).html(" ").trigger("create"); ;
+           $.ajax({
+               type: "POST",
+               url: "/Home/getMiniLB",
+               data: "YID=" + YID + "&GID=" + GID,
+               dataType: "html",
+               //success: onSuccess
+               success: function (response) {
+
+                   //gotohere add ids to div areas
+                   $('#lb_' + HID).html(response).trigger("create");
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               },
+               complete: function () {
+
+               }
+           });
+       }
+
 
        function saveHole(CID, YID) {
            var hole = document.getElementById("hole_" + CID).value;

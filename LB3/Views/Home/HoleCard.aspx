@@ -36,13 +36,13 @@
                    var json = eval('(' + data + ')');
                    $.each(json.winners.reverse(), function (i, result) {
                        var nickname = result.nickname;
-                       $('#scoretxt_' + userid).html("Nice one " + nickname).trigger('refresh');
+                       $('#scoretxt_' + userid + '_' + HID).html("Nice one " + nickname).trigger('refresh');
                    });
 
                    $.each(json.members.reverse(), function (i, result) {
                        var id = result.UserID;
                        $('#flip-a' + id).val('off').slider('refresh');
-                       $('#scoretxt_' + id).html("Better luck next time.").trigger('refresh');
+                       $('#scoretxt_' + id + '_' + HID).html("Better luck next time.").trigger('refresh');
                    });
 
 
@@ -65,13 +65,13 @@
                    var json = eval('(' + data + ')');
                    $.each(json.winners.reverse(), function (i, result) {
                        var nickname = result.nickname;
-                       $('#scoretxt_' + userid).html("Nice one " + nickname).trigger("create").fadeIn();
+                       $('#scoretxt_' + userid + '_' + HID).html("Nice one " + nickname).trigger("create").fadeIn();
                    });
 
                    $.each(json.members.reverse(), function (i, result) {
                        var id = result.UserID;
                        $('#flip-a' + id).val('off').slider('refresh');
-                       $('#scoretxt_' + id).html("Better luck next time.").trigger("create").fadeIn();
+                       $('#scoretxt_' + id + '_' + HID).html("Better luck next time.").trigger("create").fadeIn();
                    });
 
 
@@ -84,7 +84,7 @@
        }
 
        function NewScoreFor(userid, score, HID, YID, GID) {
-
+           $('#scoretxt_' + userid + '_' + HID).html("Saving ...").trigger("create").fadeIn('slow');
            $.ajax({
                type: "POST",
                url: "/Home/newScore",
@@ -95,8 +95,10 @@
 
                    var type = json.type;
                    var winner = json.winner; // ['winners']['nickname'];
-                   $('#scoretxt_' + userid).html(type).trigger("create");
-                  
+                   $('#scoretxt_' + userid + '_' + HID).html(type).trigger("create");
+                   //getscores
+                   getMiniLB(YID, GID, HID);
+
                },
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
@@ -107,22 +109,32 @@
 
 </script>
  <h2>No. <%=ViewData["HoleNum"] %>, Par <%=ViewData["par"] %>, <%=ViewData["course"] %></h2>
-    <% foreach (var item in Model) { %>
-   
-    <div class="ui-body ui-body-d">
-    <table>
+    <% foreach (var item in Model) {
+           var divid = "scoretxt_" + item.UserID + "_" + ViewData["HID"]; %>
+      <table>
        
         <tr>
             
             <td>
-                <div class="H1thin"><%= Html.Encode(item.User.Nickname) %>
-                <div class="thin" style="display:inline" id="scoretxt_<%=item.UserID %>">Ready</div></div>
+                <div class="H1thin"><%= Html.Encode(item.User.Nickname) %></div>
             </td>
-           <td></td>
+           <td><div class="thin" id="<%=divid %>">Enter Score</div></td>
         </tr>
-        <tr><td>
+        <tr><td colspan="2">
      
         <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+        <% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 1)
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,1,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio1" value="2" checked="checked"/>
+    	<label for="radio1">1</label>
+    	
+    	<% }
+   else
+   { %>
+    	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,1,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio1" value="2" />
+    	<label for="radio1">1</label>
+    	
+    	<% } %>
     	<% if (item.checkScore(Convert.ToInt32(ViewData["HID"]), Convert.ToInt32(ViewData["YID"]), item.UserID) == 2)
    { %>
     	<input type="radio"  onclick="NewScoreFor(<%=item.UserID %>,2,<%=ViewData["HID"] %>,<%=ViewData["YID"] %>,<%=ViewData["GID"] %>)" name="radio-choice-<%=item.UserID %>" id="radio-mini-0" value="2" checked="checked"/>
@@ -214,7 +226,6 @@
     	
 </fieldset>
 </td>
-<td></td>
 </tr>
 <tr>
 <td>
@@ -257,11 +268,12 @@
         <tr>
 <td colspan="3"><div style="height:80px;display:none" id="canvasdiv<%=item.UserID %>"><canvas width="258px" height="80px" id="canvas<%=item.UserID %>">Canvas is not supported</canvas></div></td>
 </tr>
-     </table></div>
+     </table>
          <p class="thin">&nbsp;</p>
     <% } %>
 
-   
+<div id="lb_<%=ViewData["HID"] %>"></div> 
+
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
 <div data-role="footer" style="overflow:hidden;">

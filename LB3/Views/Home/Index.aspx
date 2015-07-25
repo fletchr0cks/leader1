@@ -5,6 +5,8 @@
 </asp:Content>
  
 <asp:Content ID="Content3" ContentPlaceHolderID="PageTitleContent" runat="server">
+
+
 <%= Html.ActionLink("Back", "Index", "Home", null)%>
 
  <% if (Convert.ToString(ViewData["YearTarget"]) == "CourseGroups") { %>

@@ -9,6 +9,9 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<script  type="text/javascript">
+    saveHistoryModel("123", "Home");
+</script>
 <div>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li><%=Html.ActionLink("Profiles", "Users", "Home") %></li>
