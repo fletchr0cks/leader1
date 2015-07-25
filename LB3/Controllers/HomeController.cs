@@ -80,7 +80,7 @@ namespace LB3.Controllers
             return View();
         }
 
-        public ActionResult Manifest_x()
+        public ActionResult Manifest()
         {
             var manifest = "CACHE MANIFEST" + Environment.NewLine +
                   //"# App Markup Date: " + System.IO.File.GetLastWriteTime(Server.MapPath("~/Views/Mobile/Index.cshtml")) + Environment.NewLine +
@@ -91,13 +91,16 @@ namespace LB3.Controllers
                   //Url.Action("Index", "Home") + Environment.NewLine +
                   Url.Content("~/Content/jquery.mobile-1.1.0.css") + Environment.NewLine +
                   Url.Content("~/Scripts/jquery-1.6.4.js") + Environment.NewLine +
+                  Url.Content("~/Scripts/modernizr-dev.js") + Environment.NewLine +
                   Url.Content("~/Scripts/jquery-mobile-1.1.0.js") + Environment.NewLine +
                   Url.Content("~/Home/Offline") + Environment.NewLine +
+                  Url.Content("~/Home/LocalHoleCard") + Environment.NewLine +
+                  //Url.Content("~/Home/Holes") + Environment.NewLine +
                   Url.Content("~/Content/images/21.png") + Environment.NewLine +
                   Url.Content("~/Home/CacheTest") + Environment.NewLine +
                   //Url.Content("~/Home/CacheTest") + Environment.NewLine +
                   "FALLBACK:" + Environment.NewLine +
-                  Url.Content("/") + " " + Url.Content("/Home/Offline");
+                  Url.Content("/") + " " + Url.Content("/Home/LocalHoleCard");
 
             return Content(manifest, "text/cache-manifest");
         }
