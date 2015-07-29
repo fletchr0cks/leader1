@@ -10,9 +10,51 @@
    <script type="text/javascript" src="../../Scripts/jquery-mobile-1.1.0.js"></script>
     <script type="text/javascript" src="../../Scripts/jquery.cookie.js"></script>
        <script type="text/javascript" src="../../Scripts/modernizr-dev.js"></script>
- <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
-   <script type="text/javascript">
-   
+    <script type="text/javascript">
+        $(function () {
+
+            function isOnLine() {
+                return navigator.onLine;
+            }
+
+            function reportOnlineStatus() {
+                var status = $("#onlineStatus");
+                
+                if (isOnLine()) {
+                    status.text("Online");
+                    status.
+                        removeClass("offline").
+                        addClass("online");
+                }
+                else {
+                    status.text("Offline");
+                    status.
+                        removeClass("online").
+                        addClass("offline");
+                }
+            }
+
+            window.applicationCache.onupdateready = function (e) {
+                applicationCache.swapCache();
+                window.location.reload();
+            }
+
+            window.addEventListener("online", function (e) {
+                reportOnlineStatus();
+                //saveToServer();
+            }, true);
+
+            window.addEventListener("offline", function (e) {
+                reportOnlineStatus();
+            }, true);
+
+            if (isOnLine()) {
+                // saveToServer();
+            }
+            // showCustomer();
+            reportOnlineStatus();
+
+        });
  /* 
        $(document).bind("pageinit", function () {
          $(function () {

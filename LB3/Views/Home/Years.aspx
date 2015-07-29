@@ -6,7 +6,7 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageTitleContent" runat="server">
- <h1>Select a Year</h1>
+ <h1>Select a Tournament</h1>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

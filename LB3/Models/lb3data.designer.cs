@@ -66,7 +66,7 @@ namespace LB3.Models
     #endregion
 		
 		public lb3dataDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["dbb440b8fdfb244822869da06200d343e6ConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["lbdbConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

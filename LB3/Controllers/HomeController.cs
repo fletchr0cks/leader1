@@ -52,9 +52,8 @@ namespace LB3.Controllers
                 cookietxt = "View Scores";
             }
 
-            var histCookie = new HttpCookie("last", cookietxt);
-            histCookie.Expires = DateTime.Now.AddDays(1);
-            Response.AppendCookie(histCookie);
+            ViewData["YearTarget"] = target;
+            
 
             return View("Index", data);
         }
@@ -80,7 +79,7 @@ namespace LB3.Controllers
             return View();
         }
 
-        public ActionResult Manifest()
+        public ActionResult Manifestx()
         {
             var manifest = "CACHE MANIFEST" + Environment.NewLine +
                   //"# App Markup Date: " + System.IO.File.GetLastWriteTime(Server.MapPath("~/Views/Mobile/Index.cshtml")) + Environment.NewLine +
@@ -257,8 +256,18 @@ namespace LB3.Controllers
                                 HoleID = c.HoleID,
                                 HoleNum = c.HoleNum,
                                 HolePin = c.N_pin,
-                                HoleLD = c.L_drive
-                                
+                                HoleLD = c.L_drive,
+                                //Scre = (from s in dataContext.Scores where s.HoleID == c.HoleID && s.UserID == user
+                            };
+
+            var scoredataJ = from c in dataContext.Scores                          
+                            where c.YearID == YID
+                            select new
+                            {
+                                UserID = c.UserID,
+                                Score = c.Score1,
+                                HID = c.HoleID,
+                                ScoreID = c.ScID
                             };
 
             var grouplistJ = from y in db.UserGroups
@@ -318,6 +327,7 @@ namespace LB3.Controllers
 
             string jsonUsers = JsonConvert.SerializeObject(grouplistJ.ToArray());
             string jsonHoleData = JsonConvert.SerializeObject(holedataJ.ToArray());
+            string jsonScoreData = JsonConvert.SerializeObject(scoredataJ.ToArray());
 
             ViewData["YearID"] = YID;
             ViewData["Year"] = year;
@@ -331,6 +341,7 @@ namespace LB3.Controllers
             ViewData["HoleCount"] = data.Count(); ;
             ViewData["JSONnames"] = jsonUsers;
             ViewData["JSONHoleData"] = jsonHoleData;
+            ViewData["JSONScoreData"] = jsonScoreData;
 
             return View("Hole", data);
         }
@@ -1092,11 +1103,11 @@ namespace LB3.Controllers
             }
             if (type == "Saved")
             {
-                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Saved" });
+                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Saved to server" });
             }
             else
             {
-                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Updated" });
+                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Updated to server" });
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbb440b8fdfb244822869da06200d343e6" Class="lb3dataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=b440b8fd-fb24-4822-869d-a06200d343e6.sqlserver.sequelizer.com;Initial Catalog=dbb440b8fdfb244822869da06200d343e6;Persist Security Info=True;User ID=vpdgdiikikowcpcz" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="dbb440b8fdfb244822869da06200d343e6ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=U8001065-TPL-B\SQL50160_2;Initial Catalog=lbdb;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="lbdbConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Course" Member="Courses">
     <Type Name="Course">
       <Column Name="CID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

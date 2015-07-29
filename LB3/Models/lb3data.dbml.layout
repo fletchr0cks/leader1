@@ -56,7 +56,7 @@
         <elementListCompartment Id="33e706c8-69b3-4779-a7ff-4d5a7533d24e" absoluteBounds="6.2650000000000006, 4.3350000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.5312505 : 9.75); (1.5312505 : 8.44399251302083); (3 : 8.44399251302083); (3 : 7.66429768880208); (3.16666666666667 : 7.66429768880208 : JumpStart); (3.33333333333333 : 7.66429768880208 : JumpEnd); (3.5 : 7.66429768880208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(1.5312505 : 9.75); (1.5312505 : 8.44399251302083); (2.47916666666667 : 8.44399251302083 : JumpStart); (2.64583333333333 : 8.44399251302083 : JumpEnd); (3 : 8.44399251302083); (3 : 7.66429768880208); (3.5 : 7.66429768880208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/lb3dataDataContext/Course/Course_Group" />
       <nodes>
         <classShapeMoniker Id="285c316a-4600-4249-9fa4-1d79bc52df41" />
@@ -84,7 +84,7 @@
         <classShapeMoniker Id="dd6bf4df-8e48-4b59-bd7e-892276e4722b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 7.37947382053786); (3.25 : 7.37947382053786); (3.25 : 8.70359537760417); (3.72916616666667 : 8.70359537760417 : JumpStart); (3.89583283333333 : 8.70359537760417 : JumpEnd); (4.9687495 : 8.70359537760417); (4.9687495 : 9.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 7.37947382053786); (3.25 : 7.37947382053786); (3.25 : 8.70359537760417); (4.9687495 : 8.70359537760417); (4.9687495 : 9.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/lb3dataDataContext/Year/Year_Hole" />
       <nodes>
         <classShapeMoniker Id="b4dd4cc9-2f3a-4419-9254-2a43ab03df05" />
@@ -105,7 +105,7 @@
         <classShapeMoniker Id="dae13991-6d0f-4694-876c-301022ec962f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 7.92914460091146); (3.25 : 7.92914460091146); (3.25 : 8.57859537760417); (7.25 : 8.57859537760417); (7.25 : 9.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 7.92914460091146); (2.91666666666667 : 7.92914460091146 : JumpStart); (3.08333333333333 : 7.92914460091146 : JumpEnd); (3.25 : 7.92914460091146); (3.25 : 8.57859537760417); (7.25 : 8.57859537760417); (7.25 : 9.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/lb3dataDataContext/Year/Year_SI" />
       <nodes>
         <classShapeMoniker Id="b4dd4cc9-2f3a-4419-9254-2a43ab03df05" />
@@ -153,7 +153,7 @@
         <classShapeMoniker Id="bc14cdd9-ac3b-4818-b15e-5f0f5bbef9d4" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(0.75 : 4.66429768880208); (0.5 : 4.66429768880208); (0.5 : 8.5); (3.8124995 : 8.5); (3.8124995 : 8.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(0.75 : 4.66429768880208); (0.5 : 4.66429768880208); (0.5 : 8.5); (2.47916666666667 : 8.5 : JumpStart); (2.64583333333333 : 8.5 : JumpEnd); (3.16666666666667 : 8.5 : JumpStart); (3.33333333333333 : 8.5 : JumpEnd); (3.8124995 : 8.5); (3.8124995 : 8.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/lb3dataDataContext/User/User_Score" />
       <nodes>
         <classShapeMoniker Id="3a9376e6-8f9b-4133-b802-0fd0b7c8db7f" />

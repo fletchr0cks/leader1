@@ -13,6 +13,54 @@
 
  
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+
+<script  type="text/javascript">
+
+    $(document).bind("pageinit", function () {
+        //$(document).ready(function () {
+        //alert(groupName);
+        $.mobile.loadPage('#page-id');
+        saveHoleToLocal("96");
+    });
+
+
+    function saveHoleToLocal(index) {
+        var model = getHoleModel(index);
+        model.YID = '<%=ViewData["YearID"] %>';
+      
+        localStorage.setItem(index,
+                    JSON.stringify(model));
+    }
+
+
+    function getHoleModel(index) {
+        var model = {
+            GroupName: "",
+            GroupMembers: "",
+            HoleData: "",
+            ScoreData: "",
+            HoleCount: "",
+            YID: "",
+            HID: "",
+            GID: "",
+            NextHole: "",
+            PrevHole: "",
+            IsDirty: false,
+            Key: "",
+            ID: ""
+        };
+
+        if (localStorage[index] != null) {
+            model = JSON.parse(localStorage[index]);
+        }
+        model.Key = index;
+        return model;
+    }
+
+
+
+</script>
+
   <h4>Select Course for <%=ViewData["Year"] %></h4> 
    <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
  <% foreach (var item in Model)

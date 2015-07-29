@@ -18,7 +18,10 @@
     //get all details from local
     //iterate thru users to render radio boxes
 
-    $(document).ready(function () {
+    $(document).bind("pageinit", function () {
+        //$(document).ready(function () {
+        //alert(groupName);
+        $.mobile.loadPage('#page-id');
 
         //alert(groupName);
         var holecount = getHolecount(); ;
@@ -124,11 +127,12 @@
             var html_top = "<h2>No. " + thisHole + ", Par 3, NB Links</h2><table>";
             $.each(users, function (i, result) {
                 var html_score = "";
+                var score_info = "";
+                var score = 0;
                 var i = 1;
-                html = html + "<tr><td><div class=\"H1thin\">" + result.Nickname + "</div></td><td><div class=\"thin\" id=\"scoretxt_" + result.UserID + "_" + HID + "\">Enter Score</div></td></tr>" +
-                            "<tr><td colspan=\"2\"><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">";
                 while (i < 10) {
                     var checkScore1 = checkScore("H_" + HID + "_" + result.UserID);
+                    score = checkScore1;
                     //alert("H_" + HID + "_" + result.UserID + " " + checkScore1);
                     if (checkScore1 == i) {
                         html_score = html_score + "<input type=\"radio\"  onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + GID + "," + YID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" checked=\"checked\" />" +
@@ -137,10 +141,22 @@
                         html_score = html_score + "<input type=\"radio\"  onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + GID + "," + YID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" />" +
                           "<label for=\"radio" + i + "\">" + i + "</label>";
                     }
+
                     //<input type=\"radio\"  onclick=\"NewScoreFor(2,2,1,1,1)\" name=\"radio-choice-2\" id=\"radio-mini-0\" value=\"2\" />" +
                     //"<label for=\"radio-mini-0\">2</label>";
                     i++;
                 }
+                var checkScore2 = checkScoreState("H_" + HID + "_" + result.UserID);
+                if (checkScore2 == true) {
+                    score_info = "Saved (server)";
+                } else if (checkScore1 > 0) {
+                    score_info = "Saved (locally)";
+                } else {
+                    score_info = "Select Score";
+                }
+                html = html + "<tr><td><div class=\"H1thin\">" + result.Nickname + "</div></td><td><div class=\"thin\" id=\"scoretxt_" + result.UserID + "_" + HID + "\">" + score_info + "</div></td></tr>" +
+                            "<tr><td colspan=\"2\"><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">";
+
                 html = html + html_score + "</fieldset></td></tr>";
             });
 
@@ -149,11 +165,27 @@
 
         }
 
-        function checkScore(HID) {
+        function checkScoreState(HID) {
             
             var model = getScoreModel(HID);
-            var Score = 0;
+            var IsSavedServer = false;
 
+            if (model == null) {
+                //return "0";
+            }
+            else {
+                IsSavedServer = model.IsSavedServer;            
+            }
+
+            return IsSavedServer;
+
+        }
+
+        function checkScore(HID) {
+
+            var model = getScoreModel(HID);
+            var Score = 0;
+            //also check server score
             if (model == null) {
                 //return "0";
             }
@@ -168,13 +200,22 @@
     function drawButtons(nextHole, HoleCount) {
         var prevHole = parseInt(nextHole) - 1;
         nextHole = parseInt(nextHole) + 1;
-        
+        var btnTable = "<table><tr>";
         var nextHoleID = getNextholeID(nextHole, HoleCount);
         var prevHoleID = getNextholeID(prevHole, HoleCount);
         //alert(nextHoleID);
 
-        var htmlnextBtn = "<div onclick=\"drawRadios(" + nextHoleID + "," + nextHole + ")\">next</div>";
-        var htmlprevBtn = "<div onclick=\"drawRadios(" + prevHoleID + "," + prevHole + ")\">prev</div>";
+        //<div onclick=\"drawRadios(" + nextHoleID + "," + nextHole + ")\">next
+        //var htmlnextBtn = "<td><ul data-role=\"listview\" data-inset=\"true\" data-theme=\"c\">" +
+        //"<li data-theme=\"e\" onclick=\"drawRadios(" + nextHoleID + "," + nextHole + ")\"><a href=\"#\">Next Hole</a><span class=\"ui-li-count\">4</span></li></ul></td>";
+        var htmlnextBtn = "<form><input type=\"button\" data-theme=\"b\" data-inline=\"true\" value=\"Next Hole\" onclick=\"drawRadios(" + nextHoleID + "," + nextHole + ")\"></form>";
+        var htmlprevBtn = "<form><input type=\"button\" data-theme=\"b\" data-inline=\"true\" value=\"Previous Hole\" onclick=\"drawRadios(" + prevHoleID + "," + prevHole + ")\"></form>";      
+        //"<a href=\"#\" class=\"ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext\" onclick=\"drawRadios(" + nextHoleID + "," + nextHole + ")\">Next</a>";
+        //class=\"ui-btn ui-btn-inline ui-icon-delete ui-btn-icon-right\"
+       // var htmlprevBtn = "<td><ul data-role=\"listview\">" +
+       // "<li data-theme=\"e\" onclick=\"drawRadios(" + prevHoleID + "," + prevHole + ")\"><a href=\"#\">Next Hole</a><span class=\"ui-li-count\">4</span></li></ul></td>";
+    
+        //var htmlprevBtn = "<div onclick=\"drawRadios(" + prevHoleID + "," + prevHole + ")\">prev</div>";
         $('#nextBtn').html(htmlnextBtn).trigger('create');
         $('#prevBtn').html(htmlprevBtn).trigger('create');
         updateHoleModel(nextHole,HoleCount);
@@ -353,6 +394,7 @@
                url: "/Home/newScore",
                data: "GID=" + GID + "&YID=" + YID + "&HID=" + HID + "&score=" + score + "&Pin=0&LD=0&UserID=" + userid,
                dataType: "html",
+               timeout: 5000,
                success: function (data) {
                    var json = eval('(' + data + ')');
 
@@ -365,6 +407,7 @@
                },
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
+                   $('#scoretxt_' + userid + '_' + HID).html("Saved locally").trigger("create");
                }
            });
            return false;
@@ -373,15 +416,18 @@
 </script>
  <h2><div id="HoleTitle">No. x on course y, par n</div></h2>
   <div id="scoreinput"></div>
-  <div id="prevBtn"></div>
-  <div id="nextBtn"></div>
-
+  <table><tr><td>
+  <div id="prevBtn"></div></td>
+  <td>
+  <div id="nextBtn"></div></td></tr></table>
+    
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
 <div data-role="footer" style="overflow:hidden;">
-<div data-theme="a" id="eventsfeed"></div>
+<div data-theme="a" id="onlineStatus"></div>
 <div data-role="navbar">
 <ul><li><a href="#">Home</a></li> <li><a onclick="refresh_feed()" href="#">Refresh Events Feed</a></li> <li><a href="#">Check Connection</a></li></ul>
 </div></div>
 </asp:Content>
 
+ 

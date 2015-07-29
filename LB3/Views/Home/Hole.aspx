@@ -29,18 +29,35 @@
         $.mobile.loadPage('#page-id');
         var modelChk = holeModelCheck();
 
-        if (modelChk.length == 0) {
-
-            saveHoleToLocal(96);
-
+       // if (modelChk.length == 0) {
+        //
+         //   saveHoleToLocal(96);
+         var status = document.getElementById('onlineStatus').innerHTML;
+         if (status == "Online") {
             writeHoleDataToScores(96);
 
         } else {
 
-            drawList(96);
+            
 
         }
+        drawList(96);
     });
+
+    function scoreModelCheck() {
+        var index = "96";
+        var model = getHoleModel(index);
+        var HoleData = "";
+        if (model == null) {
+            return null;
+        }
+        else {
+
+            HoleData = model.HoleData;
+            return HoleData;
+        }
+
+    }
 
      function holeModelCheck() {
          var index = "96";
@@ -65,6 +82,7 @@
         model.GroupMembers = '<%=ViewData["JSONnames"] %>';  //$("#GPMembers").val();
         model.GroupSize = '<%=ViewData["GroupCount"] %>';
         model.HoleData = '<%=ViewData["JSONHoleData"] %>';
+        model.ScoreData = '<%=ViewData["JSONScoreData"] %>';
         model.YID = '<%=ViewData["YearID"] %>';
         model.CID = '<%=ViewData["CID"] %>';
         model.GID = '<%=ViewData["GID"] %>';
@@ -89,22 +107,48 @@
                     HoleData = model.HoleData;
                     GroupData = model.GroupMembers;
                     GroupSize = model.GroupSize;
+                    ScoreData = model.ScoreData;
                     //alert(HoleData);
                 }
        
-         var scores = eval('(' + HoleData + ')');
-          var users = eval('(' + GroupData + ')');
-       
+         var scores = eval('(' + HoleData + ')'); //potential scores , userid, hole combos
+         var users = eval('(' + GroupData + ')');
+         var scoredata = eval('(' + ScoreData + ')');
+
+         $.each(scoredata, function (i, ss) {
+             saveServerScore(ss.Score, ss.UserID, ss.HID, ss.ScoreID);
+         });
           //NewScoreFor: userid, score, HID, YID, GID
-          $.each(scores, function (i, result) {            
-              $.each(users, function (i, item) {
-                  saveScoresToLocal("H_" + result.HoleID + "_" + item.UserID, result.HoleNum, result.HolePin, result.HoleLD, GroupSize);
-              });
-          });
+         $.each(scores, function (i, result) {
+             $.each(users, function (i, item) {
+   
+                 var savedScore = getSavedScore(result.HoleID, item.UserID);
+              
+                 if (savedScore > 0) {
+                     saveScoresToLocalS("H_" + result.HoleID + "_" + item.UserID, result.HoleNum, result.HolePin, result.HoleLD, GroupSize, savedScore, item.UserID)
+                    } else {
+                    
+                 }
+             });
+         });
+
+         //add scores to savedScores
+
 
         // drawList(96);
-       
-    }
+
+     }
+
+     function gotoLocalCard(HID,HoleNum) {
+         //location.load
+         var index = 96
+         var model = getHoleModel(index);
+         model.NextHole = HoleNum,
+         model.NextHoleID = HID,
+         localStorage.setItem(index,
+                    JSON.stringify(model));
+         window.location.href = "/Home/LocalHoleCard";
+     }
 
     function drawList(index) {
         var HoleData = "";
@@ -121,6 +165,7 @@
         var servertxt = "";
         var holeComp = 0;
         $.each(scores, function (i, result) {
+        
             if (compChk(result.HoleID) == true) {
                 comptxt = "<span class=\"ui-li-count\">Completed</span>";
             } else {
@@ -133,9 +178,9 @@
             }
             //alert(servertxt);
             if (result.HolePin != 0) {
-                htmlList_item = htmlList_item + "<li data-theme=\"e\"><a href=\"#\">" + result.HoleNum + "</a>" + comptxt + "</li>";
+                htmlList_item = htmlList_item + "<li data-theme=\"c\"><a href=\"/Home/LocalHoleCard?Hole=\">" + result.HoleNum + " (nearest the pin)</a>" + comptxt + "</li>";
             } else {
-                htmlList_item = htmlList_item + "<li data-theme=\"b\"><a href=\"#\">" + result.HoleNum + "</a>" + comptxt + "</li>";
+                htmlList_item = htmlList_item + "<li data-theme=\"c\" onClick=\"gotoLocalCard(" + result.HoleID + "," + result.HoleNum + ")\"><a href=\"#\">" + result.HoleNum + "</a>" + comptxt + "</li>";
             }
 
             //htmlList_item = htmlList_item + "<li data-theme=\"e\"><a href=\"#\">" + result.HoleNum + "</a>" + comptxt + "</li>";
@@ -253,20 +298,79 @@
 
     }
 
+    function getSavedScore(HID, UserID) {
+        var index = "S_" + HID + "_" + UserID;
+        var model = getSavedScoreModel(index);
+        var Score = 0;
+        //alert("H_" + HID + "_" + UserID);
+        if (model == null) {
+            //return "0";
+        }
+        else {
+            Score = model.Score;
+        }
 
-    function saveScoresToLocal(HID, HoleNum, HolePin, HoleLD, GroupSize) {
+        return Score;
+
+    }
+
+
+    function saveServerScore(Score, UserID, HID, ScoreID) {
+        var index = "S_" + HID + "_" + UserID;
+        var model = getSavedScoreModel(index);
+        
+        //alert("H_" + HID + "_" + UserID);
+        if (model == null) {
+            //return "0";
+        }
+        else {
+            model.Score = Score;
+            model.UserID = UserID;
+            model.HID = HID
+            model.ScoreID = ScoreID;
+        }
+
+        localStorage.setItem(index,
+                    JSON.stringify(model));
+        
+    }
+
+    function saveScoresToLocalS(HID, HoleNum, HolePin, HoleLD, GroupSize, Score, UserID) {
 
         var model = getScoreModel(HID);
-        model.HoleNum = HoleNum;
-        model.HolePin = HolePin;
-        model.HoleLD = HoleLD;
-        model.Score = "";
-        model.IsSaved = false;
-        model.HID = HID;
-        model.GroupSize = GroupSize;
-        localStorage.setItem(HID,
+
+        if (model != null) {
+            
+            model.IsSaved = true;
+            model.IsSavedServer = true;
+            model.Score = Score;
+            model.UserID = UserID;
+            model.HoleNum = HoleNum;
+            model.HolePin = HolePin;
+            model.HoleLD = HoleLD;
+            model.HID = HID;
+            model.GroupSize = GroupSize;
+            localStorage.setItem(HID,
                     JSON.stringify(model));
-        //alert("pin'" + HolePin + "' score saved locally.");
+        }   
+       
+    }
+
+    function saveScoresToLocal(HID, HoleNum, HolePin, HoleLD, GroupSize, UserID) {
+
+        var model = getScoreModel(HID);
+        if (model != null) {
+            model.IsSaved = false;
+            model.IsSavedServer = false;
+            model.HoleNum = HoleNum;
+            model.HolePin = HolePin;
+            model.HoleLD = HoleLD;
+            model.UserID = UserID;
+            model.HID = HID;
+            model.GroupSize = GroupSize;
+            localStorage.setItem(HID,
+                    JSON.stringify(model));
+        }
     }
 
     function getHoleModel(index) {
@@ -274,10 +378,12 @@
             GroupName: "",
             GroupMembers: "",
             HoleData: "",
+            ScoreData: "",
             HoleCount: "",
             YID: "",
             HID: "",
             GID: "",
+            CID: "",
             NextHole: "",
             PrevHole: "",
             IsDirty: false,
@@ -313,19 +419,20 @@
         return model;
     }
 
-    function getCompModel(HID) {
+    function getSavedScoreModel(index) {
         var model = {
-            IsComplete: false,
-            IsCompLocal: false,
-            IsCompServer: false,
+            Score: "",
+            UserID: "",
+            HID: "",
+            ScoreID: "",
             Key: "",
             ID: ""
         };
 
-        if (localStorage[HID] != null) {
-            model = JSON.parse(localStorage[HID]);
+        if (localStorage[index] != null) {
+            model = JSON.parse(localStorage[index]);
         }
-        model.Key = HID;
+        model.Key = index;
         return model;
     }
 
@@ -363,8 +470,15 @@
  <% } %>
     </ul>
 <ul>
-<li><%= Html.ActionLink("Offline Test2", "LocalHoleCard", "Home") %></li>
+
 </ul>    
 
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
+<div data-role="footer" style="overflow:hidden;">
+<div data-theme="a" id="onlineStatus"></div>
+<div data-role="navbar">
+<ul><li><a href="#">Home</a></li> <li><a onclick="refresh_feed()" href="#">Refresh Events Feed</a></li> <li><a href="#">Check Connection</a></li></ul>
+</div></div>
 </asp:Content>
 
