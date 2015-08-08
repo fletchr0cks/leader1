@@ -148,7 +148,7 @@
        }
        var clicksound = ss_soundbits('../Content/sounds/applause.mp3');
        var timerX;
-
+       var timerY;
        $(document).ready(function () {
            //alert("ready");
            $('#eventsfeed').html("Loading Events Feed").trigger('create');
@@ -162,6 +162,13 @@
            
            clearTimeout(timerX);
            timerX = setTimeout(getEventsFeed, 10000);
+       }
+
+
+       function refresh_card_feed() {
+
+           clearTimeout(timerY);
+           timerY = setTimeout(getEventsPopup, 10000);
        }
 
        function getEventsFeed() {
@@ -190,8 +197,13 @@
 
        function getEventsPopup() {
            //alert("latest" + $("#EIDx").val());
+           $("#evticker").fadeTo("slow", 0);
+
            var eid = document.getElementById('EIDxy').innerHTML;
-           //alert(eid);
+          // alert(eid);
+           if (eid.length == 0) {
+               eid = 0;
+           }
            //var html = "to be replaced";
            //clicksound.pause();
            $.ajax({
@@ -222,12 +234,14 @@
 
                    }
 
-                   $('#evticker').html(html).trigger('create');
+                   $('#evticker').html(html).trigger('refresh');
+                   $("#evticker").fadeTo("slow", 1);
                    //clicksound.playclip();
+                   setTimeout(refresh_card_feed, 10000);
 
-                   $.each(json.speech.reverse(), function (i, result) {
-                       responsiveVoice.speak(result.speech);
-                   });
+                   //$.each(json.speech.reverse(), function (i, result) {
+                   //    responsiveVoice.speak(result.speech);
+                   //});
 
                },
                error: function (xhr, error) {
@@ -237,10 +251,32 @@
 
                }
            });
-           refresh_feed();
-           //setTimeout(getLatestEvents(EID), 10000);
+           //refresh_feed();
+           //setTimeout(getLatestEventsPopup(EID), 10000);
        }
 
+       function AddCourseUA() {
+           var name = "new c";
+           $.ajax({
+               type: "POST",
+               url: "/Home/AddCourseUAForm",
+               data: "Name=" + name,
+               dataType: "html",
+               //success: onSuccess
+               success: function (response) {
+
+                   //gotohere add ids to div areas
+                   //$('#newHole_' + CID).html(response).trigger("create");
+                   //$('#hole_' + CID).val("8");
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               },
+               complete: function () {
+
+               }
+           });
+       }
        
        function addHole(YID,CID) {
 
@@ -260,6 +296,29 @@
                    console.debug(xhr); console.debug(error);
                },
                complete: function() {
+
+               }
+           });
+       }
+
+       function addHoleUA(CUAID) {
+
+           $.ajax({
+               type: "POST",
+               url: "/Home/HoleUAPartialNew",
+               data: "CUAID=" + CUAID,
+               dataType: "html",
+               //success: onSuccess
+               success: function (response) {
+
+                   //gotohere add ids to div areas
+                   $('#newHoleUA_' + CUAID).html(response).trigger("create");
+                   //$('#hole_' + CID).val("8");
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               },
+               complete: function () {
 
                }
            });
@@ -409,18 +468,23 @@
            });
        }
 
-       function getMiniLB(YID, GID, HID) {
+       function getMiniLB(CID, HoleNum) {
            //$('#scores_' + GID).html(" ").trigger("create"); ;
+           var htmlLB = "";
            $.ajax({
                type: "POST",
                url: "/Home/getMiniLB",
-               data: "YID=" + YID + "&GID=" + GID,
+               data: "CID=" + CID + "&HoleNum=" + HoleNum,
                dataType: "html",
                //success: onSuccess
-               success: function (response) {
-
+               success: function (data) {
+                   var json = eval('(' + data + ')');
+                   $.each(json.miniLBdata, function (i, result) {
+                       var par = parseInt(result.TotalScore - result.pars2);
+                       htmlLB = htmlLB + "<tr><td><div class=\"miniLBh\">" + result.Nickname + "</div></td><td><div class=\"miniLBn\">" + result.TotalScore + "</div></td><td>" + par + "</td></tr>";
+                   });
                    //gotohere add ids to div areas
-                   $('#lb_' + HID).html(response).trigger("create");
+                   $('#miniLB').html("<table>" + htmlLB + "</table>").trigger("create");
                },
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
@@ -455,10 +519,32 @@
                }
            });
            return false;
+       }
+
+
+       function saveUAHole(CUAID) {
+           var hole = document.getElementById("hole_" + CUAID).value;
+           var par = document.getElementById("par_" + CUAID).value;
+           var si = document.getElementById("SI_" + CUAID).value;
+           alert(CUAID, hole, par, si);
+           $.ajax({
+               type: "POST",
+               url: "/Home/saveUAHole",
+               data: "CUAID=" + CUAID + "&holeNum=" + hole + "&par=" + par + "&SIndx=" + si,
+               dataType: "html",
+               success: function (data) {
+
+                   $('#holelist_' + CUAID).html(data).trigger("create");
+
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               }
+           });
+           return false;
 
 
        }
-       
        
        function onSuccess(data) {
            alert("succ");
@@ -474,7 +560,7 @@
     <div data-role="header" data-position="fixed">
         <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
     </div>
-    <div data-role="content">
+    <div data-role="content" data-theme="a">
          <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
      <div data-role="footer" data-position="fixed" data-tap-toggle="false">

@@ -9,13 +9,7 @@
   <p><strong>Score</strong></p>
  </div>
  <div class="ui-block-c">
-  <p><strong>Points</strong></p>
- </div>
- <div class="ui-block-d">
-  <p><strong>Pin</strong></p>
- </div>
- <div class="ui-block-e">
-  <p><strong>Drive</strong></p>
+  <p><strong>Par</strong></p>
  </div>
   
 <% foreach (Score s in (IEnumerable)ViewData.Model)  
@@ -23,7 +17,7 @@
 %><!-- second row -->
 
  <div class="ui-block-a">
-  <p><%=s.Hole.HoleNum %></p>
+  <p><%=s.TotalScore %></p>
  </div>
  <div class="ui-block-b">
   <p><%=s.Score1 %></p>
@@ -31,26 +25,6 @@
  <div class="ui-block-c">
   <p></p>
  </div>
- <div class="ui-block-d">
- <% if (s.PinUserID != null)
-    { %>
-  <p>Yes</p>
-  <% }
-    else
-    { %>
-   <p>No</p>
-  <% } %>
- </div>
- 	<div class="ui-block-e">
-  <% if (s.DriveUserID != null)
-    { %>
-  <p>Yes</p>
-  <% }
-    else
-    { %>
-   <p>No</p>
-  <% } %>
- </div>
-
+ 
 <%} %>
 </div>

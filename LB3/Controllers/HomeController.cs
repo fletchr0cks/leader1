@@ -205,13 +205,6 @@ namespace LB3.Controllers
             ViewData["YearID"] = YID;
             ViewData["Year"] = year;
 
-            string cookie = Request.Cookies["last"].Value;
-
-            var cookietxt = cookie + ", " + year;
-
-            var histCookie = new HttpCookie("last", cookietxt);
-            histCookie.Expires = DateTime.Now.AddDays(1);
-            Response.AppendCookie(histCookie);
 
             return View("CourseGroups", data);
         }
@@ -230,6 +223,11 @@ namespace LB3.Controllers
             return View("Front");
         }
 
+        public ActionResult HoleLocal()
+        {
+
+            return View();
+        }
      
         public ActionResult Hole(int YID, int CID, int GID, string course)
         {
@@ -257,6 +255,7 @@ namespace LB3.Controllers
                                 HoleNum = c.HoleNum,
                                 HolePin = c.N_pin,
                                 HoleLD = c.L_drive,
+                                Par = c.Par
                                 //Scre = (from s in dataContext.Scores where s.HoleID == c.HoleID && s.UserID == user
                             };
 
@@ -338,7 +337,7 @@ namespace LB3.Controllers
             ViewData["GroupCount"] = grouplist.Count();
             ViewData["names"] = gplist;
             ViewData["NextHoleID"] = NextHoleID;
-            ViewData["HoleCount"] = data.Count(); ;
+            ViewData["HoleCount"] = data.Count();
             ViewData["JSONnames"] = jsonUsers;
             ViewData["JSONHoleData"] = jsonHoleData;
             ViewData["JSONScoreData"] = jsonScoreData;
@@ -410,7 +409,7 @@ namespace LB3.Controllers
               //  if (allevents.Count() > 0)
               //  {
 
-                    return Json(new { events = allevents, speech = speech_item }, JsonRequestBehavior.AllowGet);
+                    return Json(new { events = allevents.Take(2), speech = speech_item.Take(2) }, JsonRequestBehavior.AllowGet);
 
              //   }
              //   else
@@ -442,8 +441,68 @@ namespace LB3.Controllers
                                       speech = e.Speech
                                   };
 
-                return Json(new { events = allevents.Take(1), speech = speech_item.Take(1) }, JsonRequestBehavior.AllowGet);
+                return Json(new { events = allevents.Take(2), speech = speech_item.Take(2) }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult CourseUA()
+        {
+             var dataContext = new lb3dataDataContext();
+             var courseUA = from c in dataContext.CourseUAs
+                            orderby c.CourseName
+                            select c;
+
+            return View("CourseUA", courseUA);
+        }
+
+        public ActionResult ViewCourseUA()
+        {
+            var dataContext = new lb3dataDataContext();
+            var courseUA = from c in dataContext.CourseUAs
+                           orderby c.CourseName
+                           select c;
+
+            return View("ViewCourseUA", courseUA);
+        }
+
+       
+        public ActionResult AddCourseUA2(FormCollection form)
+        {
+            var name = form["CourseName"];
+
+           return RedirectToAction("AddCourseUAHoles", new { id = 15 });
+
+        }
+
+
+        [AcceptVerbs("post")]
+        public ActionResult AddCourseUAForm(FormCollection form)
+        {
+            return View();
+        }
+        
+
+        public ActionResult AddCourseUAForm(string name)
+        {
+            int UACID = dataRepository.SaveNewCourse(name);
+            return RedirectToAction("AddCourseUAHoles", new { id = UACID });
+             
+        }
+
+        public ActionResult AddCourseUAholes(int id)
+        {
+            var dataContext = new lb3dataDataContext();
+
+            var data = from c in dataContext.HoleUAs
+                       where c.CourseUAID == id                     
+                       orderby c.HoleNum ascending
+                       select c;
+
+            ViewData["UAHoles"] = data;
+
+            ViewData["CUAID"] = id;
+
+            return View("AddCourseUAholes");
         }
 
         public ActionResult CourseDetails(int CID, int YID, string course)
@@ -495,13 +554,7 @@ namespace LB3.Controllers
 
             ViewData["dd_vals"] = dd_items;
 
-            string cookie = Request.Cookies["last"].Value;
-
-            var cookietxt = cookie + ", " + year + ", " + course;
-
-            var histCookie = new HttpCookie("last", cookietxt);
-            histCookie.Expires = DateTime.Now.AddDays(1);
-            Response.AppendCookie(histCookie);
+            
 
             return View("CourseDetails");
         }
@@ -718,6 +771,31 @@ namespace LB3.Controllers
        //     return PartialView("HolePartialEdit", hole);
        // }
 
+        public PartialViewResult HoleUAPartialNew(int CUAID)
+        {
+            var dataContext = new lb3dataDataContext();
+            int next = 1;
+            try
+            {
+
+                var data = from c in dataContext.HoleUAs                          
+                           orderby c.HoleNum descending
+                           where c.CourseUAID == CUAID
+                           select c;
+
+                next = Convert.ToInt32(data.First().HoleNum) + 1;
+            }
+            catch
+            {
+
+            }
+            //Hole hole = dataRepository.GetHole(HoleID);
+            ViewData["CUAID"] = CUAID;
+            ViewData["NextNum"] = next;
+            return PartialView("HoleUAPartialNew");
+        }
+
+
         public PartialViewResult HolePartialNew(int CID, int YID)
         {
             var dataContext = new lb3dataDataContext();
@@ -744,6 +822,7 @@ namespace LB3.Controllers
             return PartialView("HolePartialNew");
         }
 
+      
         public PartialViewResult EventsPartial2()
         {
             var dataContext = new lb3dataDataContext();
@@ -797,6 +876,30 @@ namespace LB3.Controllers
             return PartialView("HolePartial", data);
 
         }
+
+        public ActionResult saveUAHole(int CUAID, int holeNum, int par, int SIndx)
+        {
+            var dataContext = new lb3dataDataContext();
+
+            HoleUA hole = new HoleUA();
+            hole.CourseUAID = CUAID;
+            hole.HoleNum = holeNum;
+            hole.Par = par;           
+            hole.SI = SIndx;
+
+            dataRepository.Add(hole);
+            dataRepository.Save();
+
+            var data = from c in dataContext.HoleUAs
+                       where c.CourseUAID == CUAID                   
+                       select c;            
+            ViewData["NextNum"] = holeNum + 1;
+            ViewData["coll"] = "data-collapsed=\"false\"";
+            ViewData["CUAID"] = CUAID;
+            return PartialView("HoleUAPartial", data);
+
+        }
+
 
         public void deleteHole(int HID)
         {
@@ -976,21 +1079,46 @@ namespace LB3.Controllers
 
         }
 
+        public ActionResult Users()
+        {
 
-        public ActionResult getMiniLB(int YID, int GID)
+            return View();
+        }
+
+        public JsonResult getMiniLB(int CID, int HoleNum)
         {
             var dataContext = new lb3dataDataContext();
             //gp
+            var miniLBdata = from r in dataContext.Scores
+                            where r.Hole.CourseID == CID
+                       orderby r.Score1 descending
+                       group r by new { 
+                           r.User.Nickname,
+                           //r.Hole.CourseID,
+                          // r.Hole.Par
+                          // r.Description
+                       } into g
+                       orderby g.Sum(s => s.Score1)
+                     
+                       select new {
+                              //g.Key..Category,
+                              g.Key.Nickname,
+                              TotalScore = g.Sum(x => x.Score1),
+                              //CID = g.Key.CourseID,
+                              pars2 = g.Sum(x => x.Hole.Par),
+                              pars = (from p in dataContext.Holes 
+                                      join sc in dataContext.Scores on p.HoleID equals sc.HoleID
+                                      //where p.CourseID == CID && p.HoleNum <= HoleNum 
+                                      //where sc.Score1 > 0
+                                      select p.Par).Sum()
+                         
+                              //get sum of all completed holes for pars
+                             
+                        };
 
-            var data = from c in dataContext.Scores
-                       where c.Year.Groups.First().GID == GID
-                       where c.Year.YID == YID
-                       //where YID== to get tournament scores
-                       //order by score
-                       orderby c.Year.Scores.First().Score1 descending
-                       select c;
-           //take sum of scores
-            return PartialView("MiniLBPartial", data);
+         //take sum of scores
+
+            return Json(new { miniLBdata });
 
         }
 
@@ -1006,6 +1134,14 @@ namespace LB3.Controllers
                                {
                                    UserID = users.UserID
                                };
+
+            var HoleData = from h in dataContext.Holes
+                           where h.HoleID == HID
+                           select h;
+
+            var HoleNum = HoleData.First().HoleNum;
+
+            var CID = HoleData.First().CourseID;
 
             var winner = from users in dataContext.Users
                                where users.UserID == UserID
@@ -1103,11 +1239,11 @@ namespace LB3.Controllers
             }
             if (type == "Saved")
             {
-                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Saved to server" });
+                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Saved to server", HoleNum = HoleNum, CID = CID });
             }
             else
             {
-                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Updated to server" });
+                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Updated to server", HoleNum = HoleNum, CID = CID });
             }
         }
 

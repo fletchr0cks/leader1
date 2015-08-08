@@ -1,6 +1,4 @@
 <%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<LB3.Models.Hole>>" %>
-
-
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Holes
 </asp:Content>
@@ -14,36 +12,84 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
 <script  type="text/javascript">
-    //put this into local storage
-    //?YID=1&GID=1&course=NB%20Links&CID=1
-    //var YID = 1;
-    //var GID = 1;
-    //var CID = 1;
- 
-    var course = "NB Links";
-    //var groupName = '<%=ViewData["Group"] %>';
-  
     $(document).bind("pageinit", function () {
-    //$(document).ready(function () {
+        //$(document).ready(function () {
         //alert(groupName);
         $.mobile.loadPage('#page-id');
+
+        function isOnLine() {
+            return navigator.onLine;
+        }
+
+        function reportOnlineStatus() {
+            var status = $("#onlineStatus");
+
+            if (isOnLine()) {
+                status.text("Online");
+                status.
+                        removeClass("offline").
+                        addClass("online");
+                $("#syncBtnID").removeClass("ui-disabled");
+                $("#syncBtnID").addClass("ui-enabled");
+            }
+            else {
+                status.text("Offline");
+                status.
+                        removeClass("online").
+                        addClass("offline");
+                $("#syncBtnID").addClass("ui-disabled");
+                $("#syncBtnID").removeClass("ui-enabled");
+            }
+        }
+
+        window.applicationCache.onupdateready = function (e) {
+            applicationCache.swapCache();
+            window.location.reload();
+        }
+
+        window.addEventListener("online", function (e) {
+            reportOnlineStatus();
+            //saveToServer();
+        }, true);
+
+        window.addEventListener("offline", function (e) {
+            reportOnlineStatus();
+        }, true);
+
+        if (isOnLine()) {
+            // saveToServer();
+        }
+        // showCustomer();
+        //reportOnlineStatus();
+
+        // $.mobile.loadPage('#page-id');
         var modelChk = holeModelCheck();
+        var holeDataChk = HDwrittenCheck();
 
-       // if (modelChk.length == 0) {
-        //
-         //   saveHoleToLocal(96);
-         var status = document.getElementById('onlineStatus').innerHTML;
-         if (status == "Online") {
-            writeHoleDataToScores(96);
+        reportOnlineStatus();
+        
+        var status = document.getElementById('onlineStatus').innerHTML;
 
+        if (status == "Online") {
+            if (modelChk.length > 0) {
+                saveHoleToLocal(96);
+            }
+
+            if (holeDataChk == false) {
+                writeHoleDataToScores(96);
+            }
+
+
+            checkSync();
         } else {
 
-            
-
+            //writeHoleDataToScores(96); //for testing
         }
-        drawList(96);
-    });
 
+        drawList(96);
+
+
+    });
     function scoreModelCheck() {
         var index = "96";
         var model = getHoleModel(index);
@@ -59,26 +105,164 @@
 
     }
 
+    function checkSync() {
+        var HoleData = holeDataCheck();
+        var holes = eval('(' + HoleData + ')');
+        var GroupData = getGroupdata();
+        var users = eval('(' + GroupData + ')');
+        var syncCt = 0;
+        var syncBtnHtml = "";
+        var syncMsg = "";
+        
+        $.each(holes, function (i, result) {
+          $.each(users, function (i, item) {           
+              var local = getSavedstatus(result.HoleID, item.UserID);
+              var server = getSavedServerstatus(result.HoleID, item.UserID);
+              if (local == true && server == false) {
+                  syncCt++                
+            }
+        });
+      });
+        if (syncCt > 0) {
+            syncBtnHtml = "<form id=\"syncBtnID\"><input type=\"button\" data-theme=\"e\" data-inline=\"true\" value=\"Synchronize scores now\" onclick=\"syncHoles(" + syncCt + ")\"></form>";
+            syncMsg = syncCt + " scores to synchronize";
+        } else {
+            //syncBtnHtml = "<form><input type=\"button\" data-theme=\"e\" data-inline=\"true\" value=\"Synchronize scores now\" onclick=\"syncHoles(" + syncCt + ")\"></form>";
+            syncMsg = "All scores saved to the server";
+    }
+        $('#syncBtn').html(syncBtnHtml).trigger('create');
+        $('#syncStatus').html(syncMsg).trigger('create');
+        //"All scores saved to the server";
+
+}
+
+
+function NewScoreFor(userid, score, HID, YID, GID, ct) {
+    var Saved = 0;
+    var notSaved = 0;
+    //alert(HID);
+    $.ajax({
+        type: "POST",
+        url: "/Home/newScore",
+        data: "GID=" + GID + "&YID=" + YID + "&HID=" + HID + "&score=" + score + "&Pin=0&LD=0&UserID=" + userid,
+        dataType: "html",
+        timeout: 5000,
+        success: function (data) {
+            var json = eval('(' + data + ')');
+            var type = json.type;
+            var winner = json.winner; // ['winners']['nickname'];                     
+            scoreSavedtoServer("H_" + HID + "_" + userid);
+            $('#syncStatus').html("Score(s) saved to server").trigger('create');
+            drawList(96);
+            checkSync();
+        },
+        error: function (xhr, error) {
+            console.debug(xhr); console.debug(error);
+            $('#syncStatus').html("Sync failed").trigger('create');
+          
+        }
+    });
+   
+}
+
+function scoreSavedtoServer(HID) {
+
+    var model = getScoreModel(HID);
+    model.IsSavedServer = true;
+
+
+    localStorage.setItem(HID,
+            JSON.stringify(model));
+    //alert("new score '" + Score + "' saved locally.");
+}
+
+function syncHoles(ct) {
+
+    var HoleData = holeDataCheck();
+    var holes = eval('(' + HoleData + ')');
+    var GroupData = getGroupdata();
+    var users = eval('(' + GroupData + ')');
+    var syncCt = 0;
+    var syncBtnHtml = "Saving local scores to the server ... standby";
+    $('#syncStatus').html(syncBtnHtml).trigger('create');
+
+    $.each(holes, function (i, result) {
+        $.each(users, function (i, item) {
+            var local = getSavedstatus(result.HoleID, item.UserID);
+            var server = getSavedServerstatus(result.HoleID, item.UserID);
+            if (local == true && server == false) {
+
+                var score = getLocalScore(result.HoleID, item.UserID);
+                var GID = getGID();
+                var YID = getYID();
+                NewScoreFor(item.UserID, score, result.HoleID, YID, GID, ct);
+                syncCt++;
+           
+            }
+        });
+    });
+  
+    if (syncCt > 0) {
+        drawList(96);
+        checkSync();
+    } else {
+
+    }
+   
+    //$('#syncBtn').html(syncBtnHtml).trigger('create');
+}
+
+
+function holeDataCheck() {
+    var index = "96";
+    var model = getHoleModel(index);
+    var HoleData = "";
+    if (model == null) {
+        return null;
+    }
+    else {
+
+        HoleData = model.HoleData;
+
+    }
+    return HoleData;
+}
+
      function holeModelCheck() {
          var index = "96";
          var model = getHoleModel(index);
-         var HoleData = "";
+         var GroupMembers = "";
          if (model == null) {
              return null;
          }
          else {
 
-             HoleData = model.HoleData;
-             return HoleData;
+             GroupMembers = model.GroupMembers;
+             
          }
+         return GroupMembers
+     }
 
+     function HDwrittenCheck() {
+         var index = "96";
+         var model = getHoleModel(index);
+         var HD = "";
+         if (model == null) {
+             HD = null;
+         }
+         else {
+
+             HD = model.HDwritten;
+
+         }
+         return HD;
      }
 
 
     function saveHoleToLocal(index) {
 
         var model = getHoleModel(index);
-        model.GroupName = document.getElementById('GPName').innerHTML;
+        model.GroupName = '<%=ViewData["Group"] %>';
         model.GroupMembers = '<%=ViewData["JSONnames"] %>';  //$("#GPMembers").val();
         model.GroupSize = '<%=ViewData["GroupCount"] %>';
         model.HoleData = '<%=ViewData["JSONHoleData"] %>';
@@ -86,6 +270,7 @@
         model.YID = '<%=ViewData["YearID"] %>';
         model.CID = '<%=ViewData["CID"] %>';
         model.GID = '<%=ViewData["GID"] %>';
+        model.CourseName = '<%=ViewData["course"] %>';
         model.NextHole = 1;
         model.HoleCount = '<%=ViewData["HoleCount"] %>';
         model.NextHoleID = '<%=ViewData["NextHoleID"] %>'; 
@@ -118,18 +303,21 @@
          $.each(scoredata, function (i, ss) {
              saveServerScore(ss.Score, ss.UserID, ss.HID, ss.ScoreID);
          });
-          //NewScoreFor: userid, score, HID, YID, GID
+         //NewScoreFor: userid, score, HID, YID, GID
+         
          $.each(scores, function (i, result) {
              $.each(users, function (i, item) {
    
                  var savedScore = getSavedScore(result.HoleID, item.UserID);
               
                  if (savedScore > 0) {
-                     saveScoresToLocalS("H_" + result.HoleID + "_" + item.UserID, result.HoleNum, result.HolePin, result.HoleLD, GroupSize, savedScore, item.UserID)
+                     saveScoresToLocalS("H_" + result.HoleID + "_" + item.UserID, result.HoleNum, result.HolePin, result.HoleLD, GroupSize, savedScore, item.UserID, result.Par)
                     } else {
-                    
+                     saveScoresToLocal("H_" + result.HoleID + "_" + item.UserID, result.HoleNum, result.HolePin, result.HoleLD, GroupSize, item.UserID, result.Par)
                  }
              });
+             model.HDwritten = true;
+             localStorage.setItem(index, JSON.stringify(model));
          });
 
          //add scores to savedScores
@@ -159,34 +347,45 @@
             HoleData = model.HoleData;
         }
         var scores = eval('(' + HoleData + ')');
+        
         var htmlList_top = "<ul data-role=\"listview\" data-inset=\"true\" data-theme=\"c\" data-dividertheme=\"b\" data-count-theme=\"b\">";
         var htmlList_item = "";
         var comptxt = "";
         var servertxt = "";
         var holeComp = 0;
         $.each(scores, function (i, result) {
-        
+            //alert(result.HoleID);
             if (compChk(result.HoleID) == true) {
                 comptxt = "<span class=\"ui-li-count\">Completed</span>";
             } else {
                 comptxt = "";
             }
-            if (serverChk(result.HoleID) == true) {
-                servertxt = "saved to server";
+
+            if (comptxt.length > 0) {
+
+                if (serverChk(result.HoleID) == true) {
+                    htmlList_item = htmlList_item + "<li data-theme=\"b\" onClick=\"gotoLocalCard(" + result.HoleID + "," + result.HoleNum + ")\"><a href=\"#\">" + result.HoleNum + "</a>" + comptxt + "</li>";
+                } else {
+                    htmlList_item = htmlList_item + "<li data-theme=\"e\" onClick=\"gotoLocalCard(" + result.HoleID + "," + result.HoleNum + ")\"><a href=\"#\">" + result.HoleNum + "</a>" + comptxt + "</li>";
+                }
+
             } else {
-                servertxt = "saved locally";
+             
+                htmlList_item = htmlList_item + "<li data-theme=\"c\" onClick=\"gotoLocalCard(" + result.HoleID + "," + result.HoleNum + ")\"><a href=\"#\">" + result.HoleNum + "</a></li>";
+
             }
             //alert(servertxt);
-            if (result.HolePin != 0) {
-                htmlList_item = htmlList_item + "<li data-theme=\"c\"><a href=\"/Home/LocalHoleCard?Hole=\">" + result.HoleNum + " (nearest the pin)</a>" + comptxt + "</li>";
-            } else {
-                htmlList_item = htmlList_item + "<li data-theme=\"c\" onClick=\"gotoLocalCard(" + result.HoleID + "," + result.HoleNum + ")\"><a href=\"#\">" + result.HoleNum + "</a>" + comptxt + "</li>";
-            }
+
 
             //htmlList_item = htmlList_item + "<li data-theme=\"e\"><a href=\"#\">" + result.HoleNum + "</a>" + comptxt + "</li>";
         });
-       //alert(htmlList_item);
-        $('#HoleList').html(htmlList_top + htmlList_item + "</ul>").trigger('create');
+        // alert(htmlList_item + " ... " + htmlList_top);
+        //htmlList_top + htmlList_item +
+        $('#HoleList').html(htmlList_top + htmlList_item + "</ul>").trigger("create"); ;
+        //(htmlList_top + htmlList_item + "</ul>").appendTo('#HoleList');
+        //data.appendTo( "#recentReportsText" ).trigger( "create" );
+        //.trigger('create');
+        // "<li data-theme=\"c\" onClick=\"gotoLocalCard()\"><a href=\"#\">55</a></li></ul>").trigger('create');
     }
 
     function getGroupSize(HID) {
@@ -197,12 +396,22 @@
             GroupSize = null;
         }
         else {
-
             GroupSize = model.GroupSize;
-
         }
-
         return GroupSize;
+    }
+
+    function getScoreData() {
+        var index = "96";
+        var model = getHoleModel(index);
+        var ScoreData = "";
+        if (model == null) {
+            ScoreData = null;
+        }
+        else {
+            ScoreData = model.HoleData;
+        }
+        return ScoreData;
     }
 
     function getGroupdata() {
@@ -314,6 +523,56 @@
 
     }
 
+    function getLocalScore(HID, UserID) {
+        var index = "H_" + HID + "_" + UserID;
+        var model = getScoreModel(index);
+        var Score = 0;
+        //alert("H_" + HID + "_" + UserID);
+        if (model == null) {
+            //return "0";
+        }
+        else {
+            Score = model.Score;
+        }
+
+        return Score;
+
+    }
+
+    function getCID() {
+        var model = getHoleModel("96");
+        var CID = "";
+        if (model == null) {
+        }
+        else {
+            CID = model.CID;
+        }
+        return CID;
+    }
+
+    function getGID() {
+        var model = getHoleModel("96");
+        var GID = "";
+        if (model == null) {
+        }
+        else {
+            GID = model.GID;
+        }
+        return GID;
+    }
+
+    function getYID() {
+        var model = getHoleModel("96");
+        var YID = "";
+        if (model == null) {
+        }
+        else {
+            YID = model.YID;
+           
+        }
+        return YID;
+    }
+
 
     function saveServerScore(Score, UserID, HID, ScoreID) {
         var index = "S_" + HID + "_" + UserID;
@@ -335,7 +594,7 @@
         
     }
 
-    function saveScoresToLocalS(HID, HoleNum, HolePin, HoleLD, GroupSize, Score, UserID) {
+    function saveScoresToLocalS(HID, HoleNum, HolePin, HoleLD, GroupSize, Score, UserID, Par) {
 
         var model = getScoreModel(HID);
 
@@ -350,13 +609,14 @@
             model.HoleLD = HoleLD;
             model.HID = HID;
             model.GroupSize = GroupSize;
+            model.Par = Par;
             localStorage.setItem(HID,
                     JSON.stringify(model));
         }   
        
     }
 
-    function saveScoresToLocal(HID, HoleNum, HolePin, HoleLD, GroupSize, UserID) {
+    function saveScoresToLocal(HID, HoleNum, HolePin, HoleLD, GroupSize, UserID, Par) {
 
         var model = getScoreModel(HID);
         if (model != null) {
@@ -368,6 +628,7 @@
             model.UserID = UserID;
             model.HID = HID;
             model.GroupSize = GroupSize;
+            model.Par = Par;
             localStorage.setItem(HID,
                     JSON.stringify(model));
         }
@@ -380,6 +641,7 @@
             HoleData: "",
             ScoreData: "",
             HoleCount: "",
+            CourseName: "",
             YID: "",
             HID: "",
             GID: "",
@@ -387,6 +649,7 @@
             NextHole: "",
             PrevHole: "",
             IsDirty: false,
+            HDwritten: false,
             Key: "",
             ID: ""
         };
@@ -403,6 +666,7 @@
             HolePin: "",
             HoleLD: "",
             HoleNum: "",
+            Par: "",
             Score: "",
             UserID: "",
             IsSaved: false,
@@ -438,47 +702,14 @@
 
 
 </script>
-
-  <h4>Select hole for <%=ViewData["course"] %>,  <%=ViewData["Year"] %> </h4>
-  <h5>Group Name: <div id="GPName"><%=ViewData["Group"] %></div>: <div id="GroupMembers">(<%=ViewData["names"] %>)</div><div><%=ViewData["JSONnames"] %></div> </h5>
-  <div id="HoleList">list here</div>
-  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
- <% foreach (var item in Model)
-    {
-        var comptxt = "";
-        if (item.Scores.Count() == Convert.ToInt32(ViewData["GroupCount"]))
-        {
-            comptxt = "<span class=\"ui-li-count\">Completed</span>";
-        }
-      %>
-      <% if (item.N_pin == 1)
-         {%>
-   <li data-theme="e"><%= Html.ActionLink(Convert.ToString(item.HoleNum) + " (Nearest the Pin)", "HoleCard", "Home", new { YID = ViewData["YearID"], course = ViewData["Course"], GID = ViewData["GID"], HoleID = item.HoleID, CID = ViewData["CID"] }, null)%>
-<%=comptxt %></li> 
-<% }
-         else if (item.L_drive == 1)
-         { %>
-   <li data-theme="e"><%= Html.ActionLink(Convert.ToString(item.HoleNum) + " (Longest Drive)", "HoleCard", "Home", new { YID = ViewData["YearID"], course = ViewData["Course"], GID = ViewData["GID"], HoleID = item.HoleID, CID = ViewData["CID"] }, null)%>
-<%=comptxt %></li> 
-   <% }
-         else
-         { %>
-<li data-theme="c"><%= Html.ActionLink(Convert.ToString(item.HoleNum), "HoleCard", "Home", new { YID = ViewData["YearID"], course = ViewData["Course"], GID = ViewData["GID"], HoleID = item.HoleID, CID = ViewData["CID"] }, null)%>
-<%=comptxt %></li>  
-
-       <%  }%>
- <% } %>
-    </ul>
-<ul>
-
-</ul>    
+ <div id="HoleList">list here</div>
+ <div id="syncBtn">list here</div>
 
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
 <div data-role="footer" style="overflow:hidden;">
-<div data-theme="a" id="onlineStatus"></div>
-<div data-role="navbar">
-<ul><li><a href="#">Home</a></li> <li><a onclick="refresh_feed()" href="#">Refresh Events Feed</a></li> <li><a href="#">Check Connection</a></li></ul>
-</div></div>
+<div><ul data-role="listview" data-theme="a"><li><div class="sync" id="syncStatus"></div></li></ul></div>
+<div><ul data-role="listview" data-theme="a"><li><div class="status" id="onlineStatus"></div></li></ul></div>
+</div>
 </asp:Content>
 

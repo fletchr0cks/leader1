@@ -46,6 +46,7 @@
             NextHole: "",
             PrevHole: "",
             IsDirty: false,
+            HDwritten: false,
             Key: "",
             ID: ""
         };

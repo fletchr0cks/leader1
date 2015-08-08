@@ -2065,3 +2065,11 @@ span.ui-slider-label-b { z-index: 0; right: 0; text-indent: 1.5em;}
 .thin { margin: 0px; padding: 0px;font-size:14px;color:rgb(0, 110, 255); text-align:right}
 
 td.tdright { text-align: right }
+.spacer { height: 100%; background-color: Blue}
+.sync { font-weight:bold; margin: 0px; padding: 0px; font-size:20px; color:Green}
+.status { font-weight:bold; margin: 0px; padding: 0px; font-size:20px; color:Orange}
+
+.miniLBh { font-weight:bold; margin-right: 10px; padding: 0px; font-size:20px;}
+.miniLBn { margin-right: 10px; padding: 0px; font-size:18px; color:gray}
+
+td.rightAlign {text-align:right;}

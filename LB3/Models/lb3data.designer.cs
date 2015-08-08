@@ -22,7 +22,7 @@ namespace LB3.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="dbb440b8fdfb244822869da06200d343e6")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="lbdb")]
 	public partial class lb3dataDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -63,6 +63,15 @@ namespace LB3.Models
     partial void InsertEvent(Event instance);
     partial void UpdateEvent(Event instance);
     partial void DeleteEvent(Event instance);
+    partial void InsertCourseUA(CourseUA instance);
+    partial void UpdateCourseUA(CourseUA instance);
+    partial void DeleteCourseUA(CourseUA instance);
+    partial void InsertGroupUA(GroupUA instance);
+    partial void UpdateGroupUA(GroupUA instance);
+    partial void DeleteGroupUA(GroupUA instance);
+    partial void InsertHoleUA(HoleUA instance);
+    partial void UpdateHoleUA(HoleUA instance);
+    partial void DeleteHoleUA(HoleUA instance);
     #endregion
 		
 		public lb3dataDataContext() : 
@@ -180,6 +189,30 @@ namespace LB3.Models
 			get
 			{
 				return this.GetTable<Event>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CourseUA> CourseUAs
+		{
+			get
+			{
+				return this.GetTable<CourseUA>();
+			}
+		}
+		
+		public System.Data.Linq.Table<GroupUA> GroupUAs
+		{
+			get
+			{
+				return this.GetTable<GroupUA>();
+			}
+		}
+		
+		public System.Data.Linq.Table<HoleUA> HoleUAs
+		{
+			get
+			{
+				return this.GetTable<HoleUA>();
 			}
 		}
 	}
@@ -3073,6 +3106,360 @@ namespace LB3.Models
 						this._UserID = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CourseUA")]
+	public partial class CourseUA : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _CourseName;
+		
+		private System.Nullable<int> _Stableford_Total;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnCourseNameChanging(string value);
+    partial void OnCourseNameChanged();
+    partial void OnStableford_TotalChanging(System.Nullable<int> value);
+    partial void OnStableford_TotalChanged();
+    #endregion
+		
+		public CourseUA()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseName", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string CourseName
+		{
+			get
+			{
+				return this._CourseName;
+			}
+			set
+			{
+				if ((this._CourseName != value))
+				{
+					this.OnCourseNameChanging(value);
+					this.SendPropertyChanging();
+					this._CourseName = value;
+					this.SendPropertyChanged("CourseName");
+					this.OnCourseNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stableford_Total", DbType="Int")]
+		public System.Nullable<int> Stableford_Total
+		{
+			get
+			{
+				return this._Stableford_Total;
+			}
+			set
+			{
+				if ((this._Stableford_Total != value))
+				{
+					this.OnStableford_TotalChanging(value);
+					this.SendPropertyChanging();
+					this._Stableford_Total = value;
+					this.SendPropertyChanged("Stableford_Total");
+					this.OnStableford_TotalChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GroupUA")]
+	public partial class GroupUA : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _GroupName;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnGroupNameChanging(string value);
+    partial void OnGroupNameChanged();
+    #endregion
+		
+		public GroupUA()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GroupName", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string GroupName
+		{
+			get
+			{
+				return this._GroupName;
+			}
+			set
+			{
+				if ((this._GroupName != value))
+				{
+					this.OnGroupNameChanging(value);
+					this.SendPropertyChanging();
+					this._GroupName = value;
+					this.SendPropertyChanged("GroupName");
+					this.OnGroupNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.HoleUA")]
+	public partial class HoleUA : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _HoleNum;
+		
+		private int _Par;
+		
+		private int _SI;
+		
+		private int _CourseUAID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnHoleNumChanging(int value);
+    partial void OnHoleNumChanged();
+    partial void OnParChanging(int value);
+    partial void OnParChanged();
+    partial void OnSIChanging(int value);
+    partial void OnSIChanged();
+    partial void OnCourseUAIDChanging(int value);
+    partial void OnCourseUAIDChanged();
+    #endregion
+		
+		public HoleUA()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HoleNum", DbType="Int NOT NULL")]
+		public int HoleNum
+		{
+			get
+			{
+				return this._HoleNum;
+			}
+			set
+			{
+				if ((this._HoleNum != value))
+				{
+					this.OnHoleNumChanging(value);
+					this.SendPropertyChanging();
+					this._HoleNum = value;
+					this.SendPropertyChanged("HoleNum");
+					this.OnHoleNumChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Par", DbType="Int NOT NULL")]
+		public int Par
+		{
+			get
+			{
+				return this._Par;
+			}
+			set
+			{
+				if ((this._Par != value))
+				{
+					this.OnParChanging(value);
+					this.SendPropertyChanging();
+					this._Par = value;
+					this.SendPropertyChanged("Par");
+					this.OnParChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SI", DbType="Int NOT NULL")]
+		public int SI
+		{
+			get
+			{
+				return this._SI;
+			}
+			set
+			{
+				if ((this._SI != value))
+				{
+					this.OnSIChanging(value);
+					this.SendPropertyChanging();
+					this._SI = value;
+					this.SendPropertyChanged("SI");
+					this.OnSIChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseUAID", DbType="Int NOT NULL")]
+		public int CourseUAID
+		{
+			get
+			{
+				return this._CourseUAID;
+			}
+			set
+			{
+				if ((this._CourseUAID != value))
+				{
+					this.OnCourseUAIDChanging(value);
+					this.SendPropertyChanging();
+					this._CourseUAID = value;
+					this.SendPropertyChanged("CourseUAID");
+					this.OnCourseUAIDChanged();
 				}
 			}
 		}

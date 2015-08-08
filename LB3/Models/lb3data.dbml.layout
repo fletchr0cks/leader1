@@ -56,7 +56,7 @@
         <elementListCompartment Id="33e706c8-69b3-4779-a7ff-4d5a7533d24e" absoluteBounds="6.2650000000000006, 4.3350000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.5312505 : 9.75); (1.5312505 : 8.44399251302083); (2.47916666666667 : 8.44399251302083 : JumpStart); (2.64583333333333 : 8.44399251302083 : JumpEnd); (3 : 8.44399251302083); (3 : 7.66429768880208); (3.5 : 7.66429768880208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(1.5312505 : 9.75); (1.5312505 : 8.44399251302083); (3 : 8.44399251302083); (3 : 7.66429768880208); (3.16666666666667 : 7.66429768880208 : JumpStart); (3.33333333333333 : 7.66429768880208 : JumpEnd); (3.5 : 7.66429768880208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/lb3dataDataContext/Course/Course_Group" />
       <nodes>
         <classShapeMoniker Id="285c316a-4600-4249-9fa4-1d79bc52df41" />
@@ -105,14 +105,14 @@
         <classShapeMoniker Id="dae13991-6d0f-4694-876c-301022ec962f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 7.92914460091146); (2.91666666666667 : 7.92914460091146 : JumpStart); (3.08333333333333 : 7.92914460091146 : JumpEnd); (3.25 : 7.92914460091146); (3.25 : 8.57859537760417); (7.25 : 8.57859537760417); (7.25 : 9.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 7.92914460091146); (3.25 : 7.92914460091146); (3.25 : 8.57859537760417); (7.25 : 8.57859537760417); (7.25 : 9.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/lb3dataDataContext/Year/Year_SI" />
       <nodes>
         <classShapeMoniker Id="b4dd4cc9-2f3a-4419-9254-2a43ab03df05" />
         <classShapeMoniker Id="dae13991-6d0f-4694-876c-301022ec962f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.72698322753906 : 5.29984781901042); (3.10198322753906 : 5.67484781901042); (3.16666666666667 : 5.67484781901042 : JumpStart); (3.33333333333333 : 5.67484781901042 : JumpEnd); (7.16666666666667 : 5.67484781901042 : JumpStart); (7.33333333333333 : 5.67484781901042 : JumpEnd); (7.5 : 5.67484781901042); (7.5 : 6.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.72698322753906 : 5.29984781901042); (3.10198322753906 : 5.67484781901042); (3.16666666666667 : 5.67484781901042 : JumpStart); (3.33333333333333 : 5.67484781901042 : JumpEnd); (5.79166666666667 : 5.67484781901042 : JumpStart); (5.95833333333333 : 5.67484781901042 : JumpEnd); (7.16666666666667 : 5.67484781901042 : JumpStart); (7.33333333333333 : 5.67484781901042 : JumpEnd); (7.5 : 5.67484781901042); (7.5 : 6.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/lb3dataDataContext/User/User_Handicap" />
       <nodes>
         <classShapeMoniker Id="3a9376e6-8f9b-4133-b802-0fd0b7c8db7f" />
@@ -133,7 +133,7 @@
         <classShapeMoniker Id="21e20c66-9082-4dcb-a819-24f841de6cc4" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 4.88690748486328); (3.25 : 4.88690748486328); (3.25 : 5.79984781901042); (7.25 : 5.79984781901042); (7.25 : 5.13550048828125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 4.88690748486328); (3.25 : 4.88690748486328); (3.25 : 5.79984781901042); (5.79166666666667 : 5.79984781901042 : JumpStart); (5.95833333333333 : 5.79984781901042 : JumpEnd); (7.25 : 5.79984781901042); (7.25 : 5.13550048828125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/lb3dataDataContext/User/User_UserGroup" />
       <nodes>
         <classShapeMoniker Id="3a9376e6-8f9b-4133-b802-0fd0b7c8db7f" />
@@ -173,12 +173,30 @@
         <elementListCompartment Id="277e6a91-5384-401a-b636-7933779472db" absoluteBounds="3.515, 1.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.75 : 3.875); (1.75 : 2.45274983723958); (3.5 : 2.45274983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(1.75 : 3.875); (1.75 : 2.45274983723958); (3.5 : 2.45274983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/lb3dataDataContext/User/User_Event" />
       <nodes>
         <classShapeMoniker Id="3a9376e6-8f9b-4133-b802-0fd0b7c8db7f" />
         <classShapeMoniker Id="75877ebf-f49d-43d4-a988-2a13b670532c" />
       </nodes>
     </associationConnector>
+    <classShape Id="d1a1387b-3da8-4ac5-9e89-57bbaea0c7b1" absoluteBounds="8.375, 0.75, 2, 1.3862939453125">
+      <DataClassMoniker Name="/lb3dataDataContext/CourseUA" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fc083306-98fc-499c-93f6-5db28f445fb6" absoluteBounds="8.39, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1f528902-a578-4781-a0d5-09ced5c2a0a3" absoluteBounds="7.375, 0.875, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/lb3dataDataContext/GroupUA" />
+      <nestedChildShapes>
+        <elementListCompartment Id="439ee2f3-cc0a-47c8-833b-5d81ce97a3ce" absoluteBounds="7.39, 1.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="cbbf8178-b52b-43be-abc4-f1865475a0e1" absoluteBounds="6, 0.5, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/lb3dataDataContext/HoleUA" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b7a2a37d-3919-4bf4-9a6b-3fd4d6375db3" absoluteBounds="6.015, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

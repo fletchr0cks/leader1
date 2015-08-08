@@ -116,7 +116,14 @@
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\modernizr-dev.js" />
+    <Content Include="Views\Home\AddCourseUA2.aspx" />
     <Content Include="Views\Home\CacheTest.aspx" />
+    <Content Include="Views\Home\AddCourseUAholes.aspx" />
+    <Content Include="Views\Home\AddCourseUA.aspx" />
+    <Content Include="Views\Home\HoleUAPartialNew.ascx" />
+    <Content Include="Views\Home\HoleUAPartial.ascx" />
+    <Content Include="Views\Home\CourseUA.aspx" />
+    <Content Include="Views\Home\HoleLocal.aspx" />
     <Content Include="Views\Home\LocalHoleCard.aspx" />
     <Content Include="Views\Home\MiniLBPartial.ascx" />
     <Content Include="Views\Home\EventsPartial2.ascx" />
@@ -148,6 +155,7 @@
     <Content Include="Views\Home\ScorePartial.ascx" />
     <Content Include="Views\Home\Ptest.ascx" />
     <Content Include="Views\Home\SaveHole.aspx" />
+    <Content Include="Views\Home\Users.aspx" />
     <Content Include="Views\Home\Weather.aspx" />
     <Content Include="Views\Home\Years.aspx" />
     <Content Include="Web.config" />

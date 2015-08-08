@@ -161,14 +161,14 @@ namespace LB3.Models
                             {
                                 //birdie
                                 sctype = "<strong>Birdie</strong>";
-                                speech = sc.name.First() + "scored a birdie on hole" + hole.First().HoleNum;
+                                speech = sc.name.First() + " scored a birdie on hole " + hole.First().HoleNum;
                             }
 
                             else if (sc.score == (par - 2))
                             {
                                 //eagle
                                 sctype = "<strong>eagle</strong>";
-                                speech = sc.name.First() + "scored an eagle on hole" + hole.First().HoleNum;
+                                speech = sc.name.First() + " scored an eagle on hole " + hole.First().HoleNum;
                             }
                         }
 
@@ -179,15 +179,15 @@ namespace LB3.Models
 
                         if (scint == 0)
                         {
-                            comts = sc.name + ": " + sc.score;// + "(" + sctype + ")<br />";
+                            comts = sc.name + ": " + sc.score + " (" + sctype + ")<br />";
                         }
                         else if (scint == (grouplist.Count() - 1))
                         {
-                            comts = comts + sc.name + ": " + sc.score;// +"(" + sctype + ")";
+                            comts = comts + sc.name + " : " + sc.score + " (" + sctype + ")";
                         }
                         else
                         {
-                            comts = comts + sc.name + ": " + sc.score;// +"(" + sctype + ")<br />";
+                            comts = comts + sc.name + " : " + sc.score + " (" + sctype + ")<br />";
                         }
                         scint++;
                     }
@@ -361,6 +361,20 @@ namespace LB3.Models
             db.SubmitChanges();
         }
 
+        public int SaveNewCourse(string name)
+        {
+            
+            DataRepository dataRepository = new DataRepository();
+            CourseUA course = new CourseUA();
+            course.CourseName = name;
+
+            int CID = dataRepository.Add(course);
+            //dataRepository.Save();
+
+            return CID;
+            
+        }
+
         public void ResetPin(int YID, int HID)
         {
             try
@@ -436,6 +450,11 @@ namespace LB3.Models
             db.Holes.InsertOnSubmit(hole);
         }
 
+        public void Add(HoleUA hole)
+        {
+            db.HoleUAs.InsertOnSubmit(hole);
+        }
+
         public void Add(LB3.Models.Group group)
         {
             db.Groups.InsertOnSubmit(group);
@@ -450,6 +469,15 @@ namespace LB3.Models
         {
             db.Scores.InsertOnSubmit(sc);
         }
+
+        public int Add(CourseUA c)
+        {
+            db.CourseUAs.InsertOnSubmit(c);
+            db.SubmitChanges();
+            return c.ID;
+        }
+
+        
 
         public void Add(Event e)
         {

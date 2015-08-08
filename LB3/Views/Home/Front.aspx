@@ -15,6 +15,11 @@
 <div>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li><%=Html.ActionLink("Profiles", "Users", "Home") %></li>
+    <li><%=Html.ActionLink("Groups", "Groups", "Home")%></li>
+</ul>
+
+ <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+	<li><%=Html.ActionLink("Courses", "CourseUA", "Home") %></li>
 </ul>
 
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
