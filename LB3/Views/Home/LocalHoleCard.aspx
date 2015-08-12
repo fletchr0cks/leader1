@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
 <%= Html.ActionLink("Back", "Hole", "Home", new { onclick = "goBack();"}) %>
- <h1>Enter Scores</h1>
+ <h1 id="topHeader">Enter Scores</h1>
    
 </asp:Content>
 
@@ -22,23 +22,24 @@
         //$(document).ready(function () {
         //alert(groupName);
         $.mobile.loadPage('#page-id');
-        var holecount = getHolecount(); ;
+        var holecount = getHolecount();
         var nextHole = getNexthole();
+        document.getElementById('topHeader').innerHTML = "Beaconsfield";
         //if refresh calc nextHole - 1
         nextHole = parseInt(nextHole);
         var nextHoleID = getNextholeID(nextHole, holecount);
-
+        var status = document.getElementById('onlineStatus').innerHTML;
         drawRadios(nextHoleID, nextHole);
 
-        $('#syncStatus').html("&nbsp;").trigger('create');
+        //$('#syncStatus').html("&nbsp;").trigger('create');
         //draw hole list button
         //draw next/prev buttons
 
         if (status == "Online") {
-            $('#eventsfeed').html("Loading Events Feed").trigger('create');
+            $('#evticker').html("Loading Events Feed").trigger('create');
             getEventsPopup();
         } else {
-            $('#eventsfeed').html("Loading Events Feed").trigger('create');
+            $('#evticker').html("Loading Events Feed").trigger('create');
             getEventsPopup();
         }
 
@@ -150,6 +151,7 @@
          //NewScoreFor: userid, score, HID, YID, GID
             var html = "";
             var html_score = "";
+            var spacer = "";
             var score = 1;
             var Par = "";
             $.each(users, function (i, result) {
@@ -163,7 +165,7 @@
                     score = checkScore1;
                     //alert("H_" + HID + "_" + result.UserID + " " + checkScore1);
                     if (checkScore1 == i) {
-                        html_score = html_score + "<input type=\"radio\"  onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + GID + "," + YID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" checked=\"checked\" />" +
+                        html_score = html_score + "<input type=\"radio\" onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + GID + "," + YID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" checked=\"checked\" />" +
                           "<label for=\"radio" + i + "\">" + i + "</label>";
                     } else {
                         html_score = html_score + "<input type=\"radio\"  onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + GID + "," + YID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" />" +
@@ -185,7 +187,7 @@
                     score_info = "Select Score";
                 }
                 html = html + "<tr><td><div class=\"H1thin\">" + result.Nickname + "</div></td><td><div class=\"thin\" id=\"scoretxt_" + result.UserID + "_" + HID + "\">" + score_info + "</div></td></tr>" +
-                            "<tr><td colspan=\"2\"><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">";
+                            "<tr><td colspan=\"2\"><fieldset data-role=\"controlgroup\" data-theme=\"c\" data-type=\"horizontal\" data-mini=\"true\">";
 
                 html = html + html_score + "</fieldset></td></tr>";
 
@@ -202,6 +204,7 @@
                         html = html + PinHtml;
                     }
                     //$('#extrainput').html(PinHtml).trigger('create');
+              
                 }
 
                 if (HoleLD > 0) {
@@ -216,11 +219,20 @@
                                 "<option value=\"yes\" >Yes</option></select></div></td></tr>";
                         html = html + PinHtml;
                     }
-                    //$('#extrainput').html(PinHtml).trigger('create');
+               
+                }
+
+                if (HoleLD == 0 && HolePin == 0) {
+                    spacer = "<tr><td><div style=\"height:40px\"></div></td></tr>";
+                    html = html + spacer;
                 }
 
             });
-            var html_top = "<h2>" + CourseName + ", hole No. " + thisHole + ", par " + Par + "</h2><table>";
+
+            var partd = Par;
+            var html_top = "<table>";
+            $('#holeNumval').html(thisHole).trigger('create');
+            $('#parVal').html(partd);
             $('#scoreinput').html(html_top + html + "</table>").trigger('create');
             //$('#CourseName').html(CourseName).trigger('create');
             drawButtons(thisHole, HoleCount);
@@ -350,14 +362,25 @@
         var prevHoleID = getNextholeID(prevHole, HoleCount);
         var htmlnextBtn = "<form><input type=\"button\" data-theme=\"b\" data-inline=\"true\" value=\"Next Hole\" onclick=\"drawRadios(" + nextHoleID + "," + nextHole + ")\"></form>";
         var htmlprevBtn = "<form><input type=\"button\" data-theme=\"b\" data-inline=\"true\" value=\"Previous Hole\" onclick=\"drawRadios(" + prevHoleID + "," + prevHole + ")\"></form>";      
-        if (prevHole == 0) {
-            htmlprevBtn = " ";
-        }
-        if (nextHole > holecount) {
-            htmlnextBtn = " ";
-        } 
-        $('#nextBtn').html(htmlnextBtn).trigger('create');
         $('#prevBtn').html(htmlprevBtn).trigger('create');
+        $('#nextBtn').html(htmlnextBtn).trigger('create');
+        if (prevHole == 0) {        
+            $("#prevBtn").removeClass("ui-enabled");
+            $("#prevBtn").addClass("ui-disabled");            
+        } else if (prevHole > 0) {
+            $("#prevBtn").removeClass("ui-disabled");
+            $("#prevBtn").addClass("ui-enabled");            
+        }
+
+        if (nextHole > holecount) {           
+            $("#nextBtn").removeClass("ui-enabled");
+            $("#nextBtn").addClass("ui-disabled");         
+        } else if (nextHole <= holecount) {
+            $("#nextBtn").removeClass("ui-disabled");
+            $("#nextBtn").addClass("ui-enabled");     
+        }
+        
+        //$('#prevBtn').html(htmlprevBtn).trigger('create');
         updateHoleModel(nextHole,HoleCount);
     }
 
@@ -550,7 +573,7 @@
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
                    $('#scoretxt_' + userid + '_' + HID).html("Saved locally").trigger("create");
-                   $('#syncStatus').html("Click Back to Sync scores when next online").trigger('create');
+                   $('#evticker').html("Click Back to Sync scores when next online").trigger('create');
                }
            });
            return false;
@@ -578,14 +601,25 @@
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
                    $('#scoretxt_' + userid + '_' + HID).html("Saved locally").trigger("create");
-                   $('#syncStatus').html("Click Back to Sync scores when next online").trigger('create');
+                   $('#evticker').html("Click Back to Sync scores when next online").trigger('create');
                }
            });
            return false;
        }
 
 </script>
-
+<div style="text-align: center">
+<table>
+<tr><td><div class="Header2">Hole</div></td>
+<td><div class="tdspace">&nbsp;</div></td>
+<td><div class="Header2">Par</div></td>
+</tr>
+<tr><td class="tdcentre"><div class="Header1" id="holeNumval"></div></td>
+<td><div class="tdspace">&nbsp;</div></td>
+<td class="tdcentre"><div class="Header1" id="parVal"></div></td>
+</tr>
+</table>
+</div>
   <div id="scoreinput"></div>
   <div id="extrainput"></div>
   <table><tr><td>
@@ -596,9 +630,8 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
 <div data-role="footer" style="overflow:hidden;">
-<table><tr><td><div id="miniLB"></div></td><td class="rightAlign"><div id="evticker"></div></td></tr></table>
-
-<div><ul data-role="listview" data-theme="a"><li><div class="sync" id="syncStatus"></div></li></ul></div>
+<table><tr><td><div id="miniLB"></div></td></tr>
+<tr><td class="leftAlign"><div id="evticker"></div></td></tr></table>
 <div><ul data-role="listview" data-theme="a"><li><div class="status" id="onlineStatus"></div></li></ul></div>
 </div>
 </asp:Content>

@@ -179,7 +179,7 @@ namespace LB3.Models
 
                         if (scint == 0)
                         {
-                            comts = sc.name + ": " + sc.score + " (" + sctype + ")<br />";
+                            comts = sc.name + ": " + sc.score + " (" + sctype + ")";
                         }
                         else if (scint == (grouplist.Count() - 1))
                         {
@@ -187,7 +187,7 @@ namespace LB3.Models
                         }
                         else
                         {
-                            comts = comts + sc.name + " : " + sc.score + " (" + sctype + ")<br />";
+                            comts = comts + sc.name + " : " + sc.score;
                         }
                         scint++;
                     }
@@ -214,7 +214,7 @@ namespace LB3.Models
 
                     Event e = new Event();
                     e.Timestamp = DateTime.Now;
-                    e.Name = course.First().CourseName + ", Hole: " + holeNum + ", Par: " + par;
+                    e.Name = "Hole: " + holeNum + ", Par: " + par;
                     e.Comment = comts;                 
                     Add(e);
                     Save();
@@ -361,18 +361,24 @@ namespace LB3.Models
             db.SubmitChanges();
         }
 
-        public int SaveNewCourse(string name)
-        {
-            
+        public int SaveNewCourse(string name, int stable)
+        {         
             DataRepository dataRepository = new DataRepository();
             CourseUA course = new CourseUA();
             course.CourseName = name;
-
+            course.Stableford_Total = stable;
             int CID = dataRepository.Add(course);
-            //dataRepository.Save();
+            return CID;            
+        }
 
+        public int SaveNewTourn(string name, DateTime date, int yr)
+        {
+            DataRepository dataRepository = new DataRepository();
+            CourseUA course = new CourseUA();
+            course.CourseName = name;
+            course.Stableford_Total = stable;
+            int CID = dataRepository.Add(course);
             return CID;
-            
         }
 
         public void ResetPin(int YID, int HID)
@@ -477,7 +483,12 @@ namespace LB3.Models
             return c.ID;
         }
 
-        
+        public int Add(Year y)
+        {
+            db.Years.InsertOnSubmit(y);
+            db.SubmitChanges();
+            return y.YID;
+        }
 
         public void Add(Event e)
         {

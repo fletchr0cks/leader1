@@ -12,7 +12,7 @@
 -----------------------------------------------------------------------------------------------------------*/
 .ui-bar-a {
 	border: 1px solid 		#333 /*{a-bar-border}*/;
-	background: 			#111111 /*{a-bar-background-color}*/;
+	background: 			black /*{a-bar-background-color}*/;
 	color: 					#ffffff /*{a-bar-color}*/;
 	font-weight: bold;
 	text-shadow: 0 /*{a-bar-shadow-x}*/ -1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #000000 /*{a-bar-shadow-color}*/;
@@ -49,7 +49,7 @@
 .ui-body-a,
 .ui-overlay-a {
 	border: 1px solid 		#444 /*{a-body-border}*/;
-	background: 			#222 /*{a-body-background-color}*/;
+	background: 			#000000 /*{a-body-background-color}*/;
 	color: 					#fff /*{a-body-color}*/;
 	text-shadow: 0 /*{a-body-shadow-x}*/ 1px /*{a-body-shadow-y}*/ 1px /*{a-body-shadow-radius}*/ #111 /*{a-body-shadow-color}*/;
 	font-weight: normal;
@@ -317,7 +317,7 @@
 	border: 1px solid 		#aaa /*{c-body-border}*/;
 	color: 					#333333 /*{c-body-color}*/;
 	text-shadow: 0 /*{c-body-shadow-x}*/ 1px /*{c-body-shadow-y}*/ 0 /*{c-body-shadow-radius}*/ #fff /*{c-body-shadow-color}*/;
-	background: 			#f9f9f9 /*{c-body-background-color}*/;
+	background: 			#000000 /*{c-body-background-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #f9f9f9 /*{c-body-background-start}*/), to( #eeeeee /*{c-body-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #f9f9f9 /*{c-body-background-start}*/, #eeeeee /*{c-body-background-end}*/); /* Chrome 10+, Saf5.1+ */
 	background-image:    -moz-linear-gradient( #f9f9f9 /*{c-body-background-start}*/, #eeeeee /*{c-body-background-end}*/); /* FF3.6 */
@@ -1829,7 +1829,7 @@ div.ui-mobile-viewport { overflow-x: hidden; }
 .ui-collapsible-content-collapsed { display: none; }
 .ui-collapsible-set { margin: .5em 0; }
 .ui-collapsible-set .ui-collapsible { margin: -1px 0 0; }
-.ui-controlgroup, fieldset.ui-controlgroup { padding: 0; margin: 0em 0 .5em; zoom: 1; }
+.ui-controlgroup, fieldset.ui-controlgroup { padding: 0; margin: 0em; zoom: 1; }
 .ui-bar .ui-controlgroup { margin: 0 .3em; }
 .ui-controlgroup-label { font-size: 16px; line-height: 1.4; font-weight: normal; margin: 0 0 .4em; }
 .ui-controlgroup-controls { display: block; width: 100%;}
@@ -2061,9 +2061,12 @@ span.ui-slider-label-b { z-index: 0; right: 0; text-indent: 1.5em;}
 .sliderforpin .ui-slider-switch.ui-slider-mini { width: 10em; margin-bottom:5px }
 .sliderforLD .ui-slider-switch.ui-slider-mini { width: 9em; margin-bottom:5px }
 
-.H1thin { font-weight:bold; margin: 0px; padding: 0px; font-size:20px }
+.H1thin { margin: 0px; padding-top: 10px; font-size:18px }
+.Header1 { margin: 0px; padding: 0px; font-size:20px }
+.Header2 { margin: 0px; padding: 0px; font-size:14px }
+.tdspace { margin: 0px; width: 100px; font-size:14px }
 .thin { margin: 0px; padding: 0px;font-size:14px;color:rgb(0, 110, 255); text-align:right}
-
+td.tdcentre { text-align: center }
 td.tdright { text-align: right }
 .spacer { height: 100%; background-color: Blue}
 .sync { font-weight:bold; margin: 0px; padding: 0px; font-size:20px; color:Green}
@@ -2072,4 +2075,4 @@ td.tdright { text-align: right }
 .miniLBh { font-weight:bold; margin-right: 10px; padding: 0px; font-size:20px;}
 .miniLBn { margin-right: 10px; padding: 0px; font-size:18px; color:gray}
 
-td.rightAlign {text-align:right;}
+td.leftAlign {text-align:left; padding-left: 5px}

@@ -409,7 +409,7 @@ namespace LB3.Controllers
               //  if (allevents.Count() > 0)
               //  {
 
-                    return Json(new { events = allevents.Take(2), speech = speech_item.Take(2) }, JsonRequestBehavior.AllowGet);
+                return Json(new { events = allevents.Take(2), speech = speech_item.Take(2) }, JsonRequestBehavior.AllowGet);
 
              //   }
              //   else
@@ -466,30 +466,43 @@ namespace LB3.Controllers
         }
 
        
-        public ActionResult AddCourseUA2(FormCollection form)
+        public ActionResult AddCourseUA()
         {
-            var name = form["CourseName"];
-
-           return RedirectToAction("AddCourseUAHoles", new { id = 15 });
+            
+           return View();
 
         }
 
-
-        [AcceptVerbs("post")]
-        public ActionResult AddCourseUAForm(FormCollection form)
+        public ActionResult AddTourn()
         {
+
             return View();
-        }
-        
 
-        public ActionResult AddCourseUAForm(string name)
+        }
+
+        [HttpPost]
+        public ActionResult AddTourn(FormCollection formCollection)
         {
-            int UACID = dataRepository.SaveNewCourse(name);
-            return RedirectToAction("AddCourseUAHoles", new { id = UACID });
-             
+            var TournName = formCollection["Name"];
+            DateTime Date = Convert.ToDateTime(formCollection["Date"]);
+            int Yr = Date.Year;
+            int newYID = dataRepository.SaveNewTourn(TournName, Date, Yr);
+            return RedirectToAction("CourseUA", new { id = newYID }); //courseholes to edit drive and pin
+            // return View();
         }
 
-        public ActionResult AddCourseUAholes(int id)
+        [HttpPost]
+        public ActionResult AddCourseUA(FormCollection formCollection)
+        {
+            var CourseName = formCollection["CourseName"];
+            int Stable = Convert.ToInt32(formCollection["Stableford_Total"]);
+            int newCID = dataRepository.SaveNewCourse(CourseName, Stable);
+            return RedirectToAction("AddCourseUAHoles", new { id = newCID, CourseName = CourseName });
+           // return View();
+        }
+
+       
+        public ActionResult AddCourseUAholes(int id, string CourseName)
         {
             var dataContext = new lb3dataDataContext();
 
@@ -497,7 +510,7 @@ namespace LB3.Controllers
                        where c.CourseUAID == id                     
                        orderby c.HoleNum ascending
                        select c;
-
+            ViewData["CourseName"] = CourseName;
             ViewData["UAHoles"] = data;
 
             ViewData["CUAID"] = id;
@@ -1105,13 +1118,8 @@ namespace LB3.Controllers
                               g.Key.Nickname,
                               TotalScore = g.Sum(x => x.Score1),
                               //CID = g.Key.CourseID,
-                              pars2 = g.Sum(x => x.Hole.Par),
-                              pars = (from p in dataContext.Holes 
-                                      join sc in dataContext.Scores on p.HoleID equals sc.HoleID
-                                      //where p.CourseID == CID && p.HoleNum <= HoleNum 
-                                      //where sc.Score1 > 0
-                                      select p.Par).Sum()
-                         
+                              Pars = g.Sum(x => x.Hole.Par),
+                             
                               //get sum of all completed holes for pars
                              
                         };

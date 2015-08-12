@@ -11,7 +11,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <h4>
-   
+Add holes for <%= ViewData["CourseName"]  %>
 </h4>
 <div id="holelist_<%=ViewData["CUAID"] %>">
 <% Html.RenderPartial("HoleUAPartial", ViewData["UAHoles"] as IEnumerable<LB3.Models.HoleUA>); %>

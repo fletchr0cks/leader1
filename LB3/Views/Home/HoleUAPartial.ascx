@@ -4,7 +4,7 @@
 <h3>Holes</h3>
 <div class="ui-grid-c">
  <div class="ui-block-a">
-  <p><strong>Hole 1</strong></p>
+  <p><strong>Hole</strong></p>
  </div>
  <div class="ui-block-b">
   <p><strong>Par</strong></p>

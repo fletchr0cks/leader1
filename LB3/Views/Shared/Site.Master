@@ -197,14 +197,14 @@
 
        function getEventsPopup() {
            //alert("latest" + $("#EIDx").val());
-           $("#evticker").fadeTo("slow", 0);
+           
 
            var eid = document.getElementById('EIDxy').innerHTML;
           // alert(eid);
            if (eid.length == 0) {
                eid = 0;
            }
-           //var html = "to be replaced";
+           
            //clicksound.pause();
            $.ajax({
                type: "POST",
@@ -214,28 +214,27 @@
                success: function (data) {
                    var json = eval('(' + data + ')');
                    //alert(json.events.length);
+                   var latestID = json.latestID;
                    if (parseInt(json.events.length) > 0) {
+                       var html = "";
+                       $("#evticker").fadeTo("slow", 0);
                        $.each(json.events.reverse(), function (i, result) {
                            if (result.UserID > 0) {
-                               html = "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
-
-                           } else if (result.type == "Pin") {
+                               html = html + "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
+                           } else if (result.type == "Pinxx") {
                                html = "<li class=\"ui-li ui-li-static ui-body-d\"><p class=\"ui-li-aside\"><a href=\"About\" data-rel=\"dialog\" data-transition=\"flip\" data-inline=\"true\" data-theme=\"e\" data-role=\"button\" data-mini=\"true\">Place bets now!</a></p><h3 class=\"ui-li-heading\">" + result.Name + "</h3><p class=\"ui-li-desc\">" + result.Comment + "</p></li>";
-
                            } else {
-                               html = "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
-
+                               html = html + "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
                            }
 
                            $("#EIDxy").html(result.EID).trigger('create');
                            //alert(result.EID);
 
                        });
-
+                   
+                       $('#evticker').html(html).trigger('create');
+                       $("#evticker").fadeTo("slow", 1);
                    }
-
-                   $('#evticker').html(html).trigger('refresh');
-                   $("#evticker").fadeTo("slow", 1);
                    //clicksound.playclip();
                    setTimeout(refresh_card_feed, 10000);
 
@@ -252,6 +251,7 @@
                }
            });
            //refresh_feed();
+           refresh_card_feed();
            //setTimeout(getLatestEventsPopup(EID), 10000);
        }
 
@@ -480,7 +480,7 @@
                success: function (data) {
                    var json = eval('(' + data + ')');
                    $.each(json.miniLBdata, function (i, result) {
-                       var par = parseInt(result.TotalScore - result.pars2);
+                       var par = parseInt(result.TotalScore - result.Pars);
                        htmlLB = htmlLB + "<tr><td><div class=\"miniLBh\">" + result.Nickname + "</div></td><td><div class=\"miniLBn\">" + result.TotalScore + "</div></td><td>" + par + "</td></tr>";
                    });
                    //gotohere add ids to div areas
@@ -561,8 +561,8 @@
         <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
     </div>
     <div data-role="content" data-theme="a">
-         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-    </div>
+        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+           </div>
      <div data-role="footer" data-position="fixed" data-tap-toggle="false">
       <asp:ContentPlaceHolder ID="FooterContent" runat="server" /> 
     </div>

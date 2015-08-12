@@ -70,7 +70,7 @@
         
         var status = document.getElementById('onlineStatus').innerHTML;
 
-        if (status == "Online") {
+        if (status == "Online" || status == "Offline") {
             if (modelChk.length > 0) {
                 saveHoleToLocal(96);
             }

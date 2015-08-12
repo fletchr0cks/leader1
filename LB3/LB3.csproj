@@ -83,10 +83,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>lb3data.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Score.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\golf2.css" />
     <Content Include="Content\images\2.png" />
     <Content Include="Content\images\21.png" />
     <Content Include="Content\images\22.png" />
@@ -98,9 +100,12 @@
     <Content Include="Content\images\icons-36-black.png" />
     <Content Include="Content\images\icons-36-white.png" />
     <Content Include="Content\jquery.mobile-1.1.0.css" />
+    <Content Include="Content\jquery.mobile.icons.min.css" />
+    <Content Include="Content\jquery.mobile.structure-1.4.0.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\app_local.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
@@ -110,6 +115,7 @@
     <Content Include="Scripts\jquery-mobile-1.1.0.js" />
     <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.mobile-1.1.0.min.js" />
+    <Content Include="Scripts\jquery.mobile-1.4.0.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -117,6 +123,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\modernizr-dev.js" />
     <Content Include="Views\Home\AddCourseUA2.aspx" />
+    <Content Include="Views\Home\AddCourseUAst.aspx" />
     <Content Include="Views\Home\CacheTest.aspx" />
     <Content Include="Views\Home\AddCourseUAholes.aspx" />
     <Content Include="Views\Home\AddCourseUA.aspx" />
