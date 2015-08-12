@@ -376,7 +376,7 @@ namespace LB3.Models
             DataRepository dataRepository = new DataRepository();
             CourseUA course = new CourseUA();
             course.CourseName = name;
-            course.Stableford_Total = stable;
+            course.Stableford_Total = 5;
             int CID = dataRepository.Add(course);
             return CID;
         }
