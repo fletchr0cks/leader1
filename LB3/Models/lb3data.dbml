@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="lbdb" Class="lb3dataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=U8001065-TPL-B\SQL50160_2;Initial Catalog=lbdb;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="lbdbConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbb440b8fdfb244822869da06200d343e6" Class="lb3dataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=b440b8fd-fb24-4822-869d-a06200d343e6.sqlserver.sequelizer.com;Initial Catalog=dbb440b8fdfb244822869da06200d343e6;Persist Security Info=True;User ID=vpdgdiikikowcpcz" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="dbb440b8fdfb244822869da06200d343e6ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Course" Member="Courses">
     <Type Name="Course">
       <Column Name="CID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -9,18 +9,6 @@
       <Column Name="YID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Course_Group" Member="Groups" ThisKey="CID" OtherKey="CourseID" Type="Group" />
       <Association Name="Course_Hole" Member="Holes" ThisKey="CID" OtherKey="CourseID" Type="Hole" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Year" Member="Years">
-    <Type Name="Year">
-      <Column Name="YID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Year" Member="Year1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Year_Group" Member="Groups" ThisKey="YID" OtherKey="YearID" Type="Group" />
-      <Association Name="Year_Handicap" Member="Handicaps" ThisKey="YID" OtherKey="YearID" Type="Handicap" />
-      <Association Name="Year_Hole" Member="Holes" ThisKey="YID" OtherKey="YearID" Type="Hole" />
-      <Association Name="Year_Leaderboard" Member="Leaderboards" ThisKey="YID" OtherKey="YearID" Type="Leaderboard" />
-      <Association Name="Year_SI" Member="SIs" ThisKey="YID" OtherKey="YearID" Type="SI" />
-      <Association Name="Year_Score" Member="Scores" ThisKey="YID" OtherKey="YearID" Type="Score" />
     </Type>
   </Table>
   <Table Name="dbo.[Group]" Member="Groups">
@@ -40,8 +28,8 @@
       <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Hval" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Year_Handicap" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
       <Association Name="User_Handicap" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="Year_Handicap" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Hole" Member="Holes">
@@ -61,7 +49,7 @@
       <Association Name="Hole_SI" Member="SIs" ThisKey="HoleID" OtherKey="HoleID" Type="SI" />
       <Association Name="Hole_Score" Member="Scores" ThisKey="HoleID" OtherKey="HoleID" Type="Score" />
       <Association Name="Course_Hole" Member="Course" ThisKey="CourseID" OtherKey="CID" Type="Course" IsForeignKey="true" />
-      <Association Name="Year_Hole" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
+      <Association Name="Year_Hole" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Leaderboard" Member="Leaderboards">
@@ -70,8 +58,8 @@
       <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Points" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Year_Leaderboard" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
       <Association Name="User_Leaderboard" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="Year_Leaderboard" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.SI" Member="SIs">
@@ -119,7 +107,6 @@
       <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Hole_Score" Member="Hole" ThisKey="HoleID" OtherKey="HoleID" Type="Hole" IsForeignKey="true" />
       <Association Name="User_Score" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-      <Association Name="Year_Score" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Event" Member="Events">
@@ -154,6 +141,19 @@
       <Column Name="Par" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SI" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CourseUAID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Year" Member="Years">
+    <Type Name="Year">
+      <Column Name="YID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Year" Member="Year1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Year_Group" Member="Groups" ThisKey="YID" OtherKey="YearID" Type="Group" />
+      <Association Name="Year_Handicap" Member="Handicaps" ThisKey="YID" OtherKey="YearID" Type="Handicap" />
+      <Association Name="Year_Hole" Member="Holes" ThisKey="YID" OtherKey="YearID" Type="Hole" />
+      <Association Name="Year_Leaderboard" Member="Leaderboards" ThisKey="YID" OtherKey="YearID" Type="Leaderboard" />
+      <Association Name="Year_SI" Member="SIs" ThisKey="YID" OtherKey="YearID" Type="SI" />
     </Type>
   </Table>
 </Database>

@@ -88,7 +88,7 @@ namespace LB3.Models
                                where c.CourseID == courseID
                                where c.YearID == YID
                                select c;
-
+                
                 var grouplist = from y in db.UserGroups
                                 where y.GID == GID
                                 select y;
@@ -103,25 +103,29 @@ namespace LB3.Models
                     {
                         nextCmt = "are on to the 18th at " + courseName + ", closing out their day.";
                     }
+                       
 
-                    else if (nextHole.First().L_drive == 1)
+                    else if (nextHole.FirstOrDefault().L_drive == 1)
                     {
                         nextCmt = "are about to tee off on their Longest Drive hole (" + nextHoleNum + ").";
                         nextType = "Drive";
                     }
-                    else if (nextHole.First().N_pin == 1)
+                    else if (nextHole.FirstOrDefault().N_pin == 1)
                     {
                         nextCmt = "are about to tee off on their Nearest The Pin hole (" + nextHoleNum + ").";
                         nextType = "Pin";
                     }
+
+                        
+
                     else
                     {
-                        nextCmt = "are on to hole " + nextHoleNum + " at " + courseName + ".";
+                        nextCmt = "are on to hole " + nextHoleNum + "."; // " at " + courseName + ".";
                     }
 
                 }
                 catch
-                {
+               {
 
                 }
 
@@ -160,30 +164,30 @@ namespace LB3.Models
                             if (sc.score == (par - 1))
                             {
                                 //birdie
-                                sctype = "<strong>Birdie</strong>";
+                                sctype = "(<strong>Birdie</strong>) ";
                                 speech = sc.name.First() + " scored a birdie on hole " + hole.First().HoleNum;
                             }
 
                             else if (sc.score == (par - 2))
                             {
                                 //eagle
-                                sctype = "<strong>eagle</strong>";
+                                sctype = "(<strong>eagle</strong>) ";
                                 speech = sc.name.First() + " scored an eagle on hole " + hole.First().HoleNum;
                             }
                         }
 
                         if (sc.score == 1)
                         {
-                            sctype = "<strong>HOLE IN ONE!!!</strong>";
+                            sctype = "(<strong>HOLE IN ONE!!!</strong>) ";
                         }
 
                         if (scint == 0)
                         {
-                            comts = sc.name + ": " + sc.score + " (" + sctype + ")";
+                            comts = sc.name + ": " + sc.score +  sctype;
                         }
                         else if (scint == (grouplist.Count() - 1))
                         {
-                            comts = comts + sc.name + " : " + sc.score + " (" + sctype + ")";
+                            comts = comts + sc.name + " : " + sc.score + sctype;
                         }
                         else
                         {

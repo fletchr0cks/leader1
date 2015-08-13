@@ -136,7 +136,6 @@
 
 }
 
-
 function NewScoreFor(userid, score, HID, YID, GID, ct) {
     var Saved = 0;
     var notSaved = 0;

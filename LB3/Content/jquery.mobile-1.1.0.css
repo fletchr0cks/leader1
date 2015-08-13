@@ -2073,6 +2073,6 @@ td.tdright { text-align: right }
 .status { font-weight:bold; margin: 0px; padding: 0px; font-size:20px; color:Orange}
 
 .miniLBh { font-weight:bold; margin-right: 10px; padding: 0px; font-size:20px;}
-.miniLBn { margin-right: 10px; padding: 0px; font-size:18px; color:gray}
-
+.miniLBn { margin-right: 10px; padding: 0px; font-size:18px;}
+.ticker { padding: 0px; font-size:14px;}
 td.leftAlign {text-align:left; padding-left: 5px}

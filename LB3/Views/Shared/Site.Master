@@ -197,14 +197,14 @@
 
        function getEventsPopup() {
            //alert("latest" + $("#EIDx").val());
-           
 
+        
            var eid = document.getElementById('EIDxy').innerHTML;
-          // alert(eid);
+          // 
            if (eid.length == 0) {
                eid = 0;
            }
-           
+       
            //clicksound.pause();
            $.ajax({
                type: "POST",

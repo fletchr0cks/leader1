@@ -382,8 +382,8 @@ namespace LB3.Controllers
         {
             var dataContext = new lb3dataDataContext();
 
-            if (EID > 0) //not first load
-            {
+          //  if (EID > 0) //not first load
+       //     {
 
                 var allevents = from e in dataContext.Events
                                 orderby e.Timestamp descending
@@ -417,32 +417,13 @@ namespace LB3.Controllers
             //        return Json(new { events = "none", speech = "none" }, JsonRequestBehavior.AllowGet);
             //    }
 
-            }
-            else
-            {
-                var allevents = from e in dataContext.Events
-                                orderby e.Timestamp descending
-                                where e.EID > EID
-                                select new
-                                {
-                                    UserID = e.UserID,
-                                    Comment = e.Comment,
-                                    Name = e.Name,
-                                    Timest = Convert.ToDateTime(e.Timestamp).ToShortTimeString(),
-                                    EID = e.EID,
-                                    type = e.Type
-                                };
+         //   }
+         //   else
+         ///   {
+               
 
-                var speech_item = from e in dataContext.Events
-                                  orderby e.Timestamp descending
-                                  where e.EID > EID && e.Speech != null
-                                  select new
-                                  {
-                                      speech = e.Speech
-                                  };
-
-                return Json(new { events = allevents.Take(2), speech = speech_item.Take(2) }, JsonRequestBehavior.AllowGet);
-            }
+           //     return Json(new { events = "none" }, JsonRequestBehavior.AllowGet);
+          //  }
         }
 
         public ActionResult CourseUA()

@@ -70,7 +70,7 @@
                     console.debug(xhr); console.debug(error);
                 }
             });
-            refresht();
+           // refresht();
             //window.setTimeout(getLatestEvents(), 10000);
         }
 

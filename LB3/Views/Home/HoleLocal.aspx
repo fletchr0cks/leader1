@@ -647,7 +647,7 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
 <div data-role="footer" style="overflow:hidden;">
-<div><ul data-role="listview" data-theme="a"><li><div class="sync" id="syncStatus"></div></li></ul></div>
+<div><ul data-role="listview" data-theme="a"><li><div class="sync" id="syncStatus">Sync when back online</div></li></ul></div>
 <div><ul data-role="listview" data-theme="a"><li><div class="status" id="onlineStatus"></div></li></ul></div>
 </div>
 </asp:Content>

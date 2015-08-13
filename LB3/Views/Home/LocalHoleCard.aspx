@@ -24,23 +24,23 @@
         $.mobile.loadPage('#page-id');
         var holecount = getHolecount();
         var nextHole = getNexthole();
-        document.getElementById('topHeader').innerHTML = "Beaconsfield";
+        document.getElementById('topHeader').innerHTML = "Enter Scores";
         //if refresh calc nextHole - 1
         nextHole = parseInt(nextHole);
         var nextHoleID = getNextholeID(nextHole, holecount);
-        var status = document.getElementById('onlineStatus').innerHTML;
+        var status = isOnLine();
         drawRadios(nextHoleID, nextHole);
 
         //$('#syncStatus').html("&nbsp;").trigger('create');
         //draw hole list button
         //draw next/prev buttons
-
-        if (status == "Online") {
+        
+        if (status == true) {
             $('#evticker').html("Loading Events Feed").trigger('create');
             getEventsPopup();
         } else {
-            $('#evticker').html("Loading Events Feed").trigger('create');
-            getEventsPopup();
+            // $('#evticker').html("Loading Events Feed").trigger('create');
+            // getEventsPopup();
         }
 
     });
@@ -113,7 +113,7 @@
         var CID = getCID();
         var GID = getGID();
         var online = isOnLine();
-        alert(online);
+     
         if (online == true) {
             window.location.href = "/Home/Hole?YID=" + YID + "&GID=" + GID + "&course=Beaconsfield&CID=" + CID;
         } else {
@@ -165,10 +165,10 @@
                     score = checkScore1;
                     //alert("H_" + HID + "_" + result.UserID + " " + checkScore1);
                     if (checkScore1 == i) {
-                        html_score = html_score + "<input type=\"radio\" onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + GID + "," + YID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" checked=\"checked\" />" +
+                        html_score = html_score + "<input type=\"radio\" onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + YID + "," + GID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" checked=\"checked\" />" +
                           "<label for=\"radio" + i + "\">" + i + "</label>";
                     } else {
-                        html_score = html_score + "<input type=\"radio\"  onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + GID + "," + YID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" />" +
+                        html_score = html_score + "<input type=\"radio\"  onclick=\"NewLocalScoreFor(" + result.UserID + "," + i + "," + HID + "," + YID + "," + GID + ")\" name=\"radio-choice-" + result.UserID + "\" id=\"radio" + i + "\" value=\"" + i + "\" />" +
                           "<label for=\"radio" + i + "\">" + i + "</label>";
                     }
 
@@ -398,6 +398,7 @@
         $('#scoretxt_' + userid + '_' + HID).html("Saving ...").trigger("create").fadeIn('slow');
         saveScoreToLocal("H_" + HID + "_" + userid, score, userid);
         //use HoleID and list of users, iterate tru and check all are saved
+ 
         NewScoreFor(userid, score, HID, YID, GID);
 
     }
@@ -526,7 +527,7 @@
            $.ajax({
                type: "POST",
                url: "/Home/newScore",
-               data: "GID=" + GID + "&HID=" + HID + "&YID=" + YID + "&score=0&UserID=" + userid + "&Pin=0&LD=1",
+               data: "GID=" + GID + "&YID=" + YID + "&HID=" + HID + "&score=0&UserID=" + userid + "&Pin=0&LD=1",
                dataType: "html",
                success: function (data) {
                    var json = eval('(' + data + ')');
@@ -554,7 +555,7 @@
            $.ajax({
                type: "POST",
                url: "/Home/newScore",
-               data: "GID=" + GID + "&HID=" + HID + "&YID=" + YID + "&score=0&UserID=" + userid + "&Pin=1&LD=0",
+               data: "GID=" + GID + "&YID=" + YID + "&HID=" + HID + "&score=0&UserID=" + userid + "&Pin=1&LD=0",
                dataType: "html",
                success: function (data) {
                    var json = eval('(' + data + ')');
@@ -578,7 +579,7 @@
            });
            return false;
        }
-
+      
        function NewScoreFor(userid, score, HID, YID, GID) {
            scoreSavedtoServer("H_" + HID + "_" + userid,false);
            $('#scoretxt_' + userid + '_' + HID).html("Saving ...").trigger("create").fadeIn('slow');
@@ -596,7 +597,7 @@
                    $('#scoretxt_' + userid + '_' + HID).html(type).trigger("create");
                    //getscores
                    getMiniLB(json.CID, json.HoleNum);
-                   scoreSavedtoServer("H_" + HID + "_" + userid,false); //for testing
+                   scoreSavedtoServer("H_" + HID + "_" + userid,true); //for testing
                },
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
@@ -631,7 +632,7 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
 <div data-role="footer" style="overflow:hidden;">
 <table><tr><td><div id="miniLB"></div></td></tr>
-<tr><td class="leftAlign"><div id="evticker"></div></td></tr></table>
+<tr><td class="leftAlign"><div id="evticker" class="ticker"></div></td></tr></table>
 <div><ul data-role="listview" data-theme="a"><li><div class="status" id="onlineStatus"></div></li></ul></div>
 </div>
 </asp:Content>
