@@ -91,7 +91,14 @@
     });
 
     function ClearScoresLocal() {
-        removeHoleDataScores(96);
+        var txt;
+        var r = confirm("Clear scores?");
+        if (r == true) {
+            removeHoleDataScores(96);
+        } else {
+            
+        }
+        
     }
 
     function ClearScoresServer() {
