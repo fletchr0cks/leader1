@@ -4,7 +4,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
-    <h1>Enter Scores</h1>
+    <h1>Enter Scores (Offline mode)</h1>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">

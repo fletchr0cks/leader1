@@ -2061,9 +2061,9 @@ span.ui-slider-label-b { z-index: 0; right: 0; text-indent: 1.5em;}
 .sliderforpin .ui-slider-switch.ui-slider-mini { width: 10em; margin-bottom:5px }
 .sliderforLD .ui-slider-switch.ui-slider-mini { width: 9em; margin-bottom:5px }
 
-.H1thin { margin: 0px; padding-top: 10px; font-size:18px }
-.Header1 { margin: 0px; padding: 0px; font-size:20px }
-.Header2 { margin: 0px; padding: 0px; font-size:14px }
+.H1thin { margin: 0px; padding-top: 10px; font-size:18px; margin-bottom: 5px }
+.Header1 { margin: 0px; padding: 0px; font-size:22px; color: #BDBDC2 }
+.Header2 { margin: 0px; padding: 0px; font-size:14px; color: #BDBDC2 }
 .tdspace { margin: 0px; width: 100px; font-size:14px }
 .thin { margin: 0px; padding: 0px;font-size:14px;color:rgb(0, 110, 255); text-align:right}
 td.tdcentre { text-align: center }
@@ -2071,8 +2071,14 @@ td.tdright { text-align: right }
 .spacer { height: 100%; background-color: Blue}
 .sync { font-weight:bold; margin: 0px; padding: 0px; font-size:20px; color:Green}
 .status { font-weight:bold; margin: 0px; padding: 0px; font-size:20px; color:Orange}
-
-.miniLBh { font-weight:bold; margin-right: 10px; padding: 0px; font-size:20px;}
-.miniLBn { margin-right: 10px; padding: 0px; font-size:18px;}
+.score_txt_g { color: #309156; margin: 0px; padding: 0px;font-size:14px; text-align:right}
+.score_txt_o { color: #FF9933; margin: 0px; padding: 0px;font-size:14px; text-align:right}
+.score_txt_b { color: #4682B4; margin: 0px; padding: 0px;font-size:14px; text-align:right}
+.miniLBh {  text-align: right; margin-right: 10px; padding: 0px; font-size:18px; color: #309156}
+.miniLBn { margin-right: 10px; padding: 0px; font-size:18px; color: #309156}
 .ticker { padding: 0px; font-size:14px;}
+.miniLBback {margin-top: 50px; padding:10px;}
 td.leftAlign {text-align:left; padding-left: 5px}
+strong { 
+    font-weight: bold;
+}

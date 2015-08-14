@@ -79,10 +79,10 @@ namespace LB3.Controllers
             return View();
         }
 
-        public ActionResult Manifestx()
+        public ActionResult Manifest()
         {
             var manifest = "CACHE MANIFEST" + Environment.NewLine +
-                  //"# App Markup Date: " + System.IO.File.GetLastWriteTime(Server.MapPath("~/Views/Mobile/Index.cshtml")) + Environment.NewLine +
+                  //"# App Markup Date: " + DateTime.UtcNow + Environment.NewLine +
                   "# Server Assembly Version: " + this.GetType().Assembly.GetName().Version + Environment.NewLine +
                   "NETWORK:" + Environment.NewLine +
                   "*" + Environment.NewLine +
@@ -94,12 +94,12 @@ namespace LB3.Controllers
                   Url.Content("~/Scripts/jquery-mobile-1.1.0.js") + Environment.NewLine +
                   Url.Content("~/Home/Offline") + Environment.NewLine +
                   Url.Content("~/Home/LocalHoleCard") + Environment.NewLine +
-                  //Url.Content("~/Home/Holes") + Environment.NewLine +
+                  Url.Content("~/Home/HoleLocal") + Environment.NewLine +
                   Url.Content("~/Content/images/21.png") + Environment.NewLine +
                   Url.Content("~/Home/CacheTest") + Environment.NewLine +
                   //Url.Content("~/Home/CacheTest") + Environment.NewLine +
                   "FALLBACK:" + Environment.NewLine +
-                  Url.Content("/") + " " + Url.Content("/Home/LocalHoleCard");
+                  Url.Content("/") + " " + Url.Content("/Home/HoleLocal");
 
             return Content(manifest, "text/cache-manifest");
         }
@@ -228,11 +228,20 @@ namespace LB3.Controllers
 
             return View();
         }
+
+        public ActionResult ClearScores(int YID)
+        {
+            var dataContext = new lb3dataDataContext();
+
+            dataRepository.DeleteScores(YID);
+
+            return Json(new { scores = "deleted" });
+        }
      
         public ActionResult Hole(int YID, int CID, int GID, string course)
         {
             var dataContext = new lb3dataDataContext();
-
+           
             var year = (from y in dataContext.Years
                         where y.YID == YID
                         select y).First().Year1.ToString();
@@ -1079,12 +1088,13 @@ namespace LB3.Controllers
             return View();
         }
 
-        public JsonResult getMiniLB(int CID, int HoleNum)
+        public JsonResult getMiniLB(int CID, int YID, int HoleNum)
         {
             var dataContext = new lb3dataDataContext();
             //gp
             var miniLBdata = from r in dataContext.Scores
                             where r.Hole.CourseID == CID
+                            where r.YearID == YID
                        orderby r.Score1 descending
                        group r by new { 
                            r.User.Nickname,
@@ -1228,11 +1238,11 @@ namespace LB3.Controllers
             }
             if (type == "Saved")
             {
-                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Saved to server", HoleNum = HoleNum, CID = CID });
+                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Saved to server", HoleNum = HoleNum, CID = CID, YID = YID });
             }
             else
             {
-                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Updated to server", HoleNum = HoleNum, CID = CID });
+                return Json(new { members = otherplayers, winner = winner.First().Nickname, type = "Updated to server", HoleNum = HoleNum, CID = CID, YID = YID });
             }
         }
 

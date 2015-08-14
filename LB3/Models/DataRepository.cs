@@ -157,21 +157,21 @@ namespace LB3.Models
                         var speech = "";
                         if (sc.score == par)
                         {
-                            sctype = "Par";
+                            sctype = " (Par)";
                         }
                         else if (sc.score < par)
                         {
                             if (sc.score == (par - 1))
                             {
                                 //birdie
-                                sctype = "(<strong>Birdie</strong>) ";
+                                sctype = " (<strong>Birdie</strong>) ";
                                 speech = sc.name.First() + " scored a birdie on hole " + hole.First().HoleNum;
                             }
 
                             else if (sc.score == (par - 2))
                             {
                                 //eagle
-                                sctype = "(<strong>eagle</strong>) ";
+                                sctype = " (<strong>Eagle</strong>) ";
                                 speech = sc.name.First() + " scored an eagle on hole " + hole.First().HoleNum;
                             }
                         }
@@ -187,11 +187,11 @@ namespace LB3.Models
                         }
                         else if (scint == (grouplist.Count() - 1))
                         {
-                            comts = comts + sc.name + " : " + sc.score + sctype;
+                            comts = comts + sc.name + ": " + sc.score + sctype;
                         }
                         else
                         {
-                            comts = comts + sc.name + " : " + sc.score;
+                            comts = comts + sc.name + ": " + sc.score;
                         }
                         scint++;
                     }
@@ -218,7 +218,7 @@ namespace LB3.Models
 
                     Event e = new Event();
                     e.Timestamp = DateTime.Now;
-                    e.Name = "Hole: " + holeNum + ", Par: " + par;
+                    e.Name = "Hole " + holeNum;
                     e.Comment = comts;                 
                     Add(e);
                     Save();
@@ -440,6 +440,18 @@ namespace LB3.Models
                        .First();
 
             db.Holes.DeleteOnSubmit(hole);
+            db.SubmitChanges();
+        }
+
+        public void DeleteScores(int YID)
+        {
+            
+            var scores = from s in db.Scores
+                         where s.YearID == YID
+                         select s;
+            db.Scores.DeleteAllOnSubmit(scores);
+
+            //db.Scores.DeleteOnSubmit(scores);
             db.SubmitChanges();
         }
 

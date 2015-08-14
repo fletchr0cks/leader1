@@ -35,9 +35,4 @@
 
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
-<div data-role="footer" style="overflow:hidden;">
-<div data-theme="a" id="eventsfeed"></div>
-<div data-role="navbar">
-<ul><li><a href="#">Home</a></li> <li><a onclick="refresh_feed()" href="#">Refresh Events Feed</a></li> <li><a href="#">Check Connection</a></li></ul>
-</div></div>
 </asp:Content>

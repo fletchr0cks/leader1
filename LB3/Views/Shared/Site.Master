@@ -468,23 +468,23 @@
            });
        }
 
-       function getMiniLB(CID, HoleNum) {
+       function getMiniLB(CID, YID, HoleNum) {
            //$('#scores_' + GID).html(" ").trigger("create"); ;
            var htmlLB = "";
            $.ajax({
                type: "POST",
                url: "/Home/getMiniLB",
-               data: "CID=" + CID + "&HoleNum=" + HoleNum,
+               data: "CID=" + CID + "&YID=" + YID + "&HoleNum=" + HoleNum,
                dataType: "html",
                //success: onSuccess
                success: function (data) {
                    var json = eval('(' + data + ')');
                    $.each(json.miniLBdata, function (i, result) {
                        var par = parseInt(result.TotalScore - result.Pars);
-                       htmlLB = htmlLB + "<tr><td><div class=\"miniLBh\">" + result.Nickname + "</div></td><td><div class=\"miniLBn\">" + result.TotalScore + "</div></td><td>" + par + "</td></tr>";
+                       htmlLB = htmlLB + "<tr><td><div class=\"miniLBh\">" + result.Nickname + "</div></td><td><div class=\"miniLBn\">" + result.TotalScore + "</div></td><td><div class=\"miniLBn\">" + par + "</div></td></tr>";
                    });
                    //gotohere add ids to div areas
-                   $('#miniLB').html("<table>" + htmlLB + "</table>").trigger("create");
+                   $('#miniLB').html("<div class=\"miniLBback\"><table>" + htmlLB + "</table></div>").trigger("create");
                },
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);

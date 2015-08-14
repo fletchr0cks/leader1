@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
-<%= Html.ActionLink("Back", "Hole", "Home", new { onclick = "goBack();"}) %>
+<a href="#" onclick = "goBack();">Back</a>
  <h1 id="topHeader">Enter Scores</h1>
    
 </asp:Content>
@@ -115,9 +115,11 @@
         var online = isOnLine();
      
         if (online == true) {
-            window.location.href = "/Home/Hole?YID=" + YID + "&GID=" + GID + "&course=Beaconsfield&CID=" + CID;
+            //window.location.href = "/Home/Hole?YID=" + YID + "&GID=" + GID + "&course=Beaconsfield&CID=" + CID;
+            $.mobile.changePage("/Home/Hole?YID=" + YID + "&GID=" + GID + "&CID=" + CID);
         } else {
-            window.location.href = "/Home/HoleLocal";
+            //window.location.href = "/Home/HoleLocal";
+            $.mobile.changePage('/Home/HoleLocal');
         }
     }
     function drawRadios(thisHoleID, thisHole) {
@@ -154,14 +156,17 @@
             var spacer = "";
             var score = 1;
             var Par = "";
+            var SI = "";
             $.each(users, function (i, result) {
                 var html_score = "";
                 var score_info = "";
+                var score_class = "";
                 var score = 0;
                 var i = 1;
                 while (i < 10) {
                     var checkScore1 = checkScore("H_" + HID + "_" + result.UserID);
                     Par = getPar("H_" + HID + "_" + result.UserID);
+                    SI = 5;
                     score = checkScore1;
                     //alert("H_" + HID + "_" + result.UserID + " " + checkScore1);
                     if (checkScore1 == i) {
@@ -181,12 +186,15 @@
                 var HoleLD = getLDVal("H_" + HID + "_" + result.UserID);
                 if (checkScore2 == true) {
                     score_info = "Saved (server)";
+                    score_class = "score_txt_g"
                 } else if (checkScore1 > 0) {
                     score_info = "Saved (locally)";
+                    score_class = "score_txt_o"
                 } else {
                     score_info = "Select Score";
+                    score_class = "score_txt_b"
                 }
-                html = html + "<tr><td><div class=\"H1thin\">" + result.Nickname + "</div></td><td><div class=\"thin\" id=\"scoretxt_" + result.UserID + "_" + HID + "\">" + score_info + "</div></td></tr>" +
+                html = html + "<tr><td><div class=\"H1thin\">" + result.Nickname + "</div></td><td><div class=\"" + score_class + "\" id=\"scoretxt_" + result.UserID + "_" + HID + "\">" + score_info + "</div></td></tr>" +
                             "<tr><td colspan=\"2\"><fieldset data-role=\"controlgroup\" data-theme=\"c\" data-type=\"horizontal\" data-mini=\"true\">";
 
                 html = html + html_score + "</fieldset></td></tr>";
@@ -204,7 +212,7 @@
                         html = html + PinHtml;
                     }
                     //$('#extrainput').html(PinHtml).trigger('create');
-              
+
                 }
 
                 if (HoleLD > 0) {
@@ -219,7 +227,7 @@
                                 "<option value=\"yes\" >Yes</option></select></div></td></tr>";
                         html = html + PinHtml;
                     }
-               
+
                 }
 
                 if (HoleLD == 0 && HolePin == 0) {
@@ -230,13 +238,15 @@
             });
 
             var partd = Par;
+            var SItd = SI;
             var html_top = "<table>";
             $('#holeNumval').html(thisHole).trigger('create');
             $('#parVal').html(partd);
+            $('#SIVal').html(partd);
             $('#scoreinput').html(html_top + html + "</table>").trigger('create');
             //$('#CourseName').html(CourseName).trigger('create');
             drawButtons(thisHole, HoleCount);
-            getMiniLB(CID, thisHole);
+            getMiniLB(CID, YID, thisHole);
         }
 
         function checkScoreState(HID) {
@@ -594,13 +604,17 @@
                    var json = eval('(' + data + ')');
                    var type = json.type;
                    var winner = json.winner; // ['winners']['nickname'];
+                   $('#scoretxt_' + userid + '_' + HID).removeClass('score_txt_b');
+                   $('#scoretxt_' + userid + '_' + HID).addClass('score_txt_g');
                    $('#scoretxt_' + userid + '_' + HID).html(type).trigger("create");
                    //getscores
-                   getMiniLB(json.CID, json.HoleNum);
-                   scoreSavedtoServer("H_" + HID + "_" + userid,true); //for testing
+                   getMiniLB(json.CID, json.YID, json.HoleNum);
+                   scoreSavedtoServer("H_" + HID + "_" + userid, true); //for testing
                },
                error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
+                   $('#scoretxt_' + userid + '_' + HID).removeClass('score_txt_b');
+                   $('#scoretxt_' + userid + '_' + HID).addClass('score_txt_o');
                    $('#scoretxt_' + userid + '_' + HID).html("Saved locally").trigger("create");
                    $('#evticker').html("Click Back to Sync scores when next online").trigger('create');
                }
@@ -609,15 +623,21 @@
        }
 
 </script>
-<div style="text-align: center">
+<div style="text-align: right">
 <table>
-<tr><td><div class="Header2">Hole</div></td>
+<tr>
+<td><div class="Header2">Hole</div></td>
 <td><div class="tdspace">&nbsp;</div></td>
 <td><div class="Header2">Par</div></td>
+<td><div class="tdspace">&nbsp;</div></td>
+<td><div class="Header2">SI</div></td>
 </tr>
-<tr><td class="tdcentre"><div class="Header1" id="holeNumval"></div></td>
+<tr>
+<td class="tdcentre"><div class="Header1" id="holeNumval"></div></td>
 <td><div class="tdspace">&nbsp;</div></td>
 <td class="tdcentre"><div class="Header1" id="parVal"></div></td>
+<td><div class="tdspace">&nbsp;</div></td>
+<td class="tdcentre"><div class="Header1" id="SIVal"></div></td>
 </tr>
 </table>
 </div>
@@ -626,12 +646,14 @@
   <table><tr><td>
   <div id="prevBtn"></div></td>
   <td>
-  <div id="nextBtn"></div></td></tr></table>
+  <div id="nextBtn"></div></td></tr>
+  <tr><td></td><td><div id="miniLB"></div></td></tr>
+  </table>
   <div id="EIDxy" style="display: none"></div>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
 <div data-role="footer" style="overflow:hidden;">
-<table><tr><td><div id="miniLB"></div></td></tr>
+<table>
 <tr><td class="leftAlign"><div id="evticker" class="ticker"></div></td></tr></table>
 <div><ul data-role="listview" data-theme="a"><li><div class="status" id="onlineStatus"></div></li></ul></div>
 </div>

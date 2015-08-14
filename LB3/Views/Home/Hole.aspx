@@ -88,8 +88,81 @@
 
         drawList(96);
 
-
     });
+
+    function ClearScoresLocal() {
+        removeHoleDataScores(96);
+    }
+
+    function ClearScoresServer() {
+        $('#syncStatus').html("Clearing scores from the server ....").trigger('create');
+        var YID = getYID();
+        $.ajax({
+            type: "POST",
+            url: "/Home/ClearScores",
+            data: "YID=" + YID,
+            dataType: "html",
+            timeout: 5000,
+            success: function (data) {
+                var json = eval('(' + data + ')');
+                var result = json.scores;
+                if (result == "deleted") {
+                    $('#syncStatus').html("Scores deleted").trigger('create');
+                    window.location.reload();
+                }
+
+            },
+            error: function (xhr, error) {
+                console.debug(xhr); console.debug(error);
+                $('#syncStatus').html("Failed to remove scores, try again").trigger('create');
+
+            }
+        });
+
+    }
+
+    function removeHoleDataScores(index) {
+        var HoleData = "";
+        var GroupData = "";
+        var GroupSize = "";
+        var model = getHoleModel(index);
+        if (model == null) {
+
+        }
+        else {
+            HoleData = model.HoleData;
+            GroupData = model.GroupMembers;
+            GroupSize = model.GroupSize;
+            ScoreData = model.ScoreData;
+            //alert(HoleData);
+        }
+
+        var scores = eval('(' + HoleData + ')'); //potential scores , userid, hole combos
+        var users = eval('(' + GroupData + ')');
+
+
+        $.each(scores, function (i, result) {
+            $.each(users, function (i, item) {
+
+                var savedScore = getSavedScore(result.HoleID, item.UserID);
+                    removeScoresToLocal("H_" + result.HoleID + "_" + item.UserID);
+                    removeScoresToLocal("S_" + result.HoleID + "_" + item.UserID);
+            });
+            model.HDwritten = false;
+            localStorage.setItem(index, JSON.stringify(model));
+        });
+
+        //add scores to savedScores
+
+        ClearScoresServer();
+        // drawList(96);
+
+    }
+
+    function removeScoresToLocal(key) {
+        localStorage.removeItem(key);
+    }
+
     function scoreModelCheck() {
         var index = "96";
         var model = getHoleModel(index);
@@ -128,7 +201,7 @@
             syncMsg = syncCt + " scores to synchronize";
         } else {
             //syncBtnHtml = "<form><input type=\"button\" data-theme=\"e\" data-inline=\"true\" value=\"Synchronize scores now\" onclick=\"syncHoles(" + syncCt + ")\"></form>";
-            syncMsg = "All scores saved to the server";
+            syncMsg = "Connected to server";
     }
         $('#syncBtn').html(syncBtnHtml).trigger('create');
         $('#syncStatus').html(syncMsg).trigger('create');
@@ -702,6 +775,7 @@ function holeDataCheck() {
 
 </script>
  <div id="HoleList">list here</div>
+ <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b"><li><a href="#"><div onclick="ClearScoresLocal()">Clear Scores</div></a></li></ul>
  <div id="syncBtn">list here</div>
 
 </asp:Content>
