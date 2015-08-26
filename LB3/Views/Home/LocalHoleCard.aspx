@@ -115,11 +115,11 @@
         var online = isOnLine();
      
         if (online == true) {
-            //window.location.href = "/Home/Hole?YID=" + YID + "&GID=" + GID + "&course=Beaconsfield&CID=" + CID;
-            $.mobile.changePage("/Home/Hole?YID=" + YID + "&GID=" + GID + "&CID=" + CID);
+            window.location.href = "/Home/Hole?YID=" + YID + "&GID=" + GID + "&CID=" + CID;
+            //$.mobile.changePage("/Home/Hole?YID=" + YID + "&GID=" + GID + "&CID=" + CID, { reloadPage: true, transition: "none" });
         } else {
-            //window.location.href = "/Home/HoleLocal";
-            $.mobile.changePage('/Home/HoleLocal');
+            window.location.href = "/Home/HoleLocal";
+            //$.mobile.changePage('/Home/HoleLocal', { reloadPage: true, transition: "none" });
         }
     }
     function drawRadios(thisHoleID, thisHole) {

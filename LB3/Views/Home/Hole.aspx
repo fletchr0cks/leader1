@@ -49,6 +49,7 @@
 
         window.addEventListener("online", function (e) {
             reportOnlineStatus();
+            checkSync();
             //saveToServer();
         }, true);
 
@@ -58,9 +59,10 @@
 
         if (isOnLine()) {
             // saveToServer();
+            checkSync();
         }
         // showCustomer();
-        //reportOnlineStatus();
+        reportOnlineStatus();
 
         // $.mobile.loadPage('#page-id');
         var modelChk = holeModelCheck();
@@ -70,7 +72,7 @@
         
         var status = document.getElementById('onlineStatus').innerHTML;
 
-        if (status == "Online" || status == "Offline") {
+        if (status == "Online") {
             if (modelChk.length > 0) {
                 saveHoleToLocal(96);
             }
@@ -82,7 +84,7 @@
 
             checkSync();
         } else {
-
+            $.mobile.changePage('/Home/HoleLocal');
             //writeHoleDataToScores(96); //for testing
         }
 
@@ -94,11 +96,20 @@
         var txt;
         var r = confirm("Clear scores?");
         if (r == true) {
-            removeHoleDataScores(96);
+            removeHoleDataScores(96,"All");
         } else {
             
         }
-        
+
+    }
+
+    function RefreshScores() {
+        //clear local scores only
+
+        //get new from server
+        $('#syncStatus').html("Refreshing scores from the server ....").trigger('create');
+        removeHoleDataScores(96, "Local");
+        window.location.reload();
     }
 
     function ClearScoresServer() {
@@ -128,7 +139,7 @@
 
     }
 
-    function removeHoleDataScores(index) {
+    function removeHoleDataScores(index,type) {
         var HoleData = "";
         var GroupData = "";
         var GroupSize = "";
@@ -160,10 +171,10 @@
         });
 
         //add scores to savedScores
-
-        ClearScoresServer();
-        // drawList(96);
-
+        if (type == "All") {
+            ClearScoresServer();
+            // drawList(96);
+        }
     }
 
     function removeScoresToLocal(key) {
@@ -206,6 +217,7 @@
         if (syncCt > 0) {
             syncBtnHtml = "<form id=\"syncBtnID\"><input type=\"button\" data-theme=\"e\" data-inline=\"true\" value=\"Synchronize scores now\" onclick=\"syncHoles(" + syncCt + ")\"></form>";
             syncMsg = syncCt + " scores to synchronize";
+            syncHoles(ct);
         } else {
             //syncBtnHtml = "<form><input type=\"button\" data-theme=\"e\" data-inline=\"true\" value=\"Synchronize scores now\" onclick=\"syncHoles(" + syncCt + ")\"></form>";
             syncMsg = "Connected to server";
@@ -781,6 +793,8 @@ function holeDataCheck() {
 
 
 </script>
+<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b"><li><a href="#"><div onclick="RefreshScores()">Refresh Scores from Server</div></a></li></ul>
+ 
  <div id="HoleList">list here</div>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b"><li><a href="#"><div onclick="ClearScoresLocal()">Clear Scores</div></a></li></ul>
  <div id="syncBtn">list here</div>

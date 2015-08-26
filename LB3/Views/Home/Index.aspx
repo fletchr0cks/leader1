@@ -24,15 +24,25 @@
 </asp:Content>
  
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-<h4>Setup a Tournament </h4>
- <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li><%=Html.ActionLink("New Tournament", "AddTourn", "Home") %></li>
-</ul>
-<h4>Select an existing Tournament </h4>
+<div class="ui-grid-a">
+ <div class="ui-block-a">Passcode
+ <div>
+<input type="text" name="name" id="passcode" data-mini="true" style="width:200px" />
+</div>
+ <div>Owner Name
+<input type="text" name="name" id="ownername" data-mini="true" style="width:200px" />
+</div>
+ </div>
+ <div class="ui-block-b">
+ <a href="#" onclick="checkCode()" data-role="button" data-icon="check" data-iconpos="notext"></a>
+ </div>
+ </div>
+ <div id="results">
+<h4>Select a Tournament</h4>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
  <% foreach (var item in Model)
     {
-        var yr = item.Year1;
+        var yr = item.Name;
         var target = ViewData["YearTarget"];
       %>
       
@@ -40,6 +50,6 @@
    
  <% } %>
     </ul>
-  
+  </div>
 	
 </asp:Content>

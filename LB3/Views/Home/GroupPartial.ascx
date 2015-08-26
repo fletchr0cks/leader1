@@ -1,6 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<LB3.Models.Group>>" %>
 
-<div data-role="collapsible" data-theme="c" data-content-theme="a">
+<div data-role="collapsible" data-theme="c" data-content-theme="a" data-collapsed="false">
 <h3>Groups</h3>    
  <% foreach (var item in Model)
     {
@@ -10,7 +10,9 @@
       
 <div data-role="collapsible" data-theme="b" data-content-theme="d" data-mini="true">
 	<h3><%=item.GroupName %></h3>
-    <a href="#" onclick="deleteGroup()" data-mini="true" data-role="button" data-icon="delete" data-iconpos="right">Delete Group</a>
+    <div class="ui-grid-a">
+
+    <div class="ui-block-a">
 	<div id="playerList_<%=(item.GID)%>">
 	<div class="ui-grid-a">
 
@@ -38,10 +40,18 @@
     </div>
 	
 	</div>
- 
+ </div>
+ 	<div class="ui-block-b">
+    <a href="#" onclick="deleteGroup()" data-mini="true" data-role="button" data-icon="delete" data-iconpos="right">Delete Group</a>
+    </div>
+
+
+
 	</div>   
+</div>
  <% } %>
+
+
  <div id="newGroup">
  <a href="#" onclick="addGroup(<%=ViewData["YID"] %>,<%=ViewData["CourseID"] %>)" data-role="button" data-mini="true" data-icon="plus" data-iconpos="right">Add Group</a>
-</div>
 </div>

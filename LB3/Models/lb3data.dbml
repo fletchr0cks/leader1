@@ -1,16 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbb440b8fdfb244822869da06200d343e6" Class="lb3dataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=b440b8fd-fb24-4822-869d-a06200d343e6.sqlserver.sequelizer.com;Initial Catalog=dbb440b8fdfb244822869da06200d343e6;Persist Security Info=True;User ID=vpdgdiikikowcpcz" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="dbb440b8fdfb244822869da06200d343e6ConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Course" Member="Courses">
-    <Type Name="Course">
-      <Column Name="CID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="CourseName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="OrderMerit" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Stableford_Total" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="YID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Course_Group" Member="Groups" ThisKey="CID" OtherKey="CourseID" Type="Group" />
-      <Association Name="Course_Hole" Member="Holes" ThisKey="CID" OtherKey="CourseID" Type="Hole" />
-    </Type>
-  </Table>
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="lbdb" Class="lb3dataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=U8001065-TPL-B\SQL50160_2;Initial Catalog=lbdb;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="lbdbConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.[Group]" Member="Groups">
     <Type Name="Group">
       <Column Name="GID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -18,8 +7,8 @@
       <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CourseID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Group_UserGroup" Member="UserGroups" ThisKey="GID" OtherKey="GID" Type="UserGroup" />
-      <Association Name="Course_Group" Member="Course" ThisKey="CourseID" OtherKey="CID" Type="Course" IsForeignKey="true" />
       <Association Name="Year_Group" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
+      <Association Name="Course_Group" Member="Course" ThisKey="CourseID" OtherKey="CID" Type="Course" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Handicap" Member="Handicaps">
@@ -48,8 +37,8 @@
       <Column Name="SI" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Hole_SI" Member="SIs" ThisKey="HoleID" OtherKey="HoleID" Type="SI" />
       <Association Name="Hole_Score" Member="Scores" ThisKey="HoleID" OtherKey="HoleID" Type="Score" />
-      <Association Name="Course_Hole" Member="Course" ThisKey="CourseID" OtherKey="CID" Type="Course" IsForeignKey="true" />
       <Association Name="Year_Hole" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Course_Hole" Member="Course" ThisKey="CourseID" OtherKey="CID" Type="Course" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
   <Table Name="dbo.Leaderboard" Member="Leaderboards">
@@ -83,6 +72,7 @@
       <Association Name="User_UserGroup" Member="UserGroups" ThisKey="UserID" OtherKey="UserID" Type="UserGroup" />
       <Association Name="User_Score" Member="Scores" ThisKey="UserID" OtherKey="UserID" Type="Score" />
       <Association Name="User_Event" Member="Events" ThisKey="UserID" OtherKey="UserID" Type="Event" />
+      <Association Name="User_Year" Member="Years" ThisKey="UserID" OtherKey="OwnerID" Type="Year" />
     </Type>
   </Table>
   <Table Name="dbo.UserGroup" Member="UserGroups">
@@ -149,11 +139,27 @@
       <Column Name="Year" Member="Year1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Passcode" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="OwnerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Year_Group" Member="Groups" ThisKey="YID" OtherKey="YearID" Type="Group" />
       <Association Name="Year_Handicap" Member="Handicaps" ThisKey="YID" OtherKey="YearID" Type="Handicap" />
       <Association Name="Year_Hole" Member="Holes" ThisKey="YID" OtherKey="YearID" Type="Hole" />
       <Association Name="Year_Leaderboard" Member="Leaderboards" ThisKey="YID" OtherKey="YearID" Type="Leaderboard" />
       <Association Name="Year_SI" Member="SIs" ThisKey="YID" OtherKey="YearID" Type="SI" />
+      <Association Name="Year_Course" Member="Courses" ThisKey="YID" OtherKey="YID" Type="Course" />
+      <Association Name="User_Year" Member="User" ThisKey="OwnerID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Course" Member="Courses">
+    <Type Name="Course">
+      <Column Name="CID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CourseName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="OrderMerit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Stableford_Total" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="YID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Course_Group" Member="Groups" ThisKey="CID" OtherKey="CourseID" Type="Group" />
+      <Association Name="Course_Hole" Member="Holes" ThisKey="CID" OtherKey="CourseID" Type="Hole" />
+      <Association Name="Year_Course" Member="Year" ThisKey="YID" OtherKey="YID" Type="Year" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

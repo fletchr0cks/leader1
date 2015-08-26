@@ -365,14 +365,53 @@ namespace LB3.Models
             db.SubmitChanges();
         }
 
-        public int SaveNewCourse(string name, int stable)
+        public void SaveNewHole(int CID, int YID, int holenum, int par, int pin, int LD, int SIndx)
         {         
+            DataRepository dataRepository = new DataRepository();
+            Hole h = new Hole();
+            h.CourseID = CID;
+            h.YearID = YID;
+            h.HoleNum = holenum;
+            h.Par = par;
+            h.N_pin = pin;
+            h.L_drive = LD;
+            h.SI = SIndx;
+           
+            dataRepository.Add(h);            
+        }
+
+        public int SaveNewCourse(string name, int stable)
+        {
             DataRepository dataRepository = new DataRepository();
             CourseUA course = new CourseUA();
             course.CourseName = name;
             course.Stableford_Total = stable;
             int CID = dataRepository.Add(course);
-            return CID;            
+            return CID;
+        }
+
+        public int SaveNewYear(string name, DateTime Date, int Year, int ownerID)
+        {
+            DataRepository dataRepository = new DataRepository();
+            Year yr = new Year();
+            yr.Name = name;
+            yr.Year1 = Year;
+            yr.Date = Date;
+            yr.OwnerID = ownerID;
+        
+            int YID = dataRepository.Add(yr);
+            return YID;
+        }
+
+        public int SaveNewTournCourse(string name, int YID, int ST)
+        {
+            DataRepository dataRepository = new DataRepository();
+            Course course = new Course();
+            course.CourseName = name;
+            course.Stableford_Total = ST;
+            course.YID = YID;
+            int CID = dataRepository.Add(course);
+            return CID;
         }
 
         public int SaveNewTourn(string name, DateTime date, int yr)
@@ -467,11 +506,7 @@ namespace LB3.Models
         }
 
 
-        public void Add(Hole hole)
-        {
-            db.Holes.InsertOnSubmit(hole);
-        }
-
+      
         public void Add(HoleUA hole)
         {
             db.HoleUAs.InsertOnSubmit(hole);
@@ -487,6 +522,12 @@ namespace LB3.Models
             db.UserGroups.InsertOnSubmit(ug);
         }
 
+        public void Add(Hole h)
+        {
+            db.Holes.InsertOnSubmit(h);
+            db.SubmitChanges();
+        }
+
         public void Add(Score sc)
         {
             db.Scores.InsertOnSubmit(sc);
@@ -497,6 +538,13 @@ namespace LB3.Models
             db.CourseUAs.InsertOnSubmit(c);
             db.SubmitChanges();
             return c.ID;
+        }
+
+        public int Add(Course c)
+        {
+            db.Courses.InsertOnSubmit(c);
+            db.SubmitChanges();
+            return c.CID;
         }
 
         public int Add(Year y)

@@ -127,6 +127,13 @@
     <Content Include="Views\Home\CacheTest.aspx" />
     <Content Include="Views\Home\AddCourseUAholes.aspx" />
     <Content Include="Views\Home\AddCourseUA.aspx" />
+    <Content Include="Views\Home\Copy of CourseDetails.aspx" />
+    <Content Include="Views\Home\Login.aspx" />
+    <Content Include="Views\Home\PasscodeResults.ascx" />
+    <Content Include="Views\Home\EnterPasscode.aspx" />
+    <Content Include="Views\Home\MyTourn.aspx" />
+    <Content Include="Views\Home\MyTournx.aspx" />
+    <Content Include="Views\Home\UACourseDetails.aspx" />
     <Content Include="Views\Home\HoleUAPartialNew.ascx" />
     <Content Include="Views\Home\HoleUAPartial.ascx" />
     <Content Include="Views\Home\CourseUA.aspx" />
@@ -162,6 +169,7 @@
     <Content Include="Views\Home\ScorePartial.ascx" />
     <Content Include="Views\Home\Ptest.ascx" />
     <Content Include="Views\Home\SaveHole.aspx" />
+    <Content Include="Views\Home\UAHoleDetails.aspx" />
     <Content Include="Views\Home\Users.aspx" />
     <Content Include="Views\Home\Weather.aspx" />
     <Content Include="Views\Home\Years.aspx" />

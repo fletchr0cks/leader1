@@ -22,7 +22,7 @@ namespace LB3.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="dbb440b8fdfb244822869da06200d343e6")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="lbdb")]
 	public partial class lb3dataDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,9 +30,6 @@ namespace LB3.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertCourse(Course instance);
-    partial void UpdateCourse(Course instance);
-    partial void DeleteCourse(Course instance);
     partial void InsertGroup(Group instance);
     partial void UpdateGroup(Group instance);
     partial void DeleteGroup(Group instance);
@@ -72,10 +69,13 @@ namespace LB3.Models
     partial void InsertYear(Year instance);
     partial void UpdateYear(Year instance);
     partial void DeleteYear(Year instance);
+    partial void InsertCourse(Course instance);
+    partial void UpdateCourse(Course instance);
+    partial void DeleteCourse(Course instance);
     #endregion
 		
 		public lb3dataDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["dbb440b8fdfb244822869da06200d343e6ConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["lbdbConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -102,14 +102,6 @@ namespace LB3.Models
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<Course> Courses
-		{
-			get
-			{
-				return this.GetTable<Course>();
-			}
 		}
 		
 		public System.Data.Linq.Table<Group> Groups
@@ -215,219 +207,13 @@ namespace LB3.Models
 				return this.GetTable<Year>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Course")]
-	public partial class Course : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _CID;
-		
-		private string _CourseName;
-		
-		private System.Nullable<int> _OrderMerit;
-		
-		private System.Nullable<int> _Stableford_Total;
-		
-		private System.Nullable<int> _YID;
-		
-		private EntitySet<Group> _Groups;
-		
-		private EntitySet<Hole> _Holes;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnCIDChanging(int value);
-    partial void OnCIDChanged();
-    partial void OnCourseNameChanging(string value);
-    partial void OnCourseNameChanged();
-    partial void OnOrderMeritChanging(System.Nullable<int> value);
-    partial void OnOrderMeritChanged();
-    partial void OnStableford_TotalChanging(System.Nullable<int> value);
-    partial void OnStableford_TotalChanged();
-    partial void OnYIDChanging(System.Nullable<int> value);
-    partial void OnYIDChanged();
-    #endregion
-		
-		public Course()
-		{
-			this._Groups = new EntitySet<Group>(new Action<Group>(this.attach_Groups), new Action<Group>(this.detach_Groups));
-			this._Holes = new EntitySet<Hole>(new Action<Hole>(this.attach_Holes), new Action<Hole>(this.detach_Holes));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int CID
+		public System.Data.Linq.Table<Course> Courses
 		{
 			get
 			{
-				return this._CID;
+				return this.GetTable<Course>();
 			}
-			set
-			{
-				if ((this._CID != value))
-				{
-					this.OnCIDChanging(value);
-					this.SendPropertyChanging();
-					this._CID = value;
-					this.SendPropertyChanged("CID");
-					this.OnCIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseName", DbType="VarChar(50)")]
-		public string CourseName
-		{
-			get
-			{
-				return this._CourseName;
-			}
-			set
-			{
-				if ((this._CourseName != value))
-				{
-					this.OnCourseNameChanging(value);
-					this.SendPropertyChanging();
-					this._CourseName = value;
-					this.SendPropertyChanged("CourseName");
-					this.OnCourseNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderMerit", DbType="Int")]
-		public System.Nullable<int> OrderMerit
-		{
-			get
-			{
-				return this._OrderMerit;
-			}
-			set
-			{
-				if ((this._OrderMerit != value))
-				{
-					this.OnOrderMeritChanging(value);
-					this.SendPropertyChanging();
-					this._OrderMerit = value;
-					this.SendPropertyChanged("OrderMerit");
-					this.OnOrderMeritChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stableford_Total", DbType="Int")]
-		public System.Nullable<int> Stableford_Total
-		{
-			get
-			{
-				return this._Stableford_Total;
-			}
-			set
-			{
-				if ((this._Stableford_Total != value))
-				{
-					this.OnStableford_TotalChanging(value);
-					this.SendPropertyChanging();
-					this._Stableford_Total = value;
-					this.SendPropertyChanged("Stableford_Total");
-					this.OnStableford_TotalChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YID", DbType="Int")]
-		public System.Nullable<int> YID
-		{
-			get
-			{
-				return this._YID;
-			}
-			set
-			{
-				if ((this._YID != value))
-				{
-					this.OnYIDChanging(value);
-					this.SendPropertyChanging();
-					this._YID = value;
-					this.SendPropertyChanged("YID");
-					this.OnYIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Group", Storage="_Groups", ThisKey="CID", OtherKey="CourseID")]
-		public EntitySet<Group> Groups
-		{
-			get
-			{
-				return this._Groups;
-			}
-			set
-			{
-				this._Groups.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Hole", Storage="_Holes", ThisKey="CID", OtherKey="CourseID")]
-		public EntitySet<Hole> Holes
-		{
-			get
-			{
-				return this._Holes;
-			}
-			set
-			{
-				this._Holes.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Groups(Group entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = this;
-		}
-		
-		private void detach_Groups(Group entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = null;
-		}
-		
-		private void attach_Holes(Hole entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = this;
-		}
-		
-		private void detach_Holes(Hole entity)
-		{
-			this.SendPropertyChanging();
-			entity.Course = null;
 		}
 	}
 	
@@ -447,9 +233,9 @@ namespace LB3.Models
 		
 		private EntitySet<UserGroup> _UserGroups;
 		
-		private EntityRef<Course> _Course;
-		
 		private EntityRef<Year> _Year;
+		
+		private EntityRef<Course> _Course;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -468,8 +254,8 @@ namespace LB3.Models
 		public Group()
 		{
 			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
-			this._Course = default(EntityRef<Course>);
 			this._Year = default(EntityRef<Year>);
+			this._Course = default(EntityRef<Course>);
 			OnCreated();
 		}
 		
@@ -574,40 +360,6 @@ namespace LB3.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Group", Storage="_Course", ThisKey="CourseID", OtherKey="CID", IsForeignKey=true)]
-		public Course Course
-		{
-			get
-			{
-				return this._Course.Entity;
-			}
-			set
-			{
-				Course previousValue = this._Course.Entity;
-				if (((previousValue != value) 
-							|| (this._Course.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Course.Entity = null;
-						previousValue.Groups.Remove(this);
-					}
-					this._Course.Entity = value;
-					if ((value != null))
-					{
-						value.Groups.Add(this);
-						this._CourseID = value.CID;
-					}
-					else
-					{
-						this._CourseID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Course");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Group", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true)]
 		public Year Year
 		{
@@ -638,6 +390,40 @@ namespace LB3.Models
 						this._YearID = default(int);
 					}
 					this.SendPropertyChanged("Year");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Group", Storage="_Course", ThisKey="CourseID", OtherKey="CID", IsForeignKey=true)]
+		public Course Course
+		{
+			get
+			{
+				return this._Course.Entity;
+			}
+			set
+			{
+				Course previousValue = this._Course.Entity;
+				if (((previousValue != value) 
+							|| (this._Course.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Course.Entity = null;
+						previousValue.Groups.Remove(this);
+					}
+					this._Course.Entity = value;
+					if ((value != null))
+					{
+						value.Groups.Add(this);
+						this._CourseID = value.CID;
+					}
+					else
+					{
+						this._CourseID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Course");
 				}
 			}
 		}
@@ -925,9 +711,9 @@ namespace LB3.Models
 		
 		private EntitySet<Score> _Scores;
 		
-		private EntityRef<Course> _Course;
-		
 		private EntityRef<Year> _Year;
+		
+		private EntityRef<Course> _Course;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -963,8 +749,8 @@ namespace LB3.Models
 		{
 			this._SIs = new EntitySet<SI>(new Action<SI>(this.attach_SIs), new Action<SI>(this.detach_SIs));
 			this._Scores = new EntitySet<Score>(new Action<Score>(this.attach_Scores), new Action<Score>(this.detach_Scores));
-			this._Course = default(EntityRef<Course>);
 			this._Year = default(EntityRef<Year>);
+			this._Course = default(EntityRef<Course>);
 			OnCreated();
 		}
 		
@@ -1242,40 +1028,6 @@ namespace LB3.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Hole", Storage="_Course", ThisKey="CourseID", OtherKey="CID", IsForeignKey=true)]
-		public Course Course
-		{
-			get
-			{
-				return this._Course.Entity;
-			}
-			set
-			{
-				Course previousValue = this._Course.Entity;
-				if (((previousValue != value) 
-							|| (this._Course.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Course.Entity = null;
-						previousValue.Holes.Remove(this);
-					}
-					this._Course.Entity = value;
-					if ((value != null))
-					{
-						value.Holes.Add(this);
-						this._CourseID = value.CID;
-					}
-					else
-					{
-						this._CourseID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Course");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Hole", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Year Year
 		{
@@ -1306,6 +1058,40 @@ namespace LB3.Models
 						this._YearID = default(int);
 					}
 					this.SendPropertyChanged("Year");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Hole", Storage="_Course", ThisKey="CourseID", OtherKey="CID", IsForeignKey=true, DeleteRule="CASCADE")]
+		public Course Course
+		{
+			get
+			{
+				return this._Course.Entity;
+			}
+			set
+			{
+				Course previousValue = this._Course.Entity;
+				if (((previousValue != value) 
+							|| (this._Course.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Course.Entity = null;
+						previousValue.Holes.Remove(this);
+					}
+					this._Course.Entity = value;
+					if ((value != null))
+					{
+						value.Holes.Add(this);
+						this._CourseID = value.CID;
+					}
+					else
+					{
+						this._CourseID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Course");
 				}
 			}
 		}
@@ -1811,6 +1597,8 @@ namespace LB3.Models
 		
 		private EntitySet<Event> _Events;
 		
+		private EntitySet<Year> _Years;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1832,6 +1620,7 @@ namespace LB3.Models
 			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
 			this._Scores = new EntitySet<Score>(new Action<Score>(this.attach_Scores), new Action<Score>(this.detach_Scores));
 			this._Events = new EntitySet<Event>(new Action<Event>(this.attach_Events), new Action<Event>(this.detach_Events));
+			this._Years = new EntitySet<Year>(new Action<Year>(this.attach_Years), new Action<Year>(this.detach_Years));
 			OnCreated();
 		}
 		
@@ -1980,6 +1769,19 @@ namespace LB3.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Year", Storage="_Years", ThisKey="UserID", OtherKey="OwnerID")]
+		public EntitySet<Year> Years
+		{
+			get
+			{
+				return this._Years;
+			}
+			set
+			{
+				this._Years.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2055,6 +1857,18 @@ namespace LB3.Models
 		}
 		
 		private void detach_Events(Event entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Years(Year entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Years(Year entity)
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
@@ -3204,6 +3018,10 @@ namespace LB3.Models
 		
 		private System.Nullable<System.DateTime> _Date;
 		
+		private string _Passcode;
+		
+		private System.Nullable<int> _OwnerID;
+		
 		private EntitySet<Group> _Groups;
 		
 		private EntitySet<Handicap> _Handicaps;
@@ -3213,6 +3031,10 @@ namespace LB3.Models
 		private EntitySet<Leaderboard> _Leaderboards;
 		
 		private EntitySet<SI> _SIs;
+		
+		private EntitySet<Course> _Courses;
+		
+		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3226,6 +3048,10 @@ namespace LB3.Models
     partial void OnNameChanged();
     partial void OnDateChanging(System.Nullable<System.DateTime> value);
     partial void OnDateChanged();
+    partial void OnPasscodeChanging(string value);
+    partial void OnPasscodeChanged();
+    partial void OnOwnerIDChanging(System.Nullable<int> value);
+    partial void OnOwnerIDChanged();
     #endregion
 		
 		public Year()
@@ -3235,6 +3061,8 @@ namespace LB3.Models
 			this._Holes = new EntitySet<Hole>(new Action<Hole>(this.attach_Holes), new Action<Hole>(this.detach_Holes));
 			this._Leaderboards = new EntitySet<Leaderboard>(new Action<Leaderboard>(this.attach_Leaderboards), new Action<Leaderboard>(this.detach_Leaderboards));
 			this._SIs = new EntitySet<SI>(new Action<SI>(this.attach_SIs), new Action<SI>(this.detach_SIs));
+			this._Courses = new EntitySet<Course>(new Action<Course>(this.attach_Courses), new Action<Course>(this.detach_Courses));
+			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
@@ -3318,6 +3146,50 @@ namespace LB3.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Passcode", DbType="VarChar(MAX)")]
+		public string Passcode
+		{
+			get
+			{
+				return this._Passcode;
+			}
+			set
+			{
+				if ((this._Passcode != value))
+				{
+					this.OnPasscodeChanging(value);
+					this.SendPropertyChanging();
+					this._Passcode = value;
+					this.SendPropertyChanged("Passcode");
+					this.OnPasscodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerID", DbType="Int")]
+		public System.Nullable<int> OwnerID
+		{
+			get
+			{
+				return this._OwnerID;
+			}
+			set
+			{
+				if ((this._OwnerID != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOwnerIDChanging(value);
+					this.SendPropertyChanging();
+					this._OwnerID = value;
+					this.SendPropertyChanged("OwnerID");
+					this.OnOwnerIDChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Group", Storage="_Groups", ThisKey="YID", OtherKey="YearID")]
 		public EntitySet<Group> Groups
 		{
@@ -3380,6 +3252,53 @@ namespace LB3.Models
 			set
 			{
 				this._SIs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Course", Storage="_Courses", ThisKey="YID", OtherKey="YID")]
+		public EntitySet<Course> Courses
+		{
+			get
+			{
+				return this._Courses;
+			}
+			set
+			{
+				this._Courses.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Year", Storage="_User", ThisKey="OwnerID", OtherKey="UserID", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Years.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Years.Add(this);
+						this._OwnerID = value.UserID;
+					}
+					else
+					{
+						this._OwnerID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("User");
+				}
 			}
 		}
 		
@@ -3461,6 +3380,273 @@ namespace LB3.Models
 		{
 			this.SendPropertyChanging();
 			entity.Year = null;
+		}
+		
+		private void attach_Courses(Course entity)
+		{
+			this.SendPropertyChanging();
+			entity.Year = this;
+		}
+		
+		private void detach_Courses(Course entity)
+		{
+			this.SendPropertyChanging();
+			entity.Year = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Course")]
+	public partial class Course : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CID;
+		
+		private string _CourseName;
+		
+		private System.Nullable<int> _OrderMerit;
+		
+		private System.Nullable<int> _Stableford_Total;
+		
+		private System.Nullable<int> _YID;
+		
+		private EntitySet<Group> _Groups;
+		
+		private EntitySet<Hole> _Holes;
+		
+		private EntityRef<Year> _Year;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCIDChanging(int value);
+    partial void OnCIDChanged();
+    partial void OnCourseNameChanging(string value);
+    partial void OnCourseNameChanged();
+    partial void OnOrderMeritChanging(System.Nullable<int> value);
+    partial void OnOrderMeritChanged();
+    partial void OnStableford_TotalChanging(System.Nullable<int> value);
+    partial void OnStableford_TotalChanged();
+    partial void OnYIDChanging(System.Nullable<int> value);
+    partial void OnYIDChanged();
+    #endregion
+		
+		public Course()
+		{
+			this._Groups = new EntitySet<Group>(new Action<Group>(this.attach_Groups), new Action<Group>(this.detach_Groups));
+			this._Holes = new EntitySet<Hole>(new Action<Hole>(this.attach_Holes), new Action<Hole>(this.detach_Holes));
+			this._Year = default(EntityRef<Year>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CID
+		{
+			get
+			{
+				return this._CID;
+			}
+			set
+			{
+				if ((this._CID != value))
+				{
+					this.OnCIDChanging(value);
+					this.SendPropertyChanging();
+					this._CID = value;
+					this.SendPropertyChanged("CID");
+					this.OnCIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseName", DbType="VarChar(50)")]
+		public string CourseName
+		{
+			get
+			{
+				return this._CourseName;
+			}
+			set
+			{
+				if ((this._CourseName != value))
+				{
+					this.OnCourseNameChanging(value);
+					this.SendPropertyChanging();
+					this._CourseName = value;
+					this.SendPropertyChanged("CourseName");
+					this.OnCourseNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderMerit", DbType="Int")]
+		public System.Nullable<int> OrderMerit
+		{
+			get
+			{
+				return this._OrderMerit;
+			}
+			set
+			{
+				if ((this._OrderMerit != value))
+				{
+					this.OnOrderMeritChanging(value);
+					this.SendPropertyChanging();
+					this._OrderMerit = value;
+					this.SendPropertyChanged("OrderMerit");
+					this.OnOrderMeritChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stableford_Total", DbType="Int")]
+		public System.Nullable<int> Stableford_Total
+		{
+			get
+			{
+				return this._Stableford_Total;
+			}
+			set
+			{
+				if ((this._Stableford_Total != value))
+				{
+					this.OnStableford_TotalChanging(value);
+					this.SendPropertyChanging();
+					this._Stableford_Total = value;
+					this.SendPropertyChanged("Stableford_Total");
+					this.OnStableford_TotalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YID", DbType="Int")]
+		public System.Nullable<int> YID
+		{
+			get
+			{
+				return this._YID;
+			}
+			set
+			{
+				if ((this._YID != value))
+				{
+					if (this._Year.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnYIDChanging(value);
+					this.SendPropertyChanging();
+					this._YID = value;
+					this.SendPropertyChanged("YID");
+					this.OnYIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Group", Storage="_Groups", ThisKey="CID", OtherKey="CourseID")]
+		public EntitySet<Group> Groups
+		{
+			get
+			{
+				return this._Groups;
+			}
+			set
+			{
+				this._Groups.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Hole", Storage="_Holes", ThisKey="CID", OtherKey="CourseID")]
+		public EntitySet<Hole> Holes
+		{
+			get
+			{
+				return this._Holes;
+			}
+			set
+			{
+				this._Holes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Course", Storage="_Year", ThisKey="YID", OtherKey="YID", IsForeignKey=true)]
+		public Year Year
+		{
+			get
+			{
+				return this._Year.Entity;
+			}
+			set
+			{
+				Year previousValue = this._Year.Entity;
+				if (((previousValue != value) 
+							|| (this._Year.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Year.Entity = null;
+						previousValue.Courses.Remove(this);
+					}
+					this._Year.Entity = value;
+					if ((value != null))
+					{
+						value.Courses.Add(this);
+						this._YID = value.YID;
+					}
+					else
+					{
+						this._YID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Year");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Groups(Group entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = this;
+		}
+		
+		private void detach_Groups(Group entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = null;
+		}
+		
+		private void attach_Holes(Hole entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = this;
+		}
+		
+		private void detach_Holes(Hole entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = null;
 		}
 	}
 }

@@ -117,7 +117,7 @@
            var model = {
                URL: "",
                Key: "",
-               ID: ""
+               UserID: ""
            };
 
            if (localStorage[index] != null) {
@@ -382,6 +382,30 @@
            });
        }
 
+       function LoginUser(UserID) {
+           alert(UserID);
+           var index = "123"
+           var model = getHistoryModel(index);
+           model.UserID = UserID;
+           localStorage.setItem(index,
+                    JSON.stringify(model));
+           window.location.href = "/";
+       }
+
+       function GetUserID() {
+           //alert(UserID);
+           var index = "123"
+           var model = getHistoryModel(index);
+           var UserID = "";
+           if (model == null) {
+           }
+           else {
+               UserID = model.UserID;
+
+           }
+           return UserID;
+       }
+
        function saveGroup(CID, YID) {
 
            var groupname = document.getElementById("groupname").value;
@@ -393,8 +417,30 @@
                dataType: "html",
                success: function(data) {
                    $('#grouplist_' + CID).html(data).trigger("create");
+                   //expand groupsection here
                },
                error: function(xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               }
+           });
+           return false;
+
+       }
+
+       function checkCode() {
+
+           var passcode = document.getElementById("passcode").value;
+           var ownername = document.getElementById("ownername").value;
+           $.ajax({
+               type: "POST",
+               url: "/Home/checkCode",
+               data: "passcode=" + passcode + "&ownername=" + ownername,
+               dataType: "html",
+               success: function (data) {
+                   $('#results').html(data).trigger("create");
+                   //expand groupsection here
+               },
+               error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
                }
            });
@@ -481,7 +527,12 @@
                    var json = eval('(' + data + ')');
                    $.each(json.miniLBdata, function (i, result) {
                        var par = parseInt(result.TotalScore - result.Pars);
-                       htmlLB = htmlLB + "<tr><td><div class=\"miniLBh\">" + result.Nickname + "</div></td><td><div class=\"miniLBn\">" + result.TotalScore + "</div></td><td><div class=\"miniLBn\">" + par + "</div></td></tr>";
+                       if (parseInt(par) > 0) {
+                           par = "+" + par;
+                       } else {
+
+                       }
+                       htmlLB = htmlLB + "<tr class=\"miniLBrow\"><td><div class=\"miniLBh\">" + result.Nickname + "</div></td><td><div class=\"miniLBn\">" + par + "</div></td></tr>";
                    });
                    //gotohere add ids to div areas
                    $('#miniLB').html("<div class=\"miniLBback\"><table>" + htmlLB + "</table></div>").trigger("create");

@@ -14,16 +14,17 @@
 </script>
 <div>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li><%=Html.ActionLink("Profiles", "Users", "Home") %></li>
-    <li><%=Html.ActionLink("Groups", "Groups", "Home")%></li>
+	<li><%=Html.ActionLink("Users", "Users", "Home") %></li>
+    <li><%=Html.ActionLink("Login", "Login", "Home")%></li>
 </ul>
 
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li><%=Html.ActionLink("Courses", "CourseUA", "Home") %></li>
+	<li><%=Html.ActionLink("Create a Tournament", "CourseUA", "Home") %></li>
 </ul>
 
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li><%=Html.ActionLink("Tournaments", "Years", "Home", new { target = "CourseGroups" }, null)%></li>
+	<li><%=Html.ActionLink("Join a Tournament", "Years", "Home")%></li>
+    <li><%=Html.ActionLink("My Tournaments", "MyTourn", "Home", new { UserID = "2" }, null)%></li>
 	<li><%=Html.ActionLink("Enter Scores", "Years", "Home", new { target = "CourseHoles" }, null) %></li>
 	<li><%=Html.ActionLink("View Scores", "Years", "Home", new { target = "CourseHolesView" }, null)%></li>
 	<li><%=Html.ActionLink("Results Feed", "Events", "Home") %></li>
