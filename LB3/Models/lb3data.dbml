@@ -17,9 +17,8 @@
       <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Hval" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Year_Handicap" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
       <Association Name="User_Handicap" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Handicap" Member="b" ThisKey="UserID" OtherKey="UserID" Type="b" IsForeignKey="true" />
+      <Association Name="Year_Handicap" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Hole" Member="Holes">
@@ -48,9 +47,8 @@
       <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Points" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Year_Leaderboard" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
       <Association Name="User_Leaderboard" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Leaderboard" Member="b" ThisKey="UserID" OtherKey="UserID" Type="b" IsForeignKey="true" />
+      <Association Name="Year_Leaderboard" Member="Year" ThisKey="YearID" OtherKey="YID" Type="Year" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.SI" Member="SIs">
@@ -70,7 +68,6 @@
       <Column Name="GID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Group_UserGroup" Member="Group" ThisKey="GID" OtherKey="GID" Type="Group" IsForeignKey="true" />
       <Association Name="User_UserGroup" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-      <Association Name="User1_UserGroup" Member="b" ThisKey="UserID" OtherKey="UserID" Type="b" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Event" Member="Events">
@@ -83,7 +80,6 @@
       <Column Name="Type" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Speech" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Association Name="User_Event" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Event" Member="b" ThisKey="UserID" OtherKey="UserID" Type="b" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.CourseUA" Member="CourseUAs">
@@ -117,6 +113,7 @@
       <Column Name="YID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Course_Group" Member="Groups" ThisKey="CID" OtherKey="CourseID" Type="Group" />
       <Association Name="Course_Hole" Member="Holes" ThisKey="CID" OtherKey="CourseID" Type="Hole" />
+      <Association Name="Year_Course" Member="Year" ThisKey="YID" OtherKey="YID" Type="Year" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Score" Member="Scores">
@@ -132,24 +129,6 @@
       <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Hole_Score" Member="Hole" ThisKey="HoleID" OtherKey="HoleID" Type="Hole" IsForeignKey="true" />
       <Association Name="User_Score" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Score" Member="b" ThisKey="UserID" OtherKey="UserID" Type="b" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Year" Member="Years">
-    <Type Name="Year">
-      <Column Name="YID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Year" Member="Year1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="Passcode" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="OwnerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Year_Group" Member="Groups" ThisKey="YID" OtherKey="YearID" Type="Group" />
-      <Association Name="Year_Handicap" Member="Handicaps" ThisKey="YID" OtherKey="YearID" Type="Handicap" />
-      <Association Name="Year_Hole" Member="Holes" ThisKey="YID" OtherKey="YearID" Type="Hole" />
-      <Association Name="Year_Leaderboard" Member="Leaderboards" ThisKey="YID" OtherKey="YearID" Type="Leaderboard" />
-      <Association Name="Year_SI" Member="SIs" ThisKey="YID" OtherKey="YearID" Type="SI" />
-      <Association Name="User_Year" Member="User" ThisKey="OwnerID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Year" Member="b" ThisKey="OwnerID" OtherKey="UserID" Type="b" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[User]" Member="Users">
@@ -169,21 +148,21 @@
       <Association Name="User_Year" Member="Years" ThisKey="UserID" OtherKey="OwnerID" Type="Year" />
     </Type>
   </Table>
-  <Table Name="dbo.[User]" Member="bs">
-    <Type Name="b">
-      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Nickname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Rating" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Lastname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Handicap" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="UserType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="User1_Handicap" Member="Handicaps" ThisKey="UserID" OtherKey="UserID" Type="Handicap" />
-      <Association Name="User1_Leaderboard" Member="Leaderboards" ThisKey="UserID" OtherKey="UserID" Type="Leaderboard" />
-      <Association Name="User1_UserGroup" Member="UserGroups" ThisKey="UserID" OtherKey="UserID" Type="UserGroup" />
-      <Association Name="User1_Event" Member="Events" ThisKey="UserID" OtherKey="UserID" Type="Event" />
-      <Association Name="User1_Score" Member="Scores" ThisKey="UserID" OtherKey="UserID" Type="Score" />
-      <Association Name="User1_Year" Member="Years" ThisKey="UserID" OtherKey="OwnerID" Type="Year" />
+  <Table Name="dbo.Year" Member="Years">
+    <Type Name="Year">
+      <Column Name="YID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Year" Member="Year1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Passcode" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="OwnerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Year_Group" Member="Groups" ThisKey="YID" OtherKey="YearID" Type="Group" />
+      <Association Name="Year_Handicap" Member="Handicaps" ThisKey="YID" OtherKey="YearID" Type="Handicap" />
+      <Association Name="Year_Hole" Member="Holes" ThisKey="YID" OtherKey="YearID" Type="Hole" />
+      <Association Name="Year_Leaderboard" Member="Leaderboards" ThisKey="YID" OtherKey="YearID" Type="Leaderboard" />
+      <Association Name="Year_SI" Member="SIs" ThisKey="YID" OtherKey="YearID" Type="SI" />
+      <Association Name="Year_Course" Member="Courses" ThisKey="YID" OtherKey="YID" Type="Course" />
+      <Association Name="User_Year" Member="User" ThisKey="OwnerID" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
