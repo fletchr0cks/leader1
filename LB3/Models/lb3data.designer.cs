@@ -22,7 +22,7 @@ namespace LB3.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="lbdb")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="dbb440b8fdfb244822869da06200d343e6")]
 	public partial class lb3dataDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -45,15 +45,9 @@ namespace LB3.Models
     partial void InsertSI(SI instance);
     partial void UpdateSI(SI instance);
     partial void DeleteSI(SI instance);
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
     partial void InsertUserGroup(UserGroup instance);
     partial void UpdateUserGroup(UserGroup instance);
     partial void DeleteUserGroup(UserGroup instance);
-    partial void InsertScore(Score instance);
-    partial void UpdateScore(Score instance);
-    partial void DeleteScore(Score instance);
     partial void InsertEvent(Event instance);
     partial void UpdateEvent(Event instance);
     partial void DeleteEvent(Event instance);
@@ -66,16 +60,25 @@ namespace LB3.Models
     partial void InsertHoleUA(HoleUA instance);
     partial void UpdateHoleUA(HoleUA instance);
     partial void DeleteHoleUA(HoleUA instance);
-    partial void InsertYear(Year instance);
-    partial void UpdateYear(Year instance);
-    partial void DeleteYear(Year instance);
     partial void InsertCourse(Course instance);
     partial void UpdateCourse(Course instance);
     partial void DeleteCourse(Course instance);
+    partial void InsertScore(Score instance);
+    partial void UpdateScore(Score instance);
+    partial void DeleteScore(Score instance);
+    partial void InsertYear(Year instance);
+    partial void UpdateYear(Year instance);
+    partial void DeleteYear(Year instance);
+    partial void InsertUser(User instance);
+    partial void UpdateUser(User instance);
+    partial void DeleteUser(User instance);
+    partial void Insertb(b instance);
+    partial void Updateb(b instance);
+    partial void Deleteb(b instance);
     #endregion
 		
 		public lb3dataDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["lbdbConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["dbb440b8fdfb244822869da06200d343e6ConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -144,27 +147,11 @@ namespace LB3.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<User> Users
-		{
-			get
-			{
-				return this.GetTable<User>();
-			}
-		}
-		
 		public System.Data.Linq.Table<UserGroup> UserGroups
 		{
 			get
 			{
 				return this.GetTable<UserGroup>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Score> Scores
-		{
-			get
-			{
-				return this.GetTable<Score>();
 			}
 		}
 		
@@ -200,6 +187,22 @@ namespace LB3.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<Course> Courses
+		{
+			get
+			{
+				return this.GetTable<Course>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Score> Scores
+		{
+			get
+			{
+				return this.GetTable<Score>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Year> Years
 		{
 			get
@@ -208,11 +211,19 @@ namespace LB3.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Course> Courses
+		public System.Data.Linq.Table<User> Users
 		{
 			get
 			{
-				return this.GetTable<Course>();
+				return this.GetTable<User>();
+			}
+		}
+		
+		public System.Data.Linq.Table<b> bs
+		{
+			get
+			{
+				return this.GetTable<b>();
 			}
 		}
 	}
@@ -233,9 +244,9 @@ namespace LB3.Models
 		
 		private EntitySet<UserGroup> _UserGroups;
 		
-		private EntityRef<Year> _Year;
-		
 		private EntityRef<Course> _Course;
+		
+		private EntityRef<Year> _Year;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -254,8 +265,8 @@ namespace LB3.Models
 		public Group()
 		{
 			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
-			this._Year = default(EntityRef<Year>);
 			this._Course = default(EntityRef<Course>);
+			this._Year = default(EntityRef<Year>);
 			OnCreated();
 		}
 		
@@ -360,40 +371,6 @@ namespace LB3.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Group", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true)]
-		public Year Year
-		{
-			get
-			{
-				return this._Year.Entity;
-			}
-			set
-			{
-				Year previousValue = this._Year.Entity;
-				if (((previousValue != value) 
-							|| (this._Year.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Year.Entity = null;
-						previousValue.Groups.Remove(this);
-					}
-					this._Year.Entity = value;
-					if ((value != null))
-					{
-						value.Groups.Add(this);
-						this._YearID = value.YID;
-					}
-					else
-					{
-						this._YearID = default(int);
-					}
-					this.SendPropertyChanged("Year");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Group", Storage="_Course", ThisKey="CourseID", OtherKey="CID", IsForeignKey=true)]
 		public Course Course
 		{
@@ -424,6 +401,40 @@ namespace LB3.Models
 						this._CourseID = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Course");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Group", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true)]
+		public Year Year
+		{
+			get
+			{
+				return this._Year.Entity;
+			}
+			set
+			{
+				Year previousValue = this._Year.Entity;
+				if (((previousValue != value) 
+							|| (this._Year.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Year.Entity = null;
+						previousValue.Groups.Remove(this);
+					}
+					this._Year.Entity = value;
+					if ((value != null))
+					{
+						value.Groups.Add(this);
+						this._YearID = value.YID;
+					}
+					else
+					{
+						this._YearID = default(int);
+					}
+					this.SendPropertyChanged("Year");
 				}
 			}
 		}
@@ -475,9 +486,11 @@ namespace LB3.Models
 		
 		private int _YearID;
 		
+		private EntityRef<Year> _Year;
+		
 		private EntityRef<User> _User;
 		
-		private EntityRef<Year> _Year;
+		private EntityRef<b> _b;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -495,8 +508,9 @@ namespace LB3.Models
 		
 		public Handicap()
 		{
-			this._User = default(EntityRef<User>);
 			this._Year = default(EntityRef<Year>);
+			this._User = default(EntityRef<User>);
+			this._b = default(EntityRef<b>);
 			OnCreated();
 		}
 		
@@ -531,7 +545,7 @@ namespace LB3.Models
 			{
 				if ((this._UserID != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
+					if ((this._User.HasLoadedOrAssignedValue || this._b.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -588,6 +602,40 @@ namespace LB3.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Handicap", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true)]
+		public Year Year
+		{
+			get
+			{
+				return this._Year.Entity;
+			}
+			set
+			{
+				Year previousValue = this._Year.Entity;
+				if (((previousValue != value) 
+							|| (this._Year.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Year.Entity = null;
+						previousValue.Handicaps.Remove(this);
+					}
+					this._Year.Entity = value;
+					if ((value != null))
+					{
+						value.Handicaps.Add(this);
+						this._YearID = value.YID;
+					}
+					else
+					{
+						this._YearID = default(int);
+					}
+					this.SendPropertyChanged("Year");
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Handicap", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
 		public User User
 		{
@@ -622,36 +670,36 @@ namespace LB3.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Handicap", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true)]
-		public Year Year
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Handicap", Storage="_b", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+		public b b
 		{
 			get
 			{
-				return this._Year.Entity;
+				return this._b.Entity;
 			}
 			set
 			{
-				Year previousValue = this._Year.Entity;
+				b previousValue = this._b.Entity;
 				if (((previousValue != value) 
-							|| (this._Year.HasLoadedOrAssignedValue == false)))
+							|| (this._b.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Year.Entity = null;
+						this._b.Entity = null;
 						previousValue.Handicaps.Remove(this);
 					}
-					this._Year.Entity = value;
+					this._b.Entity = value;
 					if ((value != null))
 					{
 						value.Handicaps.Add(this);
-						this._YearID = value.YID;
+						this._UserID = value.UserID;
 					}
 					else
 					{
-						this._YearID = default(int);
+						this._UserID = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("Year");
+					this.SendPropertyChanged("b");
 				}
 			}
 		}
@@ -711,9 +759,9 @@ namespace LB3.Models
 		
 		private EntitySet<Score> _Scores;
 		
-		private EntityRef<Year> _Year;
-		
 		private EntityRef<Course> _Course;
+		
+		private EntityRef<Year> _Year;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -749,8 +797,8 @@ namespace LB3.Models
 		{
 			this._SIs = new EntitySet<SI>(new Action<SI>(this.attach_SIs), new Action<SI>(this.detach_SIs));
 			this._Scores = new EntitySet<Score>(new Action<Score>(this.attach_Scores), new Action<Score>(this.detach_Scores));
-			this._Year = default(EntityRef<Year>);
 			this._Course = default(EntityRef<Course>);
+			this._Year = default(EntityRef<Year>);
 			OnCreated();
 		}
 		
@@ -1028,40 +1076,6 @@ namespace LB3.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Hole", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public Year Year
-		{
-			get
-			{
-				return this._Year.Entity;
-			}
-			set
-			{
-				Year previousValue = this._Year.Entity;
-				if (((previousValue != value) 
-							|| (this._Year.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Year.Entity = null;
-						previousValue.Holes.Remove(this);
-					}
-					this._Year.Entity = value;
-					if ((value != null))
-					{
-						value.Holes.Add(this);
-						this._YearID = value.YID;
-					}
-					else
-					{
-						this._YearID = default(int);
-					}
-					this.SendPropertyChanged("Year");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Hole", Storage="_Course", ThisKey="CourseID", OtherKey="CID", IsForeignKey=true, DeleteRule="CASCADE")]
 		public Course Course
 		{
@@ -1092,6 +1106,40 @@ namespace LB3.Models
 						this._CourseID = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Course");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Hole", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Year Year
+		{
+			get
+			{
+				return this._Year.Entity;
+			}
+			set
+			{
+				Year previousValue = this._Year.Entity;
+				if (((previousValue != value) 
+							|| (this._Year.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Year.Entity = null;
+						previousValue.Holes.Remove(this);
+					}
+					this._Year.Entity = value;
+					if ((value != null))
+					{
+						value.Holes.Add(this);
+						this._YearID = value.YID;
+					}
+					else
+					{
+						this._YearID = default(int);
+					}
+					this.SendPropertyChanged("Year");
 				}
 			}
 		}
@@ -1155,9 +1203,11 @@ namespace LB3.Models
 		
 		private int _YearID;
 		
+		private EntityRef<Year> _Year;
+		
 		private EntityRef<User> _User;
 		
-		private EntityRef<Year> _Year;
+		private EntityRef<b> _b;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1175,8 +1225,9 @@ namespace LB3.Models
 		
 		public Leaderboard()
 		{
-			this._User = default(EntityRef<User>);
 			this._Year = default(EntityRef<Year>);
+			this._User = default(EntityRef<User>);
+			this._b = default(EntityRef<b>);
 			OnCreated();
 		}
 		
@@ -1211,7 +1262,7 @@ namespace LB3.Models
 			{
 				if ((this._UserID != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
+					if ((this._User.HasLoadedOrAssignedValue || this._b.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -1268,6 +1319,40 @@ namespace LB3.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Leaderboard", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true)]
+		public Year Year
+		{
+			get
+			{
+				return this._Year.Entity;
+			}
+			set
+			{
+				Year previousValue = this._Year.Entity;
+				if (((previousValue != value) 
+							|| (this._Year.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Year.Entity = null;
+						previousValue.Leaderboards.Remove(this);
+					}
+					this._Year.Entity = value;
+					if ((value != null))
+					{
+						value.Leaderboards.Add(this);
+						this._YearID = value.YID;
+					}
+					else
+					{
+						this._YearID = default(int);
+					}
+					this.SendPropertyChanged("Year");
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Leaderboard", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
 		public User User
 		{
@@ -1302,36 +1387,36 @@ namespace LB3.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Leaderboard", Storage="_Year", ThisKey="YearID", OtherKey="YID", IsForeignKey=true)]
-		public Year Year
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Leaderboard", Storage="_b", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+		public b b
 		{
 			get
 			{
-				return this._Year.Entity;
+				return this._b.Entity;
 			}
 			set
 			{
-				Year previousValue = this._Year.Entity;
+				b previousValue = this._b.Entity;
 				if (((previousValue != value) 
-							|| (this._Year.HasLoadedOrAssignedValue == false)))
+							|| (this._b.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Year.Entity = null;
+						this._b.Entity = null;
 						previousValue.Leaderboards.Remove(this);
 					}
-					this._Year.Entity = value;
+					this._b.Entity = value;
 					if ((value != null))
 					{
 						value.Leaderboards.Add(this);
-						this._YearID = value.YID;
+						this._UserID = value.UserID;
 					}
 					else
 					{
-						this._YearID = default(int);
+						this._UserID = default(int);
 					}
-					this.SendPropertyChanged("Year");
+					this.SendPropertyChanged("b");
 				}
 			}
 		}
@@ -1573,308 +1658,6 @@ namespace LB3.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _UserID;
-		
-		private string _Name;
-		
-		private string _Nickname;
-		
-		private int _Rating;
-		
-		private EntitySet<Handicap> _Handicaps;
-		
-		private EntitySet<Leaderboard> _Leaderboards;
-		
-		private EntitySet<UserGroup> _UserGroups;
-		
-		private EntitySet<Score> _Scores;
-		
-		private EntitySet<Event> _Events;
-		
-		private EntitySet<Year> _Years;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUserIDChanging(int value);
-    partial void OnUserIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnNicknameChanging(string value);
-    partial void OnNicknameChanged();
-    partial void OnRatingChanging(int value);
-    partial void OnRatingChanged();
-    #endregion
-		
-		public User()
-		{
-			this._Handicaps = new EntitySet<Handicap>(new Action<Handicap>(this.attach_Handicaps), new Action<Handicap>(this.detach_Handicaps));
-			this._Leaderboards = new EntitySet<Leaderboard>(new Action<Leaderboard>(this.attach_Leaderboards), new Action<Leaderboard>(this.detach_Leaderboards));
-			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
-			this._Scores = new EntitySet<Score>(new Action<Score>(this.attach_Scores), new Action<Score>(this.detach_Scores));
-			this._Events = new EntitySet<Event>(new Action<Event>(this.attach_Events), new Action<Event>(this.detach_Events));
-			this._Years = new EntitySet<Year>(new Action<Year>(this.attach_Years), new Action<Year>(this.detach_Years));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int UserID
-		{
-			get
-			{
-				return this._UserID;
-			}
-			set
-			{
-				if ((this._UserID != value))
-				{
-					this.OnUserIDChanging(value);
-					this.SendPropertyChanging();
-					this._UserID = value;
-					this.SendPropertyChanged("UserID");
-					this.OnUserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nickname", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string Nickname
-		{
-			get
-			{
-				return this._Nickname;
-			}
-			set
-			{
-				if ((this._Nickname != value))
-				{
-					this.OnNicknameChanging(value);
-					this.SendPropertyChanging();
-					this._Nickname = value;
-					this.SendPropertyChanged("Nickname");
-					this.OnNicknameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Rating", DbType="Int NOT NULL")]
-		public int Rating
-		{
-			get
-			{
-				return this._Rating;
-			}
-			set
-			{
-				if ((this._Rating != value))
-				{
-					this.OnRatingChanging(value);
-					this.SendPropertyChanging();
-					this._Rating = value;
-					this.SendPropertyChanged("Rating");
-					this.OnRatingChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Handicap", Storage="_Handicaps", ThisKey="UserID", OtherKey="UserID")]
-		public EntitySet<Handicap> Handicaps
-		{
-			get
-			{
-				return this._Handicaps;
-			}
-			set
-			{
-				this._Handicaps.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Leaderboard", Storage="_Leaderboards", ThisKey="UserID", OtherKey="UserID")]
-		public EntitySet<Leaderboard> Leaderboards
-		{
-			get
-			{
-				return this._Leaderboards;
-			}
-			set
-			{
-				this._Leaderboards.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserGroup", Storage="_UserGroups", ThisKey="UserID", OtherKey="UserID")]
-		public EntitySet<UserGroup> UserGroups
-		{
-			get
-			{
-				return this._UserGroups;
-			}
-			set
-			{
-				this._UserGroups.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Score", Storage="_Scores", ThisKey="UserID", OtherKey="UserID")]
-		public EntitySet<Score> Scores
-		{
-			get
-			{
-				return this._Scores;
-			}
-			set
-			{
-				this._Scores.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Event", Storage="_Events", ThisKey="UserID", OtherKey="UserID")]
-		public EntitySet<Event> Events
-		{
-			get
-			{
-				return this._Events;
-			}
-			set
-			{
-				this._Events.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Year", Storage="_Years", ThisKey="UserID", OtherKey="OwnerID")]
-		public EntitySet<Year> Years
-		{
-			get
-			{
-				return this._Years;
-			}
-			set
-			{
-				this._Years.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Handicaps(Handicap entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Handicaps(Handicap entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Leaderboards(Leaderboard entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Leaderboards(Leaderboard entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_UserGroups(UserGroup entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_UserGroups(UserGroup entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Scores(Score entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Scores(Score entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Events(Event entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Events(Event entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Years(Year entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Years(Year entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserGroup")]
 	public partial class UserGroup : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1890,6 +1673,8 @@ namespace LB3.Models
 		private EntityRef<Group> _Group;
 		
 		private EntityRef<User> _User;
+		
+		private EntityRef<b> _b;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1907,6 +1692,7 @@ namespace LB3.Models
 		{
 			this._Group = default(EntityRef<Group>);
 			this._User = default(EntityRef<User>);
+			this._b = default(EntityRef<b>);
 			OnCreated();
 		}
 		
@@ -1941,7 +1727,7 @@ namespace LB3.Models
 			{
 				if ((this._UserID != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
+					if ((this._User.HasLoadedOrAssignedValue || this._b.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -2046,338 +1832,36 @@ namespace LB3.Models
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Score")]
-	public partial class Score : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ScID;
-		
-		private System.Nullable<int> _HoleID;
-		
-		private System.Nullable<int> _Score1;
-		
-		private System.Nullable<int> _UserID;
-		
-		private int _YearID;
-		
-		private System.Nullable<int> _Stableford;
-		
-		private System.Nullable<int> _PinUserID;
-		
-		private System.Nullable<int> _DriveUserID;
-		
-		private System.Nullable<System.DateTime> _Timestamp;
-		
-		private EntityRef<Hole> _Hole;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnScIDChanging(int value);
-    partial void OnScIDChanged();
-    partial void OnHoleIDChanging(System.Nullable<int> value);
-    partial void OnHoleIDChanged();
-    partial void OnScore1Changing(System.Nullable<int> value);
-    partial void OnScore1Changed();
-    partial void OnUserIDChanging(System.Nullable<int> value);
-    partial void OnUserIDChanged();
-    partial void OnYearIDChanging(int value);
-    partial void OnYearIDChanged();
-    partial void OnStablefordChanging(System.Nullable<int> value);
-    partial void OnStablefordChanged();
-    partial void OnPinUserIDChanging(System.Nullable<int> value);
-    partial void OnPinUserIDChanged();
-    partial void OnDriveUserIDChanging(System.Nullable<int> value);
-    partial void OnDriveUserIDChanged();
-    partial void OnTimestampChanging(System.Nullable<System.DateTime> value);
-    partial void OnTimestampChanged();
-    #endregion
-		
-		public Score()
-		{
-			this._Hole = default(EntityRef<Hole>);
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ScID
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_UserGroup", Storage="_b", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+		public b b
 		{
 			get
 			{
-				return this._ScID;
+				return this._b.Entity;
 			}
 			set
 			{
-				if ((this._ScID != value))
-				{
-					this.OnScIDChanging(value);
-					this.SendPropertyChanging();
-					this._ScID = value;
-					this.SendPropertyChanged("ScID");
-					this.OnScIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HoleID", DbType="Int")]
-		public System.Nullable<int> HoleID
-		{
-			get
-			{
-				return this._HoleID;
-			}
-			set
-			{
-				if ((this._HoleID != value))
-				{
-					if (this._Hole.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnHoleIDChanging(value);
-					this.SendPropertyChanging();
-					this._HoleID = value;
-					this.SendPropertyChanged("HoleID");
-					this.OnHoleIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Score", Storage="_Score1", DbType="Int")]
-		public System.Nullable<int> Score1
-		{
-			get
-			{
-				return this._Score1;
-			}
-			set
-			{
-				if ((this._Score1 != value))
-				{
-					this.OnScore1Changing(value);
-					this.SendPropertyChanging();
-					this._Score1 = value;
-					this.SendPropertyChanged("Score1");
-					this.OnScore1Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int")]
-		public System.Nullable<int> UserID
-		{
-			get
-			{
-				return this._UserID;
-			}
-			set
-			{
-				if ((this._UserID != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserIDChanging(value);
-					this.SendPropertyChanging();
-					this._UserID = value;
-					this.SendPropertyChanged("UserID");
-					this.OnUserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearID", DbType="Int NOT NULL")]
-		public int YearID
-		{
-			get
-			{
-				return this._YearID;
-			}
-			set
-			{
-				if ((this._YearID != value))
-				{
-					this.OnYearIDChanging(value);
-					this.SendPropertyChanging();
-					this._YearID = value;
-					this.SendPropertyChanged("YearID");
-					this.OnYearIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stableford", DbType="Int")]
-		public System.Nullable<int> Stableford
-		{
-			get
-			{
-				return this._Stableford;
-			}
-			set
-			{
-				if ((this._Stableford != value))
-				{
-					this.OnStablefordChanging(value);
-					this.SendPropertyChanging();
-					this._Stableford = value;
-					this.SendPropertyChanged("Stableford");
-					this.OnStablefordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PinUserID", DbType="Int")]
-		public System.Nullable<int> PinUserID
-		{
-			get
-			{
-				return this._PinUserID;
-			}
-			set
-			{
-				if ((this._PinUserID != value))
-				{
-					this.OnPinUserIDChanging(value);
-					this.SendPropertyChanging();
-					this._PinUserID = value;
-					this.SendPropertyChanged("PinUserID");
-					this.OnPinUserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DriveUserID", DbType="Int")]
-		public System.Nullable<int> DriveUserID
-		{
-			get
-			{
-				return this._DriveUserID;
-			}
-			set
-			{
-				if ((this._DriveUserID != value))
-				{
-					this.OnDriveUserIDChanging(value);
-					this.SendPropertyChanging();
-					this._DriveUserID = value;
-					this.SendPropertyChanged("DriveUserID");
-					this.OnDriveUserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Timestamp", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Timestamp
-		{
-			get
-			{
-				return this._Timestamp;
-			}
-			set
-			{
-				if ((this._Timestamp != value))
-				{
-					this.OnTimestampChanging(value);
-					this.SendPropertyChanging();
-					this._Timestamp = value;
-					this.SendPropertyChanged("Timestamp");
-					this.OnTimestampChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Hole_Score", Storage="_Hole", ThisKey="HoleID", OtherKey="HoleID", IsForeignKey=true)]
-		public Hole Hole
-		{
-			get
-			{
-				return this._Hole.Entity;
-			}
-			set
-			{
-				Hole previousValue = this._Hole.Entity;
+				b previousValue = this._b.Entity;
 				if (((previousValue != value) 
-							|| (this._Hole.HasLoadedOrAssignedValue == false)))
+							|| (this._b.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Hole.Entity = null;
-						previousValue.Scores.Remove(this);
+						this._b.Entity = null;
+						previousValue.UserGroups.Remove(this);
 					}
-					this._Hole.Entity = value;
+					this._b.Entity = value;
 					if ((value != null))
 					{
-						value.Scores.Add(this);
-						this._HoleID = value.HoleID;
-					}
-					else
-					{
-						this._HoleID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Hole");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Score", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.Scores.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.Scores.Add(this);
+						value.UserGroups.Add(this);
 						this._UserID = value.UserID;
 					}
 					else
 					{
-						this._UserID = default(Nullable<int>);
+						this._UserID = default(int);
 					}
-					this.SendPropertyChanged("User");
+					this.SendPropertyChanged("b");
 				}
 			}
 		}
@@ -2425,6 +1909,8 @@ namespace LB3.Models
 		
 		private EntityRef<User> _User;
 		
+		private EntityRef<b> _b;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2448,6 +1934,7 @@ namespace LB3.Models
 		public Event()
 		{
 			this._User = default(EntityRef<User>);
+			this._b = default(EntityRef<b>);
 			OnCreated();
 		}
 		
@@ -2482,7 +1969,7 @@ namespace LB3.Models
 			{
 				if ((this._UserID != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
+					if ((this._User.HasLoadedOrAssignedValue || this._b.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -2625,6 +2112,40 @@ namespace LB3.Models
 						this._UserID = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Event", Storage="_b", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+		public b b
+		{
+			get
+			{
+				return this._b.Entity;
+			}
+			set
+			{
+				b previousValue = this._b.Entity;
+				if (((previousValue != value) 
+							|| (this._b.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._b.Entity = null;
+						previousValue.Events.Remove(this);
+					}
+					this._b.Entity = value;
+					if ((value != null))
+					{
+						value.Events.Add(this);
+						this._UserID = value.UserID;
+					}
+					else
+					{
+						this._UserID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("b");
 				}
 			}
 		}
@@ -3004,6 +2525,593 @@ namespace LB3.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Course")]
+	public partial class Course : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CID;
+		
+		private string _CourseName;
+		
+		private System.Nullable<int> _OrderMerit;
+		
+		private System.Nullable<int> _Stableford_Total;
+		
+		private System.Nullable<int> _YID;
+		
+		private EntitySet<Group> _Groups;
+		
+		private EntitySet<Hole> _Holes;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCIDChanging(int value);
+    partial void OnCIDChanged();
+    partial void OnCourseNameChanging(string value);
+    partial void OnCourseNameChanged();
+    partial void OnOrderMeritChanging(System.Nullable<int> value);
+    partial void OnOrderMeritChanged();
+    partial void OnStableford_TotalChanging(System.Nullable<int> value);
+    partial void OnStableford_TotalChanged();
+    partial void OnYIDChanging(System.Nullable<int> value);
+    partial void OnYIDChanged();
+    #endregion
+		
+		public Course()
+		{
+			this._Groups = new EntitySet<Group>(new Action<Group>(this.attach_Groups), new Action<Group>(this.detach_Groups));
+			this._Holes = new EntitySet<Hole>(new Action<Hole>(this.attach_Holes), new Action<Hole>(this.detach_Holes));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CID
+		{
+			get
+			{
+				return this._CID;
+			}
+			set
+			{
+				if ((this._CID != value))
+				{
+					this.OnCIDChanging(value);
+					this.SendPropertyChanging();
+					this._CID = value;
+					this.SendPropertyChanged("CID");
+					this.OnCIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseName", DbType="VarChar(50)")]
+		public string CourseName
+		{
+			get
+			{
+				return this._CourseName;
+			}
+			set
+			{
+				if ((this._CourseName != value))
+				{
+					this.OnCourseNameChanging(value);
+					this.SendPropertyChanging();
+					this._CourseName = value;
+					this.SendPropertyChanged("CourseName");
+					this.OnCourseNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderMerit", DbType="Int")]
+		public System.Nullable<int> OrderMerit
+		{
+			get
+			{
+				return this._OrderMerit;
+			}
+			set
+			{
+				if ((this._OrderMerit != value))
+				{
+					this.OnOrderMeritChanging(value);
+					this.SendPropertyChanging();
+					this._OrderMerit = value;
+					this.SendPropertyChanged("OrderMerit");
+					this.OnOrderMeritChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stableford_Total", DbType="Int")]
+		public System.Nullable<int> Stableford_Total
+		{
+			get
+			{
+				return this._Stableford_Total;
+			}
+			set
+			{
+				if ((this._Stableford_Total != value))
+				{
+					this.OnStableford_TotalChanging(value);
+					this.SendPropertyChanging();
+					this._Stableford_Total = value;
+					this.SendPropertyChanged("Stableford_Total");
+					this.OnStableford_TotalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YID", DbType="Int")]
+		public System.Nullable<int> YID
+		{
+			get
+			{
+				return this._YID;
+			}
+			set
+			{
+				if ((this._YID != value))
+				{
+					this.OnYIDChanging(value);
+					this.SendPropertyChanging();
+					this._YID = value;
+					this.SendPropertyChanged("YID");
+					this.OnYIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Group", Storage="_Groups", ThisKey="CID", OtherKey="CourseID")]
+		public EntitySet<Group> Groups
+		{
+			get
+			{
+				return this._Groups;
+			}
+			set
+			{
+				this._Groups.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Hole", Storage="_Holes", ThisKey="CID", OtherKey="CourseID")]
+		public EntitySet<Hole> Holes
+		{
+			get
+			{
+				return this._Holes;
+			}
+			set
+			{
+				this._Holes.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Groups(Group entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = this;
+		}
+		
+		private void detach_Groups(Group entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = null;
+		}
+		
+		private void attach_Holes(Hole entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = this;
+		}
+		
+		private void detach_Holes(Hole entity)
+		{
+			this.SendPropertyChanging();
+			entity.Course = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Score")]
+	public partial class Score : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ScID;
+		
+		private System.Nullable<int> _HoleID;
+		
+		private System.Nullable<int> _Score1;
+		
+		private System.Nullable<int> _UserID;
+		
+		private int _YearID;
+		
+		private System.Nullable<int> _Stableford;
+		
+		private System.Nullable<int> _PinUserID;
+		
+		private System.Nullable<int> _DriveUserID;
+		
+		private System.Nullable<System.DateTime> _Timestamp;
+		
+		private EntityRef<Hole> _Hole;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<b> _b;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnScIDChanging(int value);
+    partial void OnScIDChanged();
+    partial void OnHoleIDChanging(System.Nullable<int> value);
+    partial void OnHoleIDChanged();
+    partial void OnScore1Changing(System.Nullable<int> value);
+    partial void OnScore1Changed();
+    partial void OnUserIDChanging(System.Nullable<int> value);
+    partial void OnUserIDChanged();
+    partial void OnYearIDChanging(int value);
+    partial void OnYearIDChanged();
+    partial void OnStablefordChanging(System.Nullable<int> value);
+    partial void OnStablefordChanged();
+    partial void OnPinUserIDChanging(System.Nullable<int> value);
+    partial void OnPinUserIDChanged();
+    partial void OnDriveUserIDChanging(System.Nullable<int> value);
+    partial void OnDriveUserIDChanged();
+    partial void OnTimestampChanging(System.Nullable<System.DateTime> value);
+    partial void OnTimestampChanged();
+    #endregion
+		
+		public Score()
+		{
+			this._Hole = default(EntityRef<Hole>);
+			this._User = default(EntityRef<User>);
+			this._b = default(EntityRef<b>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ScID
+		{
+			get
+			{
+				return this._ScID;
+			}
+			set
+			{
+				if ((this._ScID != value))
+				{
+					this.OnScIDChanging(value);
+					this.SendPropertyChanging();
+					this._ScID = value;
+					this.SendPropertyChanged("ScID");
+					this.OnScIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HoleID", DbType="Int")]
+		public System.Nullable<int> HoleID
+		{
+			get
+			{
+				return this._HoleID;
+			}
+			set
+			{
+				if ((this._HoleID != value))
+				{
+					if (this._Hole.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnHoleIDChanging(value);
+					this.SendPropertyChanging();
+					this._HoleID = value;
+					this.SendPropertyChanged("HoleID");
+					this.OnHoleIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Score", Storage="_Score1", DbType="Int")]
+		public System.Nullable<int> Score1
+		{
+			get
+			{
+				return this._Score1;
+			}
+			set
+			{
+				if ((this._Score1 != value))
+				{
+					this.OnScore1Changing(value);
+					this.SendPropertyChanging();
+					this._Score1 = value;
+					this.SendPropertyChanged("Score1");
+					this.OnScore1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int")]
+		public System.Nullable<int> UserID
+		{
+			get
+			{
+				return this._UserID;
+			}
+			set
+			{
+				if ((this._UserID != value))
+				{
+					if ((this._User.HasLoadedOrAssignedValue || this._b.HasLoadedOrAssignedValue))
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearID", DbType="Int NOT NULL")]
+		public int YearID
+		{
+			get
+			{
+				return this._YearID;
+			}
+			set
+			{
+				if ((this._YearID != value))
+				{
+					this.OnYearIDChanging(value);
+					this.SendPropertyChanging();
+					this._YearID = value;
+					this.SendPropertyChanged("YearID");
+					this.OnYearIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stableford", DbType="Int")]
+		public System.Nullable<int> Stableford
+		{
+			get
+			{
+				return this._Stableford;
+			}
+			set
+			{
+				if ((this._Stableford != value))
+				{
+					this.OnStablefordChanging(value);
+					this.SendPropertyChanging();
+					this._Stableford = value;
+					this.SendPropertyChanged("Stableford");
+					this.OnStablefordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PinUserID", DbType="Int")]
+		public System.Nullable<int> PinUserID
+		{
+			get
+			{
+				return this._PinUserID;
+			}
+			set
+			{
+				if ((this._PinUserID != value))
+				{
+					this.OnPinUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._PinUserID = value;
+					this.SendPropertyChanged("PinUserID");
+					this.OnPinUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DriveUserID", DbType="Int")]
+		public System.Nullable<int> DriveUserID
+		{
+			get
+			{
+				return this._DriveUserID;
+			}
+			set
+			{
+				if ((this._DriveUserID != value))
+				{
+					this.OnDriveUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._DriveUserID = value;
+					this.SendPropertyChanged("DriveUserID");
+					this.OnDriveUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Timestamp", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Timestamp
+		{
+			get
+			{
+				return this._Timestamp;
+			}
+			set
+			{
+				if ((this._Timestamp != value))
+				{
+					this.OnTimestampChanging(value);
+					this.SendPropertyChanging();
+					this._Timestamp = value;
+					this.SendPropertyChanged("Timestamp");
+					this.OnTimestampChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Hole_Score", Storage="_Hole", ThisKey="HoleID", OtherKey="HoleID", IsForeignKey=true)]
+		public Hole Hole
+		{
+			get
+			{
+				return this._Hole.Entity;
+			}
+			set
+			{
+				Hole previousValue = this._Hole.Entity;
+				if (((previousValue != value) 
+							|| (this._Hole.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Hole.Entity = null;
+						previousValue.Scores.Remove(this);
+					}
+					this._Hole.Entity = value;
+					if ((value != null))
+					{
+						value.Scores.Add(this);
+						this._HoleID = value.HoleID;
+					}
+					else
+					{
+						this._HoleID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Hole");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Score", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Scores.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Scores.Add(this);
+						this._UserID = value.UserID;
+					}
+					else
+					{
+						this._UserID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Score", Storage="_b", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+		public b b
+		{
+			get
+			{
+				return this._b.Entity;
+			}
+			set
+			{
+				b previousValue = this._b.Entity;
+				if (((previousValue != value) 
+							|| (this._b.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._b.Entity = null;
+						previousValue.Scores.Remove(this);
+					}
+					this._b.Entity = value;
+					if ((value != null))
+					{
+						value.Scores.Add(this);
+						this._UserID = value.UserID;
+					}
+					else
+					{
+						this._UserID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("b");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Year")]
 	public partial class Year : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3032,9 +3140,9 @@ namespace LB3.Models
 		
 		private EntitySet<SI> _SIs;
 		
-		private EntitySet<Course> _Courses;
-		
 		private EntityRef<User> _User;
+		
+		private EntityRef<b> _b;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3061,8 +3169,8 @@ namespace LB3.Models
 			this._Holes = new EntitySet<Hole>(new Action<Hole>(this.attach_Holes), new Action<Hole>(this.detach_Holes));
 			this._Leaderboards = new EntitySet<Leaderboard>(new Action<Leaderboard>(this.attach_Leaderboards), new Action<Leaderboard>(this.detach_Leaderboards));
 			this._SIs = new EntitySet<SI>(new Action<SI>(this.attach_SIs), new Action<SI>(this.detach_SIs));
-			this._Courses = new EntitySet<Course>(new Action<Course>(this.attach_Courses), new Action<Course>(this.detach_Courses));
 			this._User = default(EntityRef<User>);
+			this._b = default(EntityRef<b>);
 			OnCreated();
 		}
 		
@@ -3177,7 +3285,7 @@ namespace LB3.Models
 			{
 				if ((this._OwnerID != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
+					if ((this._User.HasLoadedOrAssignedValue || this._b.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -3255,19 +3363,6 @@ namespace LB3.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Course", Storage="_Courses", ThisKey="YID", OtherKey="YID")]
-		public EntitySet<Course> Courses
-		{
-			get
-			{
-				return this._Courses;
-			}
-			set
-			{
-				this._Courses.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Year", Storage="_User", ThisKey="OwnerID", OtherKey="UserID", IsForeignKey=true)]
 		public User User
 		{
@@ -3298,6 +3393,40 @@ namespace LB3.Models
 						this._OwnerID = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Year", Storage="_b", ThisKey="OwnerID", OtherKey="UserID", IsForeignKey=true)]
+		public b b
+		{
+			get
+			{
+				return this._b.Entity;
+			}
+			set
+			{
+				b previousValue = this._b.Entity;
+				if (((previousValue != value) 
+							|| (this._b.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._b.Entity = null;
+						previousValue.Years.Remove(this);
+					}
+					this._b.Entity = value;
+					if ((value != null))
+					{
+						value.Years.Add(this);
+						this._OwnerID = value.UserID;
+					}
+					else
+					{
+						this._OwnerID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("b");
 				}
 			}
 		}
@@ -3381,227 +3510,286 @@ namespace LB3.Models
 			this.SendPropertyChanging();
 			entity.Year = null;
 		}
-		
-		private void attach_Courses(Course entity)
-		{
-			this.SendPropertyChanging();
-			entity.Year = this;
-		}
-		
-		private void detach_Courses(Course entity)
-		{
-			this.SendPropertyChanging();
-			entity.Year = null;
-		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Course")]
-	public partial class Course : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _CID;
+		private int _UserID;
 		
-		private string _CourseName;
+		private string _Name;
 		
-		private System.Nullable<int> _OrderMerit;
+		private string _Nickname;
 		
-		private System.Nullable<int> _Stableford_Total;
+		private int _Rating;
 		
-		private System.Nullable<int> _YID;
+		private string _Lastname;
 		
-		private EntitySet<Group> _Groups;
+		private System.Nullable<int> _Handicap;
 		
-		private EntitySet<Hole> _Holes;
+		private System.Nullable<int> _UserType;
 		
-		private EntityRef<Year> _Year;
+		private EntitySet<Handicap> _Handicaps;
+		
+		private EntitySet<Leaderboard> _Leaderboards;
+		
+		private EntitySet<UserGroup> _UserGroups;
+		
+		private EntitySet<Event> _Events;
+		
+		private EntitySet<Score> _Scores;
+		
+		private EntitySet<Year> _Years;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnCIDChanging(int value);
-    partial void OnCIDChanged();
-    partial void OnCourseNameChanging(string value);
-    partial void OnCourseNameChanged();
-    partial void OnOrderMeritChanging(System.Nullable<int> value);
-    partial void OnOrderMeritChanged();
-    partial void OnStableford_TotalChanging(System.Nullable<int> value);
-    partial void OnStableford_TotalChanged();
-    partial void OnYIDChanging(System.Nullable<int> value);
-    partial void OnYIDChanged();
+    partial void OnUserIDChanging(int value);
+    partial void OnUserIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnNicknameChanging(string value);
+    partial void OnNicknameChanged();
+    partial void OnRatingChanging(int value);
+    partial void OnRatingChanged();
+    partial void OnLastnameChanging(string value);
+    partial void OnLastnameChanged();
+    partial void OnHandicapChanging(System.Nullable<int> value);
+    partial void OnHandicapChanged();
+    partial void OnUserTypeChanging(System.Nullable<int> value);
+    partial void OnUserTypeChanged();
     #endregion
 		
-		public Course()
+		public User()
 		{
-			this._Groups = new EntitySet<Group>(new Action<Group>(this.attach_Groups), new Action<Group>(this.detach_Groups));
-			this._Holes = new EntitySet<Hole>(new Action<Hole>(this.attach_Holes), new Action<Hole>(this.detach_Holes));
-			this._Year = default(EntityRef<Year>);
+			this._Handicaps = new EntitySet<Handicap>(new Action<Handicap>(this.attach_Handicaps), new Action<Handicap>(this.detach_Handicaps));
+			this._Leaderboards = new EntitySet<Leaderboard>(new Action<Leaderboard>(this.attach_Leaderboards), new Action<Leaderboard>(this.detach_Leaderboards));
+			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
+			this._Events = new EntitySet<Event>(new Action<Event>(this.attach_Events), new Action<Event>(this.detach_Events));
+			this._Scores = new EntitySet<Score>(new Action<Score>(this.attach_Scores), new Action<Score>(this.detach_Scores));
+			this._Years = new EntitySet<Year>(new Action<Year>(this.attach_Years), new Action<Year>(this.detach_Years));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int CID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int UserID
 		{
 			get
 			{
-				return this._CID;
+				return this._UserID;
 			}
 			set
 			{
-				if ((this._CID != value))
+				if ((this._UserID != value))
 				{
-					this.OnCIDChanging(value);
+					this.OnUserIDChanging(value);
 					this.SendPropertyChanging();
-					this._CID = value;
-					this.SendPropertyChanged("CID");
-					this.OnCIDChanged();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CourseName", DbType="VarChar(50)")]
-		public string CourseName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
+		public string Name
 		{
 			get
 			{
-				return this._CourseName;
+				return this._Name;
 			}
 			set
 			{
-				if ((this._CourseName != value))
+				if ((this._Name != value))
 				{
-					this.OnCourseNameChanging(value);
+					this.OnNameChanging(value);
 					this.SendPropertyChanging();
-					this._CourseName = value;
-					this.SendPropertyChanged("CourseName");
-					this.OnCourseNameChanged();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderMerit", DbType="Int")]
-		public System.Nullable<int> OrderMerit
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nickname", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Nickname
 		{
 			get
 			{
-				return this._OrderMerit;
+				return this._Nickname;
 			}
 			set
 			{
-				if ((this._OrderMerit != value))
+				if ((this._Nickname != value))
 				{
-					this.OnOrderMeritChanging(value);
+					this.OnNicknameChanging(value);
 					this.SendPropertyChanging();
-					this._OrderMerit = value;
-					this.SendPropertyChanged("OrderMerit");
-					this.OnOrderMeritChanged();
+					this._Nickname = value;
+					this.SendPropertyChanged("Nickname");
+					this.OnNicknameChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stableford_Total", DbType="Int")]
-		public System.Nullable<int> Stableford_Total
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Rating", DbType="Int NOT NULL")]
+		public int Rating
 		{
 			get
 			{
-				return this._Stableford_Total;
+				return this._Rating;
 			}
 			set
 			{
-				if ((this._Stableford_Total != value))
+				if ((this._Rating != value))
 				{
-					this.OnStableford_TotalChanging(value);
+					this.OnRatingChanging(value);
 					this.SendPropertyChanging();
-					this._Stableford_Total = value;
-					this.SendPropertyChanged("Stableford_Total");
-					this.OnStableford_TotalChanged();
+					this._Rating = value;
+					this.SendPropertyChanged("Rating");
+					this.OnRatingChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YID", DbType="Int")]
-		public System.Nullable<int> YID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Lastname", DbType="VarChar(50)")]
+		public string Lastname
 		{
 			get
 			{
-				return this._YID;
+				return this._Lastname;
 			}
 			set
 			{
-				if ((this._YID != value))
+				if ((this._Lastname != value))
 				{
-					if (this._Year.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnYIDChanging(value);
+					this.OnLastnameChanging(value);
 					this.SendPropertyChanging();
-					this._YID = value;
-					this.SendPropertyChanged("YID");
-					this.OnYIDChanged();
+					this._Lastname = value;
+					this.SendPropertyChanged("Lastname");
+					this.OnLastnameChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Group", Storage="_Groups", ThisKey="CID", OtherKey="CourseID")]
-		public EntitySet<Group> Groups
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Handicap", DbType="Int")]
+		public System.Nullable<int> Handicap
 		{
 			get
 			{
-				return this._Groups;
+				return this._Handicap;
 			}
 			set
 			{
-				this._Groups.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Hole", Storage="_Holes", ThisKey="CID", OtherKey="CourseID")]
-		public EntitySet<Hole> Holes
-		{
-			get
-			{
-				return this._Holes;
-			}
-			set
-			{
-				this._Holes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Year_Course", Storage="_Year", ThisKey="YID", OtherKey="YID", IsForeignKey=true)]
-		public Year Year
-		{
-			get
-			{
-				return this._Year.Entity;
-			}
-			set
-			{
-				Year previousValue = this._Year.Entity;
-				if (((previousValue != value) 
-							|| (this._Year.HasLoadedOrAssignedValue == false)))
+				if ((this._Handicap != value))
 				{
+					this.OnHandicapChanging(value);
 					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Year.Entity = null;
-						previousValue.Courses.Remove(this);
-					}
-					this._Year.Entity = value;
-					if ((value != null))
-					{
-						value.Courses.Add(this);
-						this._YID = value.YID;
-					}
-					else
-					{
-						this._YID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Year");
+					this._Handicap = value;
+					this.SendPropertyChanged("Handicap");
+					this.OnHandicapChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserType", DbType="Int")]
+		public System.Nullable<int> UserType
+		{
+			get
+			{
+				return this._UserType;
+			}
+			set
+			{
+				if ((this._UserType != value))
+				{
+					this.OnUserTypeChanging(value);
+					this.SendPropertyChanging();
+					this._UserType = value;
+					this.SendPropertyChanged("UserType");
+					this.OnUserTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Handicap", Storage="_Handicaps", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Handicap> Handicaps
+		{
+			get
+			{
+				return this._Handicaps;
+			}
+			set
+			{
+				this._Handicaps.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Leaderboard", Storage="_Leaderboards", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Leaderboard> Leaderboards
+		{
+			get
+			{
+				return this._Leaderboards;
+			}
+			set
+			{
+				this._Leaderboards.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserGroup", Storage="_UserGroups", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<UserGroup> UserGroups
+		{
+			get
+			{
+				return this._UserGroups;
+			}
+			set
+			{
+				this._UserGroups.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Event", Storage="_Events", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Event> Events
+		{
+			get
+			{
+				return this._Events;
+			}
+			set
+			{
+				this._Events.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Score", Storage="_Scores", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Score> Scores
+		{
+			get
+			{
+				return this._Scores;
+			}
+			set
+			{
+				this._Scores.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Year", Storage="_Years", ThisKey="UserID", OtherKey="OwnerID")]
+		public EntitySet<Year> Years
+		{
+			get
+			{
+				return this._Years;
+			}
+			set
+			{
+				this._Years.Assign(value);
 			}
 		}
 		
@@ -3625,28 +3813,450 @@ namespace LB3.Models
 			}
 		}
 		
-		private void attach_Groups(Group entity)
+		private void attach_Handicaps(Handicap entity)
 		{
 			this.SendPropertyChanging();
-			entity.Course = this;
+			entity.User = this;
 		}
 		
-		private void detach_Groups(Group entity)
+		private void detach_Handicaps(Handicap entity)
 		{
 			this.SendPropertyChanging();
-			entity.Course = null;
+			entity.User = null;
 		}
 		
-		private void attach_Holes(Hole entity)
+		private void attach_Leaderboards(Leaderboard entity)
 		{
 			this.SendPropertyChanging();
-			entity.Course = this;
+			entity.User = this;
 		}
 		
-		private void detach_Holes(Hole entity)
+		private void detach_Leaderboards(Leaderboard entity)
 		{
 			this.SendPropertyChanging();
-			entity.Course = null;
+			entity.User = null;
+		}
+		
+		private void attach_UserGroups(UserGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_UserGroups(UserGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Events(Event entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Events(Event entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Scores(Score entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Scores(Score entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Years(Year entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Years(Year entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class b : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UserID;
+		
+		private string _Name;
+		
+		private string _Nickname;
+		
+		private int _Rating;
+		
+		private string _Lastname;
+		
+		private System.Nullable<int> _Handicap;
+		
+		private System.Nullable<int> _UserType;
+		
+		private EntitySet<Handicap> _Handicaps;
+		
+		private EntitySet<Leaderboard> _Leaderboards;
+		
+		private EntitySet<UserGroup> _UserGroups;
+		
+		private EntitySet<Event> _Events;
+		
+		private EntitySet<Score> _Scores;
+		
+		private EntitySet<Year> _Years;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserIDChanging(int value);
+    partial void OnUserIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnNicknameChanging(string value);
+    partial void OnNicknameChanged();
+    partial void OnRatingChanging(int value);
+    partial void OnRatingChanged();
+    partial void OnLastnameChanging(string value);
+    partial void OnLastnameChanged();
+    partial void OnHandicapChanging(System.Nullable<int> value);
+    partial void OnHandicapChanged();
+    partial void OnUserTypeChanging(System.Nullable<int> value);
+    partial void OnUserTypeChanged();
+    #endregion
+		
+		public b()
+		{
+			this._Handicaps = new EntitySet<Handicap>(new Action<Handicap>(this.attach_Handicaps), new Action<Handicap>(this.detach_Handicaps));
+			this._Leaderboards = new EntitySet<Leaderboard>(new Action<Leaderboard>(this.attach_Leaderboards), new Action<Leaderboard>(this.detach_Leaderboards));
+			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
+			this._Events = new EntitySet<Event>(new Action<Event>(this.attach_Events), new Action<Event>(this.detach_Events));
+			this._Scores = new EntitySet<Score>(new Action<Score>(this.attach_Scores), new Action<Score>(this.detach_Scores));
+			this._Years = new EntitySet<Year>(new Action<Year>(this.attach_Years), new Action<Year>(this.detach_Years));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int UserID
+		{
+			get
+			{
+				return this._UserID;
+			}
+			set
+			{
+				if ((this._UserID != value))
+				{
+					this.OnUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nickname", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Nickname
+		{
+			get
+			{
+				return this._Nickname;
+			}
+			set
+			{
+				if ((this._Nickname != value))
+				{
+					this.OnNicknameChanging(value);
+					this.SendPropertyChanging();
+					this._Nickname = value;
+					this.SendPropertyChanged("Nickname");
+					this.OnNicknameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Rating", DbType="Int NOT NULL")]
+		public int Rating
+		{
+			get
+			{
+				return this._Rating;
+			}
+			set
+			{
+				if ((this._Rating != value))
+				{
+					this.OnRatingChanging(value);
+					this.SendPropertyChanging();
+					this._Rating = value;
+					this.SendPropertyChanged("Rating");
+					this.OnRatingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Lastname", DbType="VarChar(50)")]
+		public string Lastname
+		{
+			get
+			{
+				return this._Lastname;
+			}
+			set
+			{
+				if ((this._Lastname != value))
+				{
+					this.OnLastnameChanging(value);
+					this.SendPropertyChanging();
+					this._Lastname = value;
+					this.SendPropertyChanged("Lastname");
+					this.OnLastnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Handicap", DbType="Int")]
+		public System.Nullable<int> Handicap
+		{
+			get
+			{
+				return this._Handicap;
+			}
+			set
+			{
+				if ((this._Handicap != value))
+				{
+					this.OnHandicapChanging(value);
+					this.SendPropertyChanging();
+					this._Handicap = value;
+					this.SendPropertyChanged("Handicap");
+					this.OnHandicapChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserType", DbType="Int")]
+		public System.Nullable<int> UserType
+		{
+			get
+			{
+				return this._UserType;
+			}
+			set
+			{
+				if ((this._UserType != value))
+				{
+					this.OnUserTypeChanging(value);
+					this.SendPropertyChanging();
+					this._UserType = value;
+					this.SendPropertyChanged("UserType");
+					this.OnUserTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Handicap", Storage="_Handicaps", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Handicap> Handicaps
+		{
+			get
+			{
+				return this._Handicaps;
+			}
+			set
+			{
+				this._Handicaps.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Leaderboard", Storage="_Leaderboards", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Leaderboard> Leaderboards
+		{
+			get
+			{
+				return this._Leaderboards;
+			}
+			set
+			{
+				this._Leaderboards.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_UserGroup", Storage="_UserGroups", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<UserGroup> UserGroups
+		{
+			get
+			{
+				return this._UserGroups;
+			}
+			set
+			{
+				this._UserGroups.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Event", Storage="_Events", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Event> Events
+		{
+			get
+			{
+				return this._Events;
+			}
+			set
+			{
+				this._Events.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Score", Storage="_Scores", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Score> Scores
+		{
+			get
+			{
+				return this._Scores;
+			}
+			set
+			{
+				this._Scores.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User1_Year", Storage="_Years", ThisKey="UserID", OtherKey="OwnerID")]
+		public EntitySet<Year> Years
+		{
+			get
+			{
+				return this._Years;
+			}
+			set
+			{
+				this._Years.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Handicaps(Handicap entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = this;
+		}
+		
+		private void detach_Handicaps(Handicap entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = null;
+		}
+		
+		private void attach_Leaderboards(Leaderboard entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = this;
+		}
+		
+		private void detach_Leaderboards(Leaderboard entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = null;
+		}
+		
+		private void attach_UserGroups(UserGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = this;
+		}
+		
+		private void detach_UserGroups(UserGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = null;
+		}
+		
+		private void attach_Events(Event entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = this;
+		}
+		
+		private void detach_Events(Event entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = null;
+		}
+		
+		private void attach_Scores(Score entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = this;
+		}
+		
+		private void detach_Scores(Score entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = null;
+		}
+		
+		private void attach_Years(Year entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = this;
+		}
+		
+		private void detach_Years(Year entity)
+		{
+			this.SendPropertyChanging();
+			entity.b = null;
 		}
 	}
 }

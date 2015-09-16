@@ -14,12 +14,20 @@
     <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
     <% foreach (var item in Model) {
            var linkname = item.Name;
-            %>
-
-    <li><%=Html.ActionLink(linkname, "CourseDetails", "Home", new { YID = item.YID, CID = item.Courses.First().CID, course = item.Courses.First().CourseName  }, null)%></li>
-        
+           var gpct = item.Groups.Count();
+           var plct = item.PlayerCountforTourn(item.YID);
+     %>
+<% if (gpct == 0)
+   { %>
+    <li data-theme="e"><%=Html.ActionLink(linkname, "CourseDetails_o", "Home", new { YID = item.YID, CID = item.Holes.FirstOrDefault().CourseID }, null)%><span class="ui-li-count">Groups: <%=gpct%>   Players: <%=plct%></span></li>
+   <% }
+   else
+   { %>  
+   <li data-theme="b"><%=Html.ActionLink(linkname, "CourseDetails_o", "Home", new { YID = item.YID, CID = item.Holes.FirstOrDefault().CourseID }, null)%><span class="ui-li-count">Groups: <%=gpct%>   Players: <%=plct%></span></li>
+   <% } %>
     <% } %>
     </ul>
+   
    
 </asp:Content>
 

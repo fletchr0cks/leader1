@@ -5,12 +5,14 @@
 <head id="Head1" runat="server">
      <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
      <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="stylesheet" href="../../Content/jquery.mobile-1.1.0.css" />
+ <link rel="stylesheet" href="../../Content/jquery.mobile-1.1.0.css" />
    <script src="../../Scripts/jquery-1.6.4.js" type="text/javascript"></script>
    <script type="text/javascript" src="../../Scripts/jquery-mobile-1.1.0.js"></script>
+
     <script type="text/javascript" src="../../Scripts/jquery.cookie.js"></script>
        <script type="text/javascript" src="../../Scripts/modernizr-dev.js"></script>
     <script type="text/javascript">
+        
         $(function () {
 
             function isOnLine() {
@@ -19,7 +21,7 @@
 
             function reportOnlineStatus() {
                 var status = $("#onlineStatus");
-                
+
                 if (isOnLine()) {
                     status.text("Online");
                     status.
@@ -53,6 +55,8 @@
             }
             // showCustomer();
             reportOnlineStatus();
+
+           // drawSpacer();
 
         });
  /* 
@@ -98,6 +102,20 @@
            //alert("pin'" + HolePin + "' score saved locally.");
        }
 
+       function drawSpacer() {
+           var diff = parseInt($('#foot').offset().top - $('#main_end').offset().top - 40);
+           //alert(diff);
+           $('#content_spacer').height(diff).trigger('refresh');
+       }
+
+       function playerLogin() {
+           window.location.href = "/Home/Years?target=player";
+       }
+
+       function adminLogin() {
+           window.location.href = "/Home/Login";
+       }
+
        function getHistory(index) {
            
            var url = "";
@@ -110,6 +128,103 @@
            }
 
            return url;
+
+       }
+
+       function getSavedScoreModel(index) {
+           var model = {
+               Score: "",
+               UserID: "",
+               HID: "",
+               ScoreID: "",
+               Key: "",
+               ID: ""
+           };
+
+           if (localStorage[index] != null) {
+               model = JSON.parse(localStorage[index]);
+           }
+           model.Key = index;
+           return model;
+       }
+
+       function getSavedScore(HID, UserID) {
+           var index = "S_" + HID + "_" + UserID;
+           var model = getSavedScoreModel(index);
+           var Score = 0;
+           //alert("H_" + HID + "_" + UserID);
+           if (model == null) {
+               //return "0";
+           }
+           else {
+               Score = model.Score;
+           }
+
+           return Score;
+
+       }
+
+
+       function removeHoleDataScores(index, type) {
+           var HoleData = "";
+           var GroupData = "";
+           var GroupSize = "";
+           var model = getHoleModel(index);
+           if (model == null) {
+
+           }
+           else {
+               HoleData = model.HoleData;
+               GroupData = model.GroupMembers;
+               GroupSize = model.GroupSize;
+               ScoreData = model.ScoreData;
+               //alert(HoleData);
+           }
+
+           var scores = eval('(' + HoleData + ')'); //potential scores , userid, hole combos
+           var users = eval('(' + GroupData + ')');
+
+
+           $.each(scores, function (i, result) {
+               $.each(users, function (i, item) {
+
+                   var savedScore = getSavedScore(result.HoleID, item.UserID);
+                   removeScoresToLocal("H_" + result.HoleID + "_" + item.UserID);
+                   removeScoresToLocal("S_" + result.HoleID + "_" + item.UserID);
+               });
+               model.HDwritten = false;
+               localStorage.setItem(index, JSON.stringify(model));
+           });
+
+           //add scores to savedScores
+           if (type == "All") {
+               ClearScoresServer();
+               // drawList(96);
+           }
+       }
+
+
+       function removeScoresToLocal(key) {
+           localStorage.removeItem(key);
+       }
+
+       function saveServerScore(Score, UserID, HID, ScoreID) {
+           var index = "S_" + HID + "_" + UserID;
+           var model = getSavedScoreModel(index);
+
+           //alert("H_" + HID + "_" + UserID);
+           if (model == null) {
+               //return "0";
+           }
+           else {
+               model.Score = Score;
+               model.UserID = UserID;
+               model.HID = HID
+               model.ScoreID = ScoreID;
+           }
+
+           localStorage.setItem(index,
+                    JSON.stringify(model));
 
        }
 
@@ -361,35 +476,65 @@
        }
 
        function addGroup(YID, CID) {
-
            $.ajax({
                type: "POST",
                url: "/Home/GroupPartialNew",
                data: "CID=" + CID + "&YID=" + YID,
                dataType: "html",
                //success: onSuccess
-               success: function(response) {
-
+               success: function (response) {
                    //gotohere add ids to div areas
                    $('#newGroup').html(response).trigger("create");
+                  
                },
-               error: function(xhr, error) {
+               error: function (xhr, error) {
                    console.debug(xhr); console.debug(error);
                },
-               complete: function() {
+               complete: function () {
 
                }
            });
+
        }
 
+       function addUser(YID, CID) {
+           $.ajax({
+               type: "POST",
+               url: "/Home/UserPartialNew",
+               data: "CID=" + CID + "&YID=" + YID,
+               dataType: "html",
+               //success: onSuccess
+               success: function (response) {
+                   //gotohere add ids to div areas
+                   $('#newGroup').html(response).trigger("create");
+
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               },
+               complete: function () {
+
+               }
+           });
+
+       }
+
+   
        function LoginUser(UserID) {
-           alert(UserID);
+           //alert(UserID);
            var index = "123"
            var model = getHistoryModel(index);
            model.UserID = UserID;
            localStorage.setItem(index,
                     JSON.stringify(model));
-           window.location.href = "/";
+           window.location.href = "/Home/Front";
+       }
+
+
+       function goToMyTourn() {
+           //alert(UserID);
+           var UserID = GetUserID();
+           window.location.href = "/Home/MyTourn?UserID=" + UserID;
        }
 
        function GetUserID() {
@@ -418,6 +563,7 @@
                success: function(data) {
                    $('#grouplist_' + CID).html(data).trigger("create");
                    //expand groupsection here
+                   
                },
                error: function(xhr, error) {
                    console.debug(xhr); console.debug(error);
@@ -446,6 +592,66 @@
            });
            return false;
 
+       }
+
+       function saveCode(CID,YID) {
+
+           var passcode = document.getElementById("passcode").value;
+           //var YID = document.getElementById("YID").value;
+           //var CID = document.getElementById("CID").value;
+           alert("c" + CID);
+           $.ajax({
+               type: "POST",
+               url: "/Home/saveCode",
+               data: "passcode=" + passcode + "&YID=" + YID,
+               dataType: "html",
+               success: function (data) {
+                   var json = eval('(' + data + ')');
+                   //var CID = json.CID;
+                   window.location.href = "/Home/Groups?YID=" + YID + "&CID=" + CID + "&target=Hole";
+                
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               }
+           });
+           return false;
+
+       }
+
+       function getYID() {
+           var model = getHoleModel("96");
+           var YID = "";
+           if (model == null) {
+           }
+           else {
+               YID = model.YID;
+
+           }
+           return YID;
+       }
+
+       function getLocalTourn(CID,YID) {
+
+           $.ajax({
+               type: "POST",
+               url: "/Home/GetLocalTourn",
+               data: "CID=" + CID + "&YID=" + YID,
+               dataType: "html",
+               //success: onSuccess
+               success: function (response) {
+
+                   //gotohere add ids to div areas
+                   $('#results').html(response).trigger("create");
+                   //$('#hole_' + CID).val("8");
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               },
+               complete: function () {
+
+               }
+           });
        }
 
        function addPlayer(GID) {
@@ -613,8 +819,10 @@
     </div>
     <div data-role="content" data-theme="a">
         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-           </div>
-     <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+         
+     </div>
+         
+     <div data-role="footer" data-position="fixed" data-tap-toggle="false" id="foot">
       <asp:ContentPlaceHolder ID="FooterContent" runat="server" /> 
     </div>
 

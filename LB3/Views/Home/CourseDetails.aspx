@@ -18,18 +18,4 @@
 <% Html.RenderPartial("GroupPartial", ViewData["Groups"] as IEnumerable<LB3.Models.Group>); %>
 </div>
 
-
-<% using (Html.BeginForm(new { action = "TournInfo" }))
-   {%>
-   <div>Tournament Passcode</div>
-    <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.Passcode) %>
-            
-    </div>
-
-      <p>
-                <input type="submit" value="Start Playing" />
-            </p>
-   <% } %>
-
 </asp:Content>

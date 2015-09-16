@@ -5,7 +5,58 @@
 </asp:Content>
  
 <asp:Content ID="Content3" ContentPlaceHolderID="PageTitleContent" runat="server">
+<script  type="text/javascript">
+    $(document).bind("pageinit", function () {
+        //$(document).ready(function () {
+        //alert(groupName);
+        $.mobile.loadPage('#page-id');
+        var CID = getCID();
+        var YID = getYID();
 
+        getLocalTourn(CID, YID);
+
+
+    });
+
+
+    function getHoleModel(index) {
+        var model = {
+            GroupName: "",
+            GroupMembers: "",
+            HoleData: "",
+            ScoreData: "",
+            HoleCount: "",
+            YID: "",
+            HID: "",
+            GID: "",
+            NextHole: "",
+            PrevHole: "",
+            IsDirty: false,
+            HDwritten: false,
+            Key: "",
+            ID: ""
+        };
+
+        if (localStorage[index] != null) {
+            model = JSON.parse(localStorage[index]);
+        }
+        model.Key = index;
+        return model;
+    }
+
+
+    function getCID() {
+        var model = getHoleModel("96");
+        var CID = "";
+        if (model == null) {
+        }
+        else {
+            CID = model.CID;
+        }
+        return CID;
+    }
+
+</script>
 
 <%= Html.ActionLink("Back", "Index", "Home", null)%>
 
@@ -25,19 +76,20 @@
  
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <div class="ui-grid-a">
- <div class="ui-block-a">Passcode
- <div>
-<input type="text" name="name" id="passcode" data-mini="true" style="width:200px" />
+ <div class="ui-block-a"><p>
+ Passcode:
+<input type="text" name="name" id="passcode" data-mini="true" style="width:150px; display:inline" /></p>
+<p>Owner Name:
+<input type="text" name="name" id="ownername" data-mini="true" style="width:150px; display:inline" /></p>
 </div>
- <div>Owner Name
-<input type="text" name="name" id="ownername" data-mini="true" style="width:200px" />
-</div>
- </div>
+
  <div class="ui-block-b">
- <a href="#" onclick="checkCode()" data-role="button" data-icon="check" data-iconpos="notext"></a>
+ <a href="#" onclick="checkCode()" data-role="button" data-icon="check">Check Code</a>
  </div>
  </div>
- <div id="results">
+  <% if (Convert.ToString(ViewData["YearTarget"]) != "player")
+     { %>
+ 
 <h4>Select a Tournament</h4>
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
  <% foreach (var item in Model)
@@ -46,10 +98,11 @@
         var target = ViewData["YearTarget"];
       %>
       
-   <li><%= Html.ActionLink(Convert.ToString(yr), Convert.ToString(target), "Home", new { YID = item.YID }, null)%></li>
+   <li><%= Html.ActionLink(Convert.ToString(yr), "CourseGroups", "Home", new { YID = item.YID }, null)%></li>
    
  <% } %>
     </ul>
-  </div>
-	
+ 
+	<% } %>
+<div id="results"></div>
 </asp:Content>

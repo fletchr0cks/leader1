@@ -34,18 +34,19 @@ namespace LB3.Controllers
             var data = from y in dataContext.Years
                       orderby y.YID descending
                        select y;
-
-            ViewData["YearTarget"] = target;
-
-           
-
-            ViewData["YearTarget"] = target;
             
-
+            ViewData["YearTarget"] = target;
+          
+            //ViewData["CourseName"] = data.First().Courses.First().CourseName;
             return View("Index", data);
         }
 
         public ActionResult Offline()
+        {
+            return View();
+        }
+
+        public ActionResult Front()
         {
             return View();
         }
@@ -91,7 +92,7 @@ namespace LB3.Controllers
             return Content(manifest, "text/cache-manifest");
         }
 
-        public ActionResult Groups(string target, int YID, int CID, string course)
+        public ActionResult Groups(string target, int YID, int CID)
         {
             var dataContext = new lb3dataDataContext();
 
@@ -101,6 +102,8 @@ namespace LB3.Controllers
                        orderby y.GroupName ascending
                        select y;
 
+            var course = data.First().Course.CourseName;
+
             var year = (from y in dataContext.Years
                         where y.YID == YID
                         select y).First().Year1.ToString();
@@ -109,7 +112,7 @@ namespace LB3.Controllers
             ViewData["CID"] = CID;
             ViewData["course"] = course;
             ViewData["year"] = year;
-
+            ViewData["tname"] = data.First().Year.Name;
             ViewData["GroupTarget"] = target;
 
             //string cookie = Request.Cookies["last"].Value;
@@ -532,7 +535,19 @@ namespace LB3.Controllers
             return View("AddCourseUAholes");
         }
 
-        
+        public ActionResult MyCourseDetails()
+        {
+            var dataContext = new lb3dataDataContext();
+
+            var data = from c in dataContext.Years
+                       where c.OwnerID == 2
+                       orderby c.Name ascending
+                       select c;
+
+            return View("MyCourseDetails", data);
+        }
+
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CourseDetails(FormCollection formCollection)
         {
@@ -546,7 +561,7 @@ namespace LB3.Controllers
             DateTime Date = DateTime.Today;//Convert.ToDateTime(formCollection["Date"]);
             int Yr = Date.Year;
             int YID = dataRepository.SaveNewYear(TournName, Date, Yr, OwnerID);
-            int CID = dataRepository.SaveNewTournCourse(TournName, YID, ST);
+            int CID = dataRepository.SaveNewTournCourse(CourseName, YID, ST);
 
             var holeList = (from u in dataContext.HoleUAs
                             where u.CourseUAID == UACourseID
@@ -563,18 +578,22 @@ namespace LB3.Controllers
 
             foreach (var item in holeList)
             {
+                var Pin = formCollection["pin"];
+                var LD = formCollection["drive"];
+                //Pin = pin_1
+
                 var PinID = "pin_" + item.holenum;
                 var LDID = "drive_" + item.holenum;
-                var LD = formCollection[LDID];
-                var Pin = formCollection[PinID];
+                //var LD = formCollection[LDID];
+                //var Pin = formCollection[PinID];
                 int LDval = 0;
                 int Pinval = 0;
-                if (LD == "on")
+                if (LD == LDID)
                 {
                     LDval = 1;
                 }
 
-                if (Pin == "on")
+                if (Pin == PinID)
                 {
                     Pinval = 1;
                 }
@@ -603,6 +622,7 @@ namespace LB3.Controllers
             ViewData["Holes"] = data;
             ViewData["Groups"] = data_group;
             ViewData["CourseID"] = CID;
+            ViewData["CID"] = CID;
             ViewData["YID"] = YID;
             ViewData["Tname"] = TournName;
             ViewData["Date"] = Date;
@@ -628,9 +648,9 @@ namespace LB3.Controllers
 
             ViewData["dd_vals"] = dd_items;
 
-            
 
-            return View("CourseDetails");
+            return RedirectToAction("MyTourn", new { UserID = OwnerID });
+            //return View("CourseDetails");
         }
 
 
@@ -654,7 +674,7 @@ namespace LB3.Controllers
             return View("UAHoleDetails", data);
         }
 
-        public ActionResult CourseDetails(int CID, int YID, string CourseName)
+        public ActionResult CourseDetails_o(int CID, int YID, string CourseName)
         {
             var dataContext = new lb3dataDataContext();
 
@@ -1130,26 +1150,56 @@ namespace LB3.Controllers
 
         }
 
+        public PartialViewResult StartPlayingPartial()
+        {
+            return PartialView();
+        }
+
         public ActionResult checkCode(string passcode, string owner)
         {
             var dataContext = new lb3dataDataContext();
-            //gp
-        
-
+      
             var data = from c in dataContext.Years
                        where c.Passcode == passcode
                        orderby c.Name ascending
                        select c;
+            var YID = data.First().YID;
+            var CID = (from c in dataContext.Courses
+                       where c.YID == YID select c).First().CID;
 
-         //   if (data.Count() == 0)
-         //   {
-         //       return PartialView("PasscodeResults", "<div>No records found for Tournament owner " + owner + ", passcode " + passcode + "</div>");
-         //   }
-          //  else
-          //  {
-                return PartialView("PasscodeResults", data);
-            
+            ViewData["CID"] = CID;
 
+            return PartialView("PasscodeResults", data);
+     
+        }
+
+        public JsonResult saveCode(string passcode, int YID)
+        {
+            dataRepository.UpdateYear(YID, passcode);
+            var dataContext = new lb3dataDataContext();
+            //gp
+            var data = from r in dataContext.Courses
+                             where r.YID == YID                          
+                             select new
+                             {
+                                CID = r.CID,
+                             };
+
+            return Json(new { data });
+
+        }
+
+        public ActionResult GetLocalTourn(int CID, int YID)
+        {
+            var dataContext = new lb3dataDataContext();
+
+            var data = from c in dataContext.Years
+                       where c.YID == YID
+                       orderby c.Name ascending
+                       select c;
+            ViewData["CID"] = CID;
+            ViewData["YID"] = YID;
+            return PartialView("PasscodeResults", data);
 
         }
 
@@ -1282,6 +1332,18 @@ namespace LB3.Controllers
         }
 
         public ActionResult Users()
+        {
+
+            var dataContext = new lb3dataDataContext();
+
+            var userList = from u in dataContext.Users
+                           orderby u.Name ascending
+                           select u;
+            ViewData["Users"] = userList;
+            return View("Users");
+        }
+
+        public ActionResult Start()
         {
 
             return View();

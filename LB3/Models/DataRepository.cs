@@ -453,6 +453,16 @@ namespace LB3.Models
             db.SubmitChanges();
         }
 
+        public void UpdateYear(int YID, string passcode)
+        {
+            var sc = db.Years
+                .Where(s => s.YID == YID)
+                .First();
+
+            sc.Passcode = passcode;
+            db.SubmitChanges();
+        }
+
         public void ResetLD(int YID, int HID)
         {
             try

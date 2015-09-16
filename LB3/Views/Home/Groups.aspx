@@ -30,6 +30,14 @@
         //$(document).ready(function () {
         //alert(groupName);
         $.mobile.loadPage('#page-id');
+        var YID = getYID();
+        if (YID != '<%=ViewData["YID"] %>') {
+            //removeHoleDataScores("96", "local");
+            //localStorage.removeItem("96");
+        } else {
+
+        }
+
         saveHoleToLocal("96");
     });
 
@@ -37,7 +45,7 @@
     function saveHoleToLocal(index) {
         var model = getHoleModel(index);
         model.CID = '<%=ViewData["CID"] %>';
-
+        model.YID = '<%=ViewData["YID"] %>';
         localStorage.setItem(index,
                     JSON.stringify(model));
     }
@@ -73,7 +81,7 @@
 
 </script>
 
- <h4>Select a Group for <%= ViewData["year"] %>, <%= ViewData["course"] %></h4>
+ <h4>Select a Group for <%= ViewData["tname"] %>, at <%= ViewData["course"] %></h4>
 
  <% if (Convert.ToString(ViewData["GroupTarget"]) == "ViewHole")
     { %>

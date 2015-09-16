@@ -73,9 +73,9 @@
     </table>
   <input type="text" name="tname" id="tname" />
 
- <p>
+<p>
     <input type="submit" value="Create Tournament with this course" />
-            </p>
+</p>
 <input type="hidden" name="UACourseID" value="<%=ViewData["UACourseID"] %>"/>
 <input type="hidden" name="CourseName" value="<%=ViewData["Course"] %> " />
 

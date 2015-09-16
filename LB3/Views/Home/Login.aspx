@@ -9,6 +9,7 @@
  </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<h4>Select Administrator User</h4>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	 <% foreach (var item in Model)
      {
@@ -17,8 +18,10 @@
     <%} %>
 </ul>
 
+
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
+<div>foot</div>
 </asp:Content>
 

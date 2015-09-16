@@ -139,47 +139,8 @@
 
     }
 
-    function removeHoleDataScores(index,type) {
-        var HoleData = "";
-        var GroupData = "";
-        var GroupSize = "";
-        var model = getHoleModel(index);
-        if (model == null) {
+   
 
-        }
-        else {
-            HoleData = model.HoleData;
-            GroupData = model.GroupMembers;
-            GroupSize = model.GroupSize;
-            ScoreData = model.ScoreData;
-            //alert(HoleData);
-        }
-
-        var scores = eval('(' + HoleData + ')'); //potential scores , userid, hole combos
-        var users = eval('(' + GroupData + ')');
-
-
-        $.each(scores, function (i, result) {
-            $.each(users, function (i, item) {
-
-                var savedScore = getSavedScore(result.HoleID, item.UserID);
-                    removeScoresToLocal("H_" + result.HoleID + "_" + item.UserID);
-                    removeScoresToLocal("S_" + result.HoleID + "_" + item.UserID);
-            });
-            model.HDwritten = false;
-            localStorage.setItem(index, JSON.stringify(model));
-        });
-
-        //add scores to savedScores
-        if (type == "All") {
-            ClearScoresServer();
-            // drawList(96);
-        }
-    }
-
-    function removeScoresToLocal(key) {
-        localStorage.removeItem(key);
-    }
 
     function scoreModelCheck() {
         var index = "96";
@@ -774,22 +735,7 @@ function holeDataCheck() {
         return model;
     }
 
-    function getSavedScoreModel(index) {
-        var model = {
-            Score: "",
-            UserID: "",
-            HID: "",
-            ScoreID: "",
-            Key: "",
-            ID: ""
-        };
-
-        if (localStorage[index] != null) {
-            model = JSON.parse(localStorage[index]);
-        }
-        model.Key = index;
-        return model;
-    }
+   
 
 
 </script>

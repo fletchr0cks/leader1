@@ -76,6 +76,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Year.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\DataRepository.cs" />
     <Compile Include="Models\lb3data.designer.cs">
@@ -88,6 +89,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bktest.css" />
+    <Content Include="Content\bktest2.css" />
+    <Content Include="Content\bktest2.min.css" />
     <Content Include="Content\golf2.css" />
     <Content Include="Content\images\2.png" />
     <Content Include="Content\images\21.png" />
@@ -128,11 +132,15 @@
     <Content Include="Views\Home\AddCourseUAholes.aspx" />
     <Content Include="Views\Home\AddCourseUA.aspx" />
     <Content Include="Views\Home\Copy of CourseDetails.aspx" />
+    <Content Include="Views\Home\UserPartial.ascx" />
     <Content Include="Views\Home\Login.aspx" />
+    <Content Include="Views\Home\MyCourseDetails.aspx" />
     <Content Include="Views\Home\PasscodeResults.ascx" />
     <Content Include="Views\Home\EnterPasscode.aspx" />
     <Content Include="Views\Home\MyTourn.aspx" />
     <Content Include="Views\Home\MyTournx.aspx" />
+    <Content Include="Views\Home\Start.aspx" />
+    <Content Include="Views\Home\StartPlayingPartial.ascx" />
     <Content Include="Views\Home\UACourseDetails.aspx" />
     <Content Include="Views\Home\HoleUAPartialNew.ascx" />
     <Content Include="Views\Home\HoleUAPartial.ascx" />

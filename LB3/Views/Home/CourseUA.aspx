@@ -10,7 +10,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>CourseUA</h2>
+<h2>CourseUA</h2>
 <ul data-role="listview" data-filter="true" data-filter-placeholder="Search courses ..." data-inset="true">
 <% foreach (var item in Model) { %>
 <li><%= Html.ActionLink(item.CourseName, "UAHoleDetails", "Home", new { CUAID = item.ID }, null)%></li>

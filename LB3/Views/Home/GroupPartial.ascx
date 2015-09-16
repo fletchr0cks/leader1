@@ -8,7 +8,7 @@
         
       %>
       
-<div data-role="collapsible" data-theme="b" data-content-theme="d" data-mini="true">
+<div data-role="collapsible" data-theme="b" data-content-theme="d" data-mini="true" data-collapsed="false">
 	<h3><%=item.GroupName %></h3>
     <div class="ui-grid-a">
 
@@ -55,3 +55,9 @@
  <div id="newGroup">
  <a href="#" onclick="addGroup(<%=ViewData["YID"] %>,<%=ViewData["CourseID"] %>)" data-role="button" data-mini="true" data-icon="plus" data-iconpos="right">Add Group</a>
 </div>
+
+
+<div>Tournament Creator:</div>
+Passcode 2:
+<input type="text" name="name" id="passcode" data-mini="true" style="width:150px; display:inline" />
+<a href="#" onclick="saveCode(<%=ViewData["CourseID"] %>,<%= ViewData["YID"] %>)" data-role="button" data-icon="check">Start</a>
