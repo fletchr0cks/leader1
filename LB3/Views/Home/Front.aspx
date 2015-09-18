@@ -26,7 +26,6 @@
  <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li><%=Html.ActionLink("Join a Tournament", "Years", "Home")%></li>
     <li><a href="#" onclick="goToMyTourn()">My Tournaments</a></li>
-    <li><%=Html.ActionLink("My Tournaments", "MyTourn", "Home", new { UserID = 22 }, null)%></li>
 	<li><%=Html.ActionLink("Enter Scores", "Years", "Home", new { target = "CourseHoles" }, null) %></li>
 	<li><%=Html.ActionLink("View Scores", "Years", "Home", new { target = "CourseHolesView" }, null)%></li>
 	<li><%=Html.ActionLink("Results Feed", "Events", "Home") %></li>

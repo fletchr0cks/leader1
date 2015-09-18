@@ -31,6 +31,8 @@ namespace LB3.Controllers
         {
             var dataContext = new lb3dataDataContext();
 
+            //if has userid and 
+
             var data = from y in dataContext.Years
                       orderby y.YID descending
                        select y;
@@ -1163,12 +1165,16 @@ namespace LB3.Controllers
                        where c.Passcode == passcode
                        orderby c.Name ascending
                        select c;
-            var YID = data.First().YID;
-            var CID = (from c in dataContext.Courses
-                       where c.YID == YID select c).First().CID;
+            if (data.Count() == 1)
+            {
 
-            ViewData["CID"] = CID;
+                var YID = data.First().YID;
+                var CID = (from c in dataContext.Courses
+                           where c.YID == YID
+                           select c).First().CID;
 
+                ViewData["CID"] = CID;
+            }
             return PartialView("PasscodeResults", data);
      
         }

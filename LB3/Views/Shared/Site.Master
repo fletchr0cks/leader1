@@ -56,8 +56,8 @@
             // showCustomer();
             reportOnlineStatus();
 
-           // drawSpacer();
-
+            // drawSpacer();
+            
         });
  /* 
        $(document).bind("pageinit", function () {
@@ -527,7 +527,7 @@
            model.UserID = UserID;
            localStorage.setItem(index,
                     JSON.stringify(model));
-           window.location.href = "/Home/Front";
+           window.location.href = "/Home/Front?UserID=" + UserID;
        }
 
 
@@ -574,7 +574,7 @@
        }
 
        function checkCode() {
-
+           $('#results').html("Checking details ... stand by").trigger("create");
            var passcode = document.getElementById("passcode").value;
            var ownername = document.getElementById("ownername").value;
            $.ajax({

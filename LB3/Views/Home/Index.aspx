@@ -104,5 +104,5 @@
     </ul>
  
 	<% } %>
-<div id="results"></div>
+<div id="results"><h4>Checking for previously selected tournaments .... </h4></div>
 </asp:Content>
