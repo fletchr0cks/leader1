@@ -246,6 +246,7 @@
             $('#scoreinput').html(html_top + html + "</table>").trigger('create');
             //$('#CourseName').html(CourseName).trigger('create');
             drawButtons(thisHole, HoleCount);
+           //    refresh_miniLB_feed(CID, YID, thisHole)
             getMiniLB(CID, YID, thisHole);
         }
 
@@ -652,11 +653,12 @@
   <div id="EIDxy" style="display: none"></div>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
+<a href="/Home/Events">
 <div data-role="footer" style="overflow:hidden;">
 <table>
 <tr><td class="leftAlign"><div id="evticker" class="ticker"></div></td></tr></table>
 <div><ul data-role="listview" data-theme="a"><li><div class="status" id="onlineStatus"></div></li></ul></div>
-</div>
+</div></a>
 </asp:Content>
 
  

@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
-<%= Html.ActionLink("Back to Menu", "Index", "Home", null)%>
+<%= Html.ActionLink("Back to Scorecard", "LocalHoleCard", "Home")%>
 <h1>Events</h1>
 </asp:Content>
 

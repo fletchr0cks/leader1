@@ -261,13 +261,14 @@
                return audio_element
            }
        }
-       var clicksound = ss_soundbits('../Content/sounds/applause.mp3');
+  //     var clicksound = ss_soundbits('../Content/sounds/applause.mp3');
        var timerX;
        var timerY;
+       var timerZ;
        $(document).ready(function () {
            //alert("ready");
            $('#eventsfeed').html("Loading Events Feed").trigger('create');
-          //refresh_feed();
+           refresh_feed();
            //$('#eventsfeed').html("<div id=\"eventsfeed_inner\">inner</div>").trigger('create');
            //getEventsFeed();
            //$('#evticker').html('Loading news feed, stand by ...').trigger('create');
@@ -276,15 +277,22 @@
        function refresh_feed() {
            
            clearTimeout(timerX);
-           timerX = setTimeout(getEventsFeed, 10000);
+           timerX = setTimeout(getEventsFeed, 30000);
        }
 
 
        function refresh_card_feed() {
 
            clearTimeout(timerY);
-           timerY = setTimeout(getEventsPopup, 10000);
+           timerY = setTimeout(getEventsPopup, 30000);
        }
+
+ //      function refresh_miniLB_feed(CID, YID, num) {
+ //          console.log("timeout");
+ //          clearTimeout(timerZ);
+ //          timerZ = setTimeout(getMiniLB(CID, YID, num), 5000);
+
+   //    }
 
        function getEventsFeed() {
            //$('#eventsfeed').slideUp();
@@ -346,12 +354,19 @@
                            //alert(result.EID);
 
                        });
-                   
+
                        $('#evticker').html(html).trigger('create');
                        $("#evticker").fadeTo("slow", 1);
                    }
                    //clicksound.playclip();
                    setTimeout(refresh_card_feed, 10000);
+                   var YIDa = localStorage.getItem(96);
+                   var YIDb = eval('(' + YIDa + ')');
+                   var YIDc = YIDb.YID;
+                   var CID = YIDb.CID;
+
+                   //     alert(YIDc);
+                   getMiniLB(CID, YIDc, "5");
 
                    //$.each(json.speech.reverse(), function (i, result) {
                    //    responsiveVoice.speak(result.speech);
@@ -719,6 +734,8 @@
                }
            });
        }
+
+      
 
        function getMiniLB(CID, YID, HoleNum) {
            //$('#scores_' + GID).html(" ").trigger("create"); ;

@@ -69,7 +69,7 @@ namespace LB3.Controllers
             return View();
         }
 
-        public ActionResult Manifestx()
+        public ActionResult Manifestvv()
         {
             var manifest = "CACHE MANIFEST" + Environment.NewLine +
                   //"# App Markup Date: " + DateTime.UtcNow + Environment.NewLine +
