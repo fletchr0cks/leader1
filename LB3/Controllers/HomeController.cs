@@ -421,7 +421,7 @@ namespace LB3.Controllers
               //  if (allevents.Count() > 0)
               //  {
 
-                return Json(new { events = allevents.Take(2), speech = speech_item.Take(2) }, JsonRequestBehavior.AllowGet);
+                return Json(new { events = allevents, speech = speech_item.Take(2) }, JsonRequestBehavior.AllowGet);
 
              //   }
              //   else

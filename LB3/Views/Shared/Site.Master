@@ -340,7 +340,7 @@
                    var latestID = json.latestID;
                    if (parseInt(json.events.length) > 0) {
                        var html = "";
-                       $("#evticker").fadeTo("slow", 0);
+                    //   $("#evticker").fadeTo("slow", 0);
                        $.each(json.events.reverse(), function (i, result) {
                            if (result.UserID > 0) {
                                html = html + "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
@@ -355,8 +355,8 @@
 
                        });
 
-                       $('#evticker').html(html).trigger('create');
-                       $("#evticker").fadeTo("slow", 1);
+                       $('#evticker').prepend("</br>" + html).trigger('create');
+                 //      $("#evticker").fadeTo("slow", 1);
                    }
                    //clicksound.playclip();
                    setTimeout(refresh_card_feed, 10000);
@@ -735,7 +735,15 @@
            });
        }
 
-      
+       function showEvents() {
+           $('#miniLB').hide();
+           $('#evticker').show();
+       }
+
+       function showMiniLB() {
+           $('#miniLB').show();
+           $('#evticker').hide();
+       }
 
        function getMiniLB(CID, YID, HoleNum) {
            //$('#scores_' + GID).html(" ").trigger("create"); ;

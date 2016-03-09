@@ -23,3 +23,8 @@ C:\Users\u8001065\Documents\MyLocal\leader1-master\leader1-master\LB3\bin\LB3.pd
 C:\Users\u8001065\Documents\MyLocal\leader1-master\leader1-master\LB3\obj\Debug\LB3.csprojResolveAssemblyReference.cache
 C:\Users\u8001065\Documents\MyLocal\leader1-master\leader1-master\LB3\obj\Debug\LB3.dll
 C:\Users\u8001065\Documents\MyLocal\leader1-master\leader1-master\LB3\obj\Debug\LB3.pdb
+C:\Users\fletc\Documents\GitHub\leader1\LB3\bin\LB3.dll
+C:\Users\fletc\Documents\GitHub\leader1\LB3\bin\LB3.pdb
+C:\Users\fletc\Documents\GitHub\leader1\LB3\obj\Debug\LB3.csprojResolveAssemblyReference.cache
+C:\Users\fletc\Documents\GitHub\leader1\LB3\obj\Debug\LB3.dll
+C:\Users\fletc\Documents\GitHub\leader1\LB3\obj\Debug\LB3.pdb

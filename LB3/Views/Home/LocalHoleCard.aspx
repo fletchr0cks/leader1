@@ -648,17 +648,27 @@
   <div id="prevBtn"></div></td>
   <td>
   <div id="nextBtn"></div></td></tr>
-  <tr><td></td><td><div id="miniLB"></div></td></tr>
   </table>
+<div style="text-align:center;padding-top:30px">
+  <form>
+<fieldset data-role="controlgroup" data-type="horizontal">
+<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a" value="on" onclick="showEvents()">
+<label for="radio-choice-h-2a">Events Feed</label>
+<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" value="on" checked="checked" onclick="showMiniLB()">
+<label for="radio-choice-h-2b">Leaderboard</label>
+</fieldset>
+</form>
+</div>
+<div id="evticker" class="ticker" style="display:none;width:auto">
+</div>
+<div id="miniLB"></div>
   <div id="EIDxy" style="display: none"></div>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
-<a href="/Home/Events">
+
 <div data-role="footer" style="overflow:hidden;">
-<table>
-<tr><td class="leftAlign"><div id="evticker" class="ticker"></div></td></tr></table>
 <div><ul data-role="listview" data-theme="a"><li><div class="status" id="onlineStatus"></div></li></ul></div>
-</div></a>
+</div>
 </asp:Content>
 
  
