@@ -359,7 +359,7 @@
                  //      $("#evticker").fadeTo("slow", 1);
                    }
                    //clicksound.playclip();
-                   setTimeout(refresh_card_feed, 10000);
+                   setTimeout(refresh_card_feed, 5000);
                    var YIDa = localStorage.getItem(96);
                    var YIDb = eval('(' + YIDa + ')');
                    var YIDc = YIDb.YID;
