@@ -398,7 +398,7 @@ namespace LB3.Controllers
        //     {
 
                 var allevents = from e in dataContext.Events
-                                orderby e.Timestamp descending
+                                orderby e.Timestamp ascending
                                 where e.EID > EID
                                 select new
                                 {

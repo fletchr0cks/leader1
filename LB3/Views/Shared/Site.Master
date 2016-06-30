@@ -343,7 +343,7 @@
                     //   $("#evticker").fadeTo("slow", 0);
                        $.each(json.events.reverse(), function (i, result) {
                            if (result.UserID > 0) {
-                               html = html + "<div>" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
+                               html = html + "<div style=\"font-size:10px\">" + result.Timest + ": " + result.Name + ", " + result.Comment + "</div>";
                            } else if (result.type == "Pinxx") {
                                html = "<li class=\"ui-li ui-li-static ui-body-d\"><p class=\"ui-li-aside\"><a href=\"About\" data-rel=\"dialog\" data-transition=\"flip\" data-inline=\"true\" data-theme=\"e\" data-role=\"button\" data-mini=\"true\">Place bets now!</a></p><h3 class=\"ui-li-heading\">" + result.Name + "</h3><p class=\"ui-li-desc\">" + result.Comment + "</p></li>";
                            } else {
