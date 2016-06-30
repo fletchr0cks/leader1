@@ -116,21 +116,6 @@
       <Association Name="Year_Course" Member="Year" ThisKey="YID" OtherKey="YID" Type="Year" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Score" Member="Scores">
-    <Type Name="Score">
-      <Column Name="ScID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="HoleID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Score" Member="Score1" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Stableford" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PinUserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="DriveUserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Association Name="Hole_Score" Member="Hole" ThisKey="HoleID" OtherKey="HoleID" Type="Hole" IsForeignKey="true" />
-      <Association Name="User_Score" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.[User]" Member="Users">
     <Type Name="User">
       <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -144,8 +129,8 @@
       <Association Name="User_Leaderboard" Member="Leaderboards" ThisKey="UserID" OtherKey="UserID" Type="Leaderboard" />
       <Association Name="User_UserGroup" Member="UserGroups" ThisKey="UserID" OtherKey="UserID" Type="UserGroup" />
       <Association Name="User_Event" Member="Events" ThisKey="UserID" OtherKey="UserID" Type="Event" />
-      <Association Name="User_Score" Member="Scores" ThisKey="UserID" OtherKey="UserID" Type="Score" />
       <Association Name="User_Year" Member="Years" ThisKey="UserID" OtherKey="OwnerID" Type="Year" />
+      <Association Name="User_Score" Member="Scores" ThisKey="UserID" OtherKey="UserID" Type="Score" />
     </Type>
   </Table>
   <Table Name="dbo.Year" Member="Years">
@@ -163,6 +148,22 @@
       <Association Name="Year_SI" Member="SIs" ThisKey="YID" OtherKey="YearID" Type="SI" />
       <Association Name="Year_Course" Member="Courses" ThisKey="YID" OtherKey="YID" Type="Course" />
       <Association Name="User_Year" Member="User" ThisKey="OwnerID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Score" Member="Scores">
+    <Type Name="Score">
+      <Column Name="ScID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="HoleID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Score" Member="Score1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Stableford" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PinUserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DriveUserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="GID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Hole_Score" Member="Hole" ThisKey="HoleID" OtherKey="HoleID" Type="Hole" IsForeignKey="true" />
+      <Association Name="User_Score" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

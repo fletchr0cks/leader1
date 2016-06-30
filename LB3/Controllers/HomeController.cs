@@ -1472,6 +1472,7 @@ namespace LB3.Controllers
                     sc.UserID = UserID;
                     sc.YearID = YID;
                     sc.HoleID = HID;
+                    sc.GID = GID;
                     dataRepository.Add(sc);
                     dataRepository.Save();
                     dataRepository.CheckScore(0, GID, YID, HID, UserID);
@@ -1485,6 +1486,7 @@ namespace LB3.Controllers
                     sc.UserID = UserID;
                     sc.YearID = YID;
                     sc.HoleID = HID;
+                    sc.GID = GID;
                     dataRepository.Add(sc);
                     dataRepository.Save();
                     dataRepository.CheckScore(0, GID, YID, HID, UserID);
@@ -1495,6 +1497,7 @@ namespace LB3.Controllers
                     Score sc = new Score();
                     sc.HoleID = HID;
                     sc.YearID = YID;
+                    sc.GID = GID;
                     sc.UserID = UserID;
                     sc.Score1 = score;
 

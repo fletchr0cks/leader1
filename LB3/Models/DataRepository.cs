@@ -61,6 +61,7 @@ namespace LB3.Models
                 var scores = from s in db.Scores
                              where s.HoleID == HID
                              where s.YearID == YID
+                             where s.GID == GID
                              select s;
 
                 var score_ct = scores.Count();
@@ -138,6 +139,7 @@ namespace LB3.Models
                     var ev_scores = from s in db.Scores
                                     where s.HoleID == HID
                                     where s.YearID == YID
+                                    where s.GID == GID
                                     orderby s.Score1 ascending
                                     select new
                                     {
@@ -253,6 +255,7 @@ namespace LB3.Models
                     var scores = from s in db.Scores
                                  where s.HoleID == HID
                                  where s.YearID == YID
+                                 where s.GID == GID
                                  select s;
 
                     var score_ct = scores.Count();

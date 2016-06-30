@@ -594,13 +594,12 @@
        function NewScoreFor(userid, score, HID, YID, GID) {
            scoreSavedtoServer("H_" + HID + "_" + userid,false);
            $('#scoretxt_' + userid + '_' + HID).html("Saving ...").trigger("create").fadeIn('slow');
-           //alert(HID);
            $.ajax({
                type: "POST",
                url: "/Home/newScore",
                data: "GID=" + GID + "&YID=" + YID + "&HID=" + HID + "&score=" + score + "&Pin=0&LD=0&UserID=" + userid,
                dataType: "html",
-               timeout: 5000,
+               timeout: 8000,
                success: function (data) {
                    var json = eval('(' + data + ')');
                    var type = json.type;
