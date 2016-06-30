@@ -355,7 +355,7 @@
 
                        });
 
-                       $('#evticker').prepend("</br>" + html).trigger('create');
+                       $('#evticker').html("</br>" + html).trigger('create');
                  //      $("#evticker").fadeTo("slow", 1);
                    }
                    //clicksound.playclip();

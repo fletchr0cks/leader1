@@ -2077,7 +2077,7 @@ td.tdright { text-align: right }
 .miniLBh {  text-align: right; margin-right: 10px; padding: 0px; font-size:18px; color: #309156; font-weight: bold}
 .miniLBn { margin-right: 10px; padding: 0px; font-size:18px; color: #309156; text-align:right}
 tr.miniLBrow { border: 1px solid #309156}
-.ticker { padding: 0px; font-size:14px;}
+.ticker { padding: 0px; font-size:12px;}
 .miniLBback {margin-top: 15px; padding:10px;}
 td.leftAlign {text-align:left; padding-left: 5px}
 strong { 
