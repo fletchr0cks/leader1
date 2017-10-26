@@ -8,6 +8,6 @@
 <body>
     <script>
 window.location.assign('myvvapp://token' +
-    window.location.hash);</script>
+    window.location.href);</script>
 </body>
 </html>
