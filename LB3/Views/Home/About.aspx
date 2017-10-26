@@ -1,16 +1,18 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
+@{
+    Layout = null;
+}
 
-<asp:Content ID="aboutTitle" ContentPlaceHolderID="TitleContent" runat="server">
-    About Us
-</asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="PageTitleContent" runat="server">
-    Beer Index here
-</asp:Content>
-
-<asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>About</h2>
-    <p>
-        Put content here.
-    </p>
-</asp:Content>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src
+    'none';script-src 'unsafe-inline';">
+</head>
+<body>
+    <script>
+window.location.assign('myvvapp://token' +
+    window.location.hash);</script>
+</body>
+</html>
