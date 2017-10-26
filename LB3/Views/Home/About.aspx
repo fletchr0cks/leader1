@@ -2,8 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src
-    'none';script-src 'unsafe-inline';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'">
 </head>
 <body>
     <script>
