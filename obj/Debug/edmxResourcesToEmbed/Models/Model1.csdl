@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db61a6afb29dc84f4597e3a2b500ebed20Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="PriceData">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Coin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Timestamp" Type="DateTime" Precision="3" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="Rank" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Rankdelta" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Marketcap" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Symbol" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="MA100" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="MA7" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="MA9" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="MA50" Type="Decimal" Precision="18" Scale="6" />
+  </EntityType>
+  <EntityContainer Name="db61a6afb29dc84f4597e3a2b500ebed20Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="PriceDatas" EntityType="Self.PriceData" />
+    <EntitySet Name="PriceChanges" EntityType="db61a6afb29dc84f4597e3a2b500ebed20Model.PriceChanx" />
+    <EntitySet Name="Logs" EntityType="db61a6afb29dc84f4597e3a2b500ebed20Model.Log" />
+    <EntitySet Name="Orders" EntityType="db61a6afb29dc84f4597e3a2b500ebed20Model.Order" />
+  </EntityContainer>
+  <EntityType Name="PriceChanx">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Coin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Time_start" Type="DateTime" Precision="3" />
+    <Property Name="Time_end" Type="DateTime" Precision="3" />
+    <Property Name="Up" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Down" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Duration" Type="Int32" />
+    <Property Name="UniqueID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="profit" Type="Decimal" Precision="18" Scale="6" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Timestamp" Type="DateTime" Precision="3" />
+    <Property Name="Event" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Coin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Timestamp" Type="DateTime" Precision="3" />
+    <Property Name="Direction" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Quantity" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="MarketValue" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="OrderID" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Owner" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PL" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="Fee" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="PLpct" Type="Decimal" Precision="18" Scale="6" />
+  </EntityType>
+</Schema>

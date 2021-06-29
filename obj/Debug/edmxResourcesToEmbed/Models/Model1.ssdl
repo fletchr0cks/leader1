@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db61a6afb29dc84f4597e3a2b500ebed20Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Timestamp" Type="datetime" />
+    <Property Name="Event" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Coin" Type="nchar" MaxLength="10" />
+    <Property Name="Timestamp" Type="datetime" />
+    <Property Name="Direction" Type="nchar" MaxLength="10" />
+    <Property Name="Quantity" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="MarketValue" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="OrderID" Type="varchar(max)" />
+    <Property Name="Owner" Type="varchar" MaxLength="50" />
+    <Property Name="PL" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="Fee" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="PLpct" Type="decimal" Precision="18" Scale="6" />
+  </EntityType>
+  <EntityType Name="PriceChanges">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Coin" Type="nchar" MaxLength="10" />
+    <Property Name="Time_start" Type="datetime" />
+    <Property Name="Time_end" Type="datetime" />
+    <Property Name="Up" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Down" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Duration" Type="int" />
+    <Property Name="UniqueID" Type="varchar" MaxLength="50" />
+    <Property Name="profit" Type="decimal" Precision="18" Scale="6" />
+  </EntityType>
+  <EntityType Name="PriceData">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Coin" Type="nchar" MaxLength="10" />
+    <Property Name="Timestamp" Type="datetime" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="Rank" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Rankdelta" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Marketcap" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Symbol" Type="nchar" MaxLength="10" />
+    <Property Name="MA100" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="MA7" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="MA9" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="MA50" Type="decimal" Precision="18" Scale="6" />
+  </EntityType>
+  <EntityContainer Name="db61a6afb29dc84f4597e3a2b500ebed20ModelStoreContainer">
+    <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PriceChanges" EntityType="Self.PriceChanges" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PriceData" EntityType="Self.PriceData" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

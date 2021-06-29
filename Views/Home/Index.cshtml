@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-2" style="width:30%">
+        <label class="control-label" for="date">Data Start</label>
+        <input class="form-control" id="date-start" name="date-start" placeholder="01-February-2021" type="text" />
+        <label class="control-label" for="date">From</label>
+        <input class="form-control" id="date-from" name="date-from" placeholder="DD/MM/YYY" type="text" />
+        <label class="control-label" for="date">To</label>
+        <input class="form-control" id="date-to" name="date-to" placeholder="DD/MM/YYY" type="text" />
+        <hr />
+        <button type="button" class="btn btn-primary btn-lg">Get Data</button>
+        <a href="#" class="btn btn-primary btn-lg" onclick="orderData()">Orders</a>
+    </div>
+    
+    <div class="col-md-2" style="width:40%;visibility:hidden">
+        <form>
+            <div>
+                <label><input type="checkbox" value="LINK" name="sport" checked="checked"> LINK</label>
+                <div style="display: inline-block" id="result_LINK"></div>
+            </div>
+            <div>
+                <label><input type="checkbox" value="ETH" name="sport" checked="checked"> ETH</label>
+                <div style="display: inline-block" id="result_ETH"></div>
+            </div>
+            <div>
+                <label><input type="checkbox" value="GRT" name="sport" checked="checked"> GRT</label>
+                <div style="display: inline-block" id="result_GRT"></div>
+            </div>
+            <div>
+                <label><input type="checkbox" value="AAVE" name="sport" checked="checked"> AAVE</label>
+                <div style="display: inline-block" id="result_AAVE"></div>
+            </div>
+            <div>
+                <label><input type="checkbox" value="BTC" name="sport" checked="checked"> BTC</label>
+                <div style="display: inline-block" id="result_BTC"></div>
+            </div>
+            <div>
+                <label><input type="checkbox" value="DOT" name="sport" checked="checked"> DOT</label>
+                <div style="display: inline-block" id="result_DOT"></div>
+            </div>
+            <div>
+                <label><input type="checkbox" value="NU" name="sport" checked="checked"> NU</label>
+                <div style="display: inline-block" id="result_NU"></div>
+            </div>
+            <div>
+                <label><input type="checkbox" value="BNB" name="sport" checked="checked"> BNB</label>
+                <div style="display: inline-block" id="result_BNB"></div>
+            </div>
+            <div>
+                <label><input type="checkbox" value="ADA" name="sport" checked="checked"> ADA</label>
+                <div style="display: inline-block" id="result_ADA"></div>
+            </div>
+
+
+        </form>
+
+    </div>
+    <div class="col-md-2" style="width:30%;visibility:hidden">
+        <form>
+            <div>
+                
+                <div style="display: inline-block;height:25px" id="result_LINK2"></div>
+            </div>
+            <div>
+
+                <div style="display: inline-block;height:25px" id="result_ETH2"></div>
+            </div>
+            <div>
+
+                <div style="display: inline-block;height:28px" id="result_GRT2"></div>
+            </div>
+            <div>
+                
+                <div style="display: inline-block;height:28px" id="result_AAVE2"></div>
+            </div>
+            <div>
+
+                <div style="display: inline-block;height:28px" id="result_BTC2"></div>
+            </div>
+            <div>
+
+                <div style="display: inline-block;height:28px" id="result_DOT2"></div>
+            </div>
+            <div>
+
+                <div style="display: inline-block;height:28px" id="result_NU2"></div>
+            </div>
+            <div>
+                <div style="display: inline-block;height:28px" id="result_BNB2"></div>
+            </div>
+            <div>
+                <div style="display: inline-block;height:28px" id="result_ADA2"></div>
+            </div>
+
+
+        </form>
+
+    </div>
+</div>
+<div id="orders"></div>
+<div id="dataHerex"></div>
+<div id="dataHere2x"><br /></div>
+<div style="visibility:hidden">
+    <a href="#" class="btn btn-primary btn-lg" onclick="drawCharts()">Chart</a>
+    <input type="checkbox" class="form-check-input" value="checked" name="db_chk" id="modal_checkbox">
+    <label class="form-check-label" for="exampleCheck1">Save % changes to DB</label>
+    <input class="form-control" type="text" name="change_pct" placeholder="% Change">
+    <input class="form-control" type="text" name="MAlo" placeholder="5">
+    <input class="form-control" type="text" name="MAhi" placeholder="20">
+
+</div>
+<div class="row">
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartBTC" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartETH" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartBNB" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartLINK" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartADA" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartAAVE" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartDOT" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartGRT" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartNU" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+    <div class="col-md-2" style="width:50%">
+        <div id="myChartxx" class="chart--container">
+            <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db61a6afb29dc84f4597e3a2b500ebed20Model1StoreContainer" CdmEntityContainer="db61a6afb29dc84f4597e3a2b500ebed20Entities1">
+    <EntitySetMapping Name="PriceChanges">
+      <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model1.PriceChanx">
+        <MappingFragment StoreEntitySet="PriceChanges">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Coin" ColumnName="Coin" />
+          <ScalarProperty Name="Time_start" ColumnName="Time_start" />
+          <ScalarProperty Name="Time_end" ColumnName="Time_end" />
+          <ScalarProperty Name="Up" ColumnName="Up" />
+          <ScalarProperty Name="Down" ColumnName="Down" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceDatas">
+      <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model1.PriceData">
+        <MappingFragment StoreEntitySet="PriceData">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Coin" ColumnName="Coin" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Rank" ColumnName="Rank" />
+          <ScalarProperty Name="Rankdelta" ColumnName="Rankdelta" />
+          <ScalarProperty Name="Marketcap" ColumnName="Marketcap" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

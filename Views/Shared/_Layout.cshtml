@@ -1,0 +1,1084 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .chart--container {
+            min-height: 530px;
+            width: 100%;
+            height: 100%;
+        }
+
+        input {
+            font-family: 'Lucida Sans Unicode';
+        }
+
+        .zc-ref {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" style="margin:5px">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script src="https://cdn.zingchart.com/modules/zingchart-zoom-buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+
+        var coinArray = [];
+
+        $(document).ready(function () {
+            var dtt = new Date();
+      
+            
+
+            let today = new Date();
+            let days7b = new Date(today - (7*86400000));
+           $('input[name="date-from"]').val(days7b.toShortFormat());
+            $('input[name="date-to"]').val(today.toShortFormat());
+            var date_input_from = $('input[name="date-from"]'); //our date input has the name "date"
+            var date_input_to = $('input[name="date-to"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            var options = {
+                format: 'dd-MM-yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            };
+            date_input_from.datepicker(options);
+            date_input_to.datepicker(options);
+
+            $("button").click(function () {
+                //var favorite = [];
+                localStorage.clear();
+                $.each($("input[name='sport']:checked"), function () {
+                    coinArray.push($(this).val());
+                });
+                // alert("My favourite sports are: " + favorite.join(", "));
+                getCoindata(coinArray);
+                var js_array = JSON.stringify(coinArray);
+                localStorage.setItem("coinArray", js_array);
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+
+
+        var favorite = [];
+        var priceArray = [];
+        var timeArray = [];
+        var seriesArray = [];
+        var seriesArrayDB = [];
+        var seriesArrayPctETH = [];
+        //var seriesArrayLINK = [];
+        var seriesArrayPctBTC = [];
+        var seriesArrayPctGRT = [];
+        var seriesArrayPctAAVE = [];
+        var seriesArrayPctDOT = [];
+        var seriesArrayPctNU = [];
+        var seriesArrayPctBNB = [];
+        var seriesArrayPctADA = [];
+        var seriesArrayETHma = [];
+        var seriesArrayLINKma = [];
+        var seriesArrayBTCma = [];
+        var seriesArrayGRTma = [];
+        var seriesArrayAAVEma = [];
+        var seriesArrayDOTma = [];
+        var seriesArrayNUma = [];
+        var seriesArrayBNBma = [];
+        var seriesArrayADAma = [];
+        var dataArrayMAx = [];
+        var seriesArrayMAx = [];
+        var seriesArrayMA50 = [];
+        var seriesArrayMA100 = [];
+        var seriesArrayMA9 = [];
+        // var seriesArrayPctDOT = [];
+        var seriesArrayPct = [];
+        var chartDataJson;
+
+        Date.prototype.toShortFormat = function () {
+
+            let monthNames = ["Jan", "Feb", "Mar", "Apr",
+                "May", "Jun", "Jul", "Aug",
+                "Sep", "Oct", "Nov", "Dec"];
+
+            let day = this.getDate();
+
+            let monthIndex = this.getMonth();
+            let monthName = monthNames[monthIndex];
+
+            let year = this.getFullYear();
+
+            return `${day}-${monthName}-${year}`;
+        }
+
+        function SavePriceData(jsondata, ct, coin) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/saveData",
+                data: "price_data=" + jsondata + "&count=" + ct + "&coin=" + coin,
+                dataType: "html",
+                //success: onSuccess
+                success: function (response) {
+
+                    //gotohere add ids to div areas
+                    // $('#dataHere2').html(response);
+                    //$('#hole_' + CID).val("8");
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr); console.debug(error);
+                },
+                complete: function () {
+
+                }
+            });
+
+        }
+
+        function epoch(date) {
+            return Date.parse(date)
+        }
+
+        function getCoindata() {
+            $.each(coinArray, function (i, result) {
+                //alert(result);
+                dataTest_22(result);
+            });
+        }
+        function drawCharts() {
+            $.each(coinArray, function (i, result) {
+                //alert(result);
+               
+                drawChart(result);
+               
+            });
+        }
+       
+
+        function createArrays(obj) {
+            var coin
+            var chartDataCoin;
+            var chartValues = [];
+            $.each(obj, function (c, result) {
+                //    var id = result.UserID;
+                coin = result.currency;
+                //alert(coin);
+                $('#dataHere2').append(coin + "</br>" + c + + "</br>" + seriesArray);
+                var num = Object.keys(obj[0].timestamps).length;
+                var price1 = obj[0].timestamps[2];
+                var prePrice = 0;
+                var pct1 = 0;
+                var pct2 = 0;
+                var dataArray = [];
+                var dataArrayDB = [];
+                var dataArrayPct = [];
+                var dataList;
+                var start_time;
+                var end_time;
+                var time_diff;
+                var start_price;
+                var end_price;
+                var price_pct;
+                var y = num - 1;
+                var i = 0;
+                $('#dataHere').append(Object.keys(obj[0].timestamps).length);
+
+                while (num > 0) { //price time pairs x num
+                    time2 = epoch(obj[c].timestamps[i]);
+                    time4 = obj[c].timestamps[i];
+                    price2 = obj[c].prices[i];
+                    price3 = Math.round(price2 * 1000) / 1000;
+                    $('#dataHere').append("Coin:" + coin + "," + price3).trigger("create").fadeIn();
+                    if (prePrice == 0) {
+                        prePrice = price3;
+                    }
+                    pct1 = ((price3 - prePrice) / prePrice) * 100
+                    pct2 = Math.round(pct1 * 1000) / 1000;
+                    dataArray.push(time2, price3);
+                    dataArrayDB.push(time2, price3);
+                    dataArrayPct.push(time2, pct2);
+                    seriesArray.push(dataArray);
+                    seriesArrayDB.push(dataArrayDB);
+                    seriesArrayPct.push(dataArrayPct);
+                    prePrice = price3;
+                    dataArray = [];
+                    dataArrayDB = [];
+                    dataArrayPct = [];
+
+
+
+                    num--;
+                    i++;
+                }
+                var subArray1 = [];
+
+                var myJSON = JSON.stringify(seriesArrayDB);
+                alert(myJSON);
+                SavePriceData(myJSON, y, coin);
+                //push seriesArray to db
+                seriesArray = [];
+                seriesArrayDB = [];
+
+
+            });
+
+        }
+
+
+        function createDynMA(obj, coin) {
+            var MAlo = $('input[name = "MAlo"]').val();
+            var MAhi = $('input[name = "MAhi"]').val();
+            if(MAlo.length < 1) {
+                MAlo = 50;
+            }
+            if (MAhi.length < 1) {
+                MAhi = 100;
+            }
+            var MAz = 9;
+            var z = 9;
+            var lo = 0;
+            var hi = 0;
+            var ct = 0;
+            $('#dataHere2').html();
+            while (MAlo <= 50) {
+                lo = MAlo;
+                createMA(obj, coin, lo);
+                while (MAhi <= 100) {
+                    hi = MAhi;
+                    createMA(obj, coin, hi);
+                    while (z <= 10) {
+                        // $('#dataHere2').append("MAlo= " + lo + "  MAhi=" + hi + "  z= " + z + "</br>");
+                        
+                        ct++;
+                        z++;
+                    }
+                    z = MAz;
+                    ct++;
+                    MAhi++;
+                }
+                MAhi = 100; $('input[name = "MAhi"]').val();
+                MAlo++;
+                ct++;
+            }
+            $('#dataHere').append(ct);
+        }
+            
+        
+
+        function createMA(obj, coin,intBack) {
+            //var intBack = $('input[name = "change_pct"]').val();
+            var total = 0;
+            var i = 0;
+            var time;
+            var p = 0;
+            var per = intBack;
+            var avg;
+            var timelog = new Date();
+            eval("var seriesArray" + coin + "MA" + intBack + "= []");
+            //  time = obj.data_out[i].Timestamp[intBack];
+            seriesArray = [];
+            $.each(obj.data_out, function (c, result) {
+                price = result.Price;
+                time_raw = result.Timestamp;
+
+                var time_ep = time_raw.replace('/Date(', '');
+                time_ep = time_ep.replace(')/', '');
+                var time_ep2 = time_ep;
+                var epoch_dtt = parseInt(time_ep);
+                var dtt = new Date(epoch_dtt);
+               // $('#dataHere').append("p=" + p + " Time:" + dtt + "," + price + "<br />");
+                dataArrayMAx = [];
+
+                if (p > intBack) {
+                    total = 0;
+                    timelog = null;
+                    i = p - 1;
+                    per = intBack;
+                    while (per > 0) { //start time is 'time'
+                        // time2 = epoch(obj[c].timestamps[i]);
+
+                        price = obj.data_out[i].Price;
+                        time_raw = obj.data_out[i].Timestamp;
+
+                        var time_ep = time_raw.replace('/Date(', '');
+                        time_ep = time_ep.replace(')/', '');
+                        var epoch_dt = parseInt(time_ep);
+                        var dt = new Date(epoch_dt);
+                        timelog = dt
+                        total = total + price;
+                        avg = total / (intBack);
+                      //  $('#dataHere2').append("i=" + i + "  Price avg:" + avg + " , " + dt + "<br />");
+
+
+                        per--;
+                        i--;
+
+                        //push to array [time,MAn]
+
+                    }
+
+
+                    dataArrayMAx.push(parseInt(time_ep2), avg);
+                    var st = "seriesArray" + coin + "MA" + intBack;
+                    eval("var dval=seriesArray" + coin + "MA" + intBack);
+                   // $('#dataHere2').append("val=" + dval);
+                    
+                        dval.push(dataArrayMAx);
+                    //console.log(dval);
+                    var js_array = JSON.stringify(dval);
+                    localStorage.setItem(st, js_array);
+                    //seriesArrayMAx.push(dataArrayMAx);
+                } else {
+                    dataArrayMAx.push(epoch_dtt, 15);  //if no 
+                }
+
+                p++;
+                //  $('#dataHere2').append("seriesArrayLINKma:" + seriesArrayLINKma + "<br />");
+            });
+
+         
+          //  $('#dataHere2').append("created: seriesArray" + coin + "MA" + intBack + "<br />");
+        }
+
+        function orderData() {
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/PLata",
+                data: "days=3",
+                dataType: "json",
+                //success: onSuccess
+                success: function (obj) { //call for each coin?  obj[coin];
+                    //var obj = jQuery.parseJSON(response);
+                    //createArrays(obj);
+                   
+                    var price1LINK = obj.data_out[0].Price;
+                    //var start_timeLINK = obj.data_out[0].Timestamp.replace('/Date(', '');
+                    //start_timeLINK = start_timeLINK.replace(')/', '');
+                    //alert(price1LINK);
+                    
+                    $.each(obj.data_out, function (i, result) {
+                        var pct2 = 0;
+                        var dataArrayPct = [];
+                        var price2 = result.PLpct;
+                        var time_raw = result.Timestamp;
+                        var time_ep = time_raw.replace('/Date(', '');
+                        time_ep = time_ep.replace(')/', '');
+                        var epoch_dt = parseInt(time_ep);
+                        var dt = new Date(epoch_dt);
+                        $('#summary').append("Running P/L:");
+                        $('#orders').append("<div>" + dt.toString().substring(0, 25) + "&nbsp;&nbsp;" + price2 + "</br>");
+                       
+                    });
+                   
+
+
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr); console.debug(error);
+                    alert(xhr + error);
+                },
+                complete: function () {
+
+                }
+            });
+
+
+            //drawChart();
+
+        }
+
+        function dataTest() {
+
+            $.ajax({
+                type: "GET",
+                //url: "https://api.nomics.com/v1/currencies/sparkline?key=90f82480889722d240fa5c3ac9342764&ids=LINK,ETH&convert=GBP&start=2021-02-01T00%3A00%3A00Z&end=2021-02-04T00%3A00%3A00Z",
+                url: "/Home/PData",
+                data: "coin=ETH&days=7",
+                dataType: "json",
+                //success: onSuccess
+                success: function (obj) { //call for each coin?  obj[coin];
+                    //var obj = jQuery.parseJSON(response);
+                    //createArrays(obj);
+                    var coin1 = "ETH";
+
+                    var ETH = obj[coin1];
+                    var LINK = obj['LINK'];
+                    var prePrice = 0;
+                    $('#dataHere2').append("start price=" + obj + "</br>");
+                    var price1LINK = obj.data_out[0].Price;
+                    var start_timeLINK = obj.data_out[0].Timestamp.replace('/Date(', '');
+                    start_timeLINK = start_timeLINK.replace(')/', '');
+
+                    // var price1ETH = obj['ETH'][0].Price;
+                    // var start_timeETH = obj['ETH'][0].Timestamp.replace('/Date(', '');
+                    //  start_timeETH = start_timeETH.replace(')/', '');
+                    //   $('#dataHere2').append("start price=" + price1ETH + "</br>");
+                    $.each(obj.data_out, function (i, result) {
+                        var pct2 = 0;
+                        var dataArrayPct = [];
+                        var price2 = result.Price;
+                        var change = ((price2 - price1LINK) / price1LINK) * 100;
+                        var time_raw = result.Timestamp;
+                        var time_ep = time_raw.replace('/Date(', '');
+                        time_ep = time_ep.replace(')/', '');
+                        var epoch_dt = parseInt(time_ep);
+                        var dt = new Date(epoch_dt);
+                        var target = 5;
+                        var hours_hi = 0;
+                        var hours_lo = 0;
+                        var dataArray = [];
+
+
+                        if (prePrice == 0) {
+                            prePrice = price2;
+                        }
+
+                        //  pct2 = Math.round(change * 1000) / 1000;
+                        pct1 = ((price2 - prePrice) / prePrice) * 100
+                        pct2 = Math.round(pct1 * 1000) / 1000;
+                        dataArrayPct.push(time_ep, pct2);
+                        if (change >= target) {
+                            var time_diff = (epoch_dt - parseInt(start_timeLINK)) / 1000 / 60 / 60;
+                            hours_hi = time_diff;
+                            $('#dataHere2').append("+" + target + "% reached at " + dt + " took " + hours_hi + " hours" + "</br>");
+                            start_timeLINK = time_ep; //save dt
+                            price1LINK = result.Price;
+                            $('#dataHere2').append("Date reset to " + dt + " price reset to " + price1LINK + "</br>");
+                            //reset startdate? + price for hi, not for lo?
+                        }
+                        if (change < (Math.abs(target) * -1)) {
+                            var time_diff = (epoch_dt - parseInt(start_timeLINK)) / 1000 / 60 / 60;
+                            hours_lo = time_diff;
+                            $('#dataHere2').append("-" + target + "% reached at " + dt + " took " + hours_lo + " hours" + "</br>");
+                            start_timeLINK = time_ep; //save dt
+                            price1LINK = result.Price;
+                            $('#dataHere2').append("Date reset to " + dt + " price reset to " + price1LINK + "</br>");
+                            //reset startdate? + price for hi, not for lo?
+                        }
+                        // $('#dataHere2').append(
+
+                        prePrice = price2;
+                        // $('#dataHere2').append(result.Price + "</br>");
+                        dataArray.push(time_ep, price2);
+                        seriesArray.push(dataArray);
+                        dataArrayPct.push(time_ep, pct2);
+                        seriesArrayPctLINK.push(dataArrayPct);
+                    });
+                    prePrice = 0;
+           
+
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr); console.debug(error);
+                    alert(xhr + error);
+                },
+                complete: function () {
+
+                }
+            });
+
+
+            drawChart();
+
+        }
+
+        function dataTest_22(coin) {
+            var dt_from = $('input[name = "date-from"]').val();
+            var dt_to = $('input[name = "date-to"]').val();
+            var pct = $('input[name = "change_pct"]').val();
+            var db = $("#modal_checkbox").is(":checked"); //true false
+            var prevPr = 0;
+            $('#result_' + coin).html();
+            $('#result_' + coin + "2").html();
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/PData",
+                data: "coin=" + coin + "&days=9&from_dt=" + encodeURI(dt_from) + "&to_dt=" + encodeURI(dt_to),
+                dataType: "json",
+                //success: onSuccess
+                success: function (obj) { //call for each coin?  obj[coin];
+                
+                    //createMA(obj, coin, 50);
+                    //createMA(obj, coin, 100);
+                    
+                    createDynMA(obj, coin);
+
+                    //rem on mar 2
+                    var prePrice = 0;
+                    //    $('#dataHere2').append("start price=" + obj + "</br>");
+                    var price1 = obj.data_out[0].Price;
+                    var start_time = obj.data_out[0].Timestamp.replace('/Date(', '');
+                    start_time = start_time.replace(')/', '');
+                    //get all data but inly start at date from
+                    $.each(obj.data_out, function (i, result) {
+                        var pct2 = 0;
+                        var dataArrayPct = [];
+                        var price2 = result.Price;
+                        var change = ((price2 - price1) / price1) * 100;
+                        var time_raw = result.Timestamp;
+                        var time_ep = time_raw.replace('/Date(', '');
+                        time_ep = time_ep.replace(')/', '');
+                        var epoch_dt = parseInt(time_ep);
+                        var dt = new Date(epoch_dt);
+                        var target = pct;
+                        var hours_hi = 0;
+                        var hours_lo = 0;
+                        var dataArray = [];
+
+
+                        if (prePrice == 0) {
+                            prePrice = price2;
+                        }
+
+                        //  pct2 = Math.round(change * 1000) / 1000;
+                        pct1 = ((price2 - prePrice) / prePrice) * 100
+                        pct2 = Math.round(pct1 * 1000) / 1000;
+                       
+                       
+
+                        prePrice = price2;
+                        // $('#dataHere2').append(result.Price + "</br>");
+                       
+                        dataArray.push(parseInt(time_ep), price2);
+                        seriesArray.push(dataArray);
+                        //var highPr = "seriesArray" + coin + "Hi";
+                        //if (price2 > prevPr) {
+                        //    console.log("push");
+                        //    dataArrayPct.push(time_ep, price2);
+                        //    localStorage.setItem(highPr, dataArrayPct);
+                        //    prevPr = price2;
+                        //}
+                        //dataArrayPct.push(time_ep, prevPr);
+                        var st = "seriesArray" + coin;
+                        var lastPr = "seriesArray" + coin + "last";
+                        
+                        var js_array = JSON.stringify(seriesArray);
+                        localStorage.setItem(st, js_array);
+                        localStorage.setItem(lastPr, price2);
+                        
+                        //prevPr = price2;
+                       
+                        //dataArrayPct = [];
+                        $('#result_' + coin).html("Data retrieved.");
+                       // analyzeMA();
+                        //drawChart(coin);
+                    });
+
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr); console.debug(error);
+                    alert(xhr + error);
+                },
+                complete: function () {
+                   
+                   pollDOM(coin);
+                   
+                }
+            });
+
+        }
+
+        function pollDOM(coin) {
+            var el = $('#result_'+coin);
+            //const el = document.querySelector('#result_LINK');
+           // alert(el.);
+            if (el.length > 0) {
+                //alert("hit" + coin);
+                // Do something with el
+                drawChart(coin);
+                //seriesArray = [];
+                //seriesArrayMA50 = [];
+                //seriesArrayMA100 = [];
+                //seriesArrayMA9 = [];
+            } else {
+                setTimeout(pollDOM(coin), 3000); // try again in 300 milliseconds
+            }
+        }
+
+        
+
+        
+        function Analyze() {
+
+
+
+            //var arrayx = localStorage.getItem("coinArray");
+            //var carray = jQuery.parseJSON(arrayx);
+            //$.each(carray, function (i, result) {
+            //    //alert(result);
+            //    AnalyzeCoin(result);
+            //});
+
+        }
+
+        function AnalyzeCoin(coin) {
+
+
+            var MAlo = $('input[name = "MAlo"]').val();
+            var MAhi = $('input[name = "MAhi"]').val();
+            if (MAlo.length < 1) {
+                MAlo = 50;
+            }
+            if (MAhi.length < 1) {
+                MAhi = 100;
+            }
+            var MAz = 9;
+           // var coin = "BNB";
+            var z = 9;
+            var lo = MAlo;
+            var hi = MAhi;
+            var ct = 0;
+//$('#dataHere').append("l=" + MA//);
+
+            analyzeMA(lo, hi, z, coin);
+
+
+            //while (MAlo <= 5) {
+            //    lo = MAlo;
+            //    while (MAhi <= 25) {//
+            //        hi = MAhi;                   
+            //        while (z <= 10) {
+            //          //  $('#dataHere2').append("MAlo= " + lo + "  MAhi=" + hi + "  z= " + z + "</br>");
+                       
+            //            ct++;
+            //            z++;
+            //        }
+            //        z = MAz;
+            //        ct++;
+            //        MAhi++;
+            //    }
+            //    MAhi = $('input[name = "MAhi"]').val();
+            //    MAlo++;
+            //    ct++;
+            //}
+           // $('#dataHere').append(ct);
+        }
+
+        function saveChangeData(time_start, time_end, up, down, duration, coin, profit) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/saveChangeData",
+                data: "time_start=" + time_start + "&time_end=" + time_end + "&up=" + up + "&down=" + down + "&duration=" + duration + "&coin=" + coin + "&profit=" + profit,
+                dataType: "html",
+                //success: onSuccess
+                success: function (response) {
+
+                    //gotohere add ids to div areas
+                    $('#dataHere2').append(response);
+                    //$('#hole_' + CID).val("8");
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr); console.debug(error);
+                },
+                complete: function () {
+
+                }
+            });
+
+        }
+
+        function findInOther(coin, time, type) {
+            var x = 0;
+            //eval ?? which MAarray?
+            var obj;
+            var coin_st;
+            if (type == "Act") {
+                coin_st = "seriesArray" + coin;
+                var arrayx = localStorage.getItem(coin_st);
+                obj = jQuery.parseJSON(arrayx);
+            } else {
+                coin_st = "seriesArray" + coin + "MA" + type; 
+                var arrayx = localStorage.getItem(coin_st);
+                obj = jQuery.parseJSON(arrayx);
+            }
+
+           
+            //console.log(coin_st);
+           // if (coin == "LINK") {
+                $.each(obj, function (c, result) {
+                    var arr2 = [];
+                    arr2 = result;
+                    pricePA = arr2[1];
+                    time_raw2 = arr2[0];
+                    if (time == time_raw2) {
+                       // $('#dataHere').append(" Time:" + time_raw + "matchPA= " + pricePA + ",#" + c + "<br />");
+                        x = pricePA; //if lower check previous x were lower?
+                    }
+                });
+          //  }
+
+            return x;
+        }
+
+
+        function analyzeMA(lo, hi, z, coin) {
+            // $('#dataHere').append("<br/>New figures: " + lo + " " + hi + " " + coin + "<br/>");
+            var st_lo = "seriesArray" + coin + "MA" + lo;
+            var st_hi = "seriesArray" + coin + "MA" + hi;
+            var arrayx = localStorage.getItem(st_hi);
+            var obj = jQuery.parseJSON(arrayx);
+            var action;
+            
+            //console.log(obj);
+            action = "none";
+            var phase = "nothing";
+            var cash = 1000;
+            var take_profit = 0;
+            var position = 0;
+            var action_time;
+            var prevPr = 0;
+            var HiTime = 0;
+            var HiPrice = 0;
+            var BuyPrice = 0;
+            $.each(obj, function (c, result) { //MAhi array
+                var arr1 = [];
+                arr1 = result;
+                price = arr1[1];
+                time_raw = arr1[0];
+                //$('#dataHere').append(coin);
+                
+                var prAct = findInOther(coin, time_raw, "Act");
+                var prLo = findInOther(coin, time_raw, lo);
+                //find in ...
+                crossed = 0;
+                var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                d.setUTCSeconds(time_raw / 1000);
+                // $('#dataHere').append(d + "LoMA=" + prLo + " HiMA=" + price + " Price=" + prAct +"<br/>");
+                if (phase == "nothing") { //not short or long
+                    if (prLo >= price) { // would be long  //buy when lo crosses above hi  lo >= hi
+                        phase = "Buying";
+                        //action = 1
+                        action_time = time_raw;
+                    } else {
+                        phase = "Selling";
+                        //action = 1;
+                        action_time = time_raw;
+                    }
+
+                } // have phase but not action
+
+
+                if (phase == "Buying") {  //long //sell at 10%
+                    var dataArrayHi = [];
+                    var highPr = "seriesArray" + coin + "Hi";
+                    if (prAct > prevPr) {
+                      //  console.log("push");
+                        HiTime = time_raw;
+                        dataArrayHi.push(time_raw, prAct);
+                        localStorage.setItem(highPr, dataArrayHi);
+                        prevPr = prAct;
+                        HiPrice = prAct;
+                    }
+                    if (prLo >= price) { //no change
+                        // $('#dataHere').append(phase + " Time:" + time_raw + "Hold at " + prAct + "<br />");
+                        action = "None";
+                    } else {
+                        //action
+                        //    $('#dataHere').append(c + " " + action + " Time:" + d + "Sell at " + prAct + "<br />");
+                        if (position > 0) {
+                            take_profit = take_profit + (position * prAct) - cash;  //coins bought * new price - cash
+                            var deal_profit = (position * prAct) - cash;
+                            //var proInt = parseInt(deal_profit);
+                            //saveChangeData(action_time, time_raw, hi, lo, 0, coin, deal_profit);
+                            //    $('#dataHere').append("Sell. Running Profit= " + take_profit + " Deal profit=" + deal_profit + "<br />");
+                            var lastst = "seriesArray" + coin + "last";
+                            var last = localStorage.getItem(lastst);
+                            var chg = ((last - prAct) / prAct) * 100;
+                            var chgpct = Math.round(chg * 10000) / 10000;
+                            $('#result_' + coin).html("flag:" + d.toLocaleString() + " " + prAct + " " + chgpct + "% since.");
+                           
+                            position = 0;
+                            action_time = time_raw;
+                        }
+                        action = "Sell";
+                        phase = "Selling";
+                         
+                    }
+
+                } else { //short
+                    if (prLo >= price) { //change
+                        // $('#dataHere').append(c + " " + action + " Time:" + d + "Buy at " + prAct + "<br />");
+                        if (position == 0) {
+                            position = cash / prAct; //this many coins
+                            //  $('#dataHere').append("Buy " + position + " coins" + " with " + cash + "<br />");
+                            //saveChangeData(action_time, time_raw, hi, lo, 1, coin,0, null);
+                            //cash = 0;
+                            var lastst = "seriesArray" + coin + "last";
+                            var last = localStorage.getItem(lastst);
+                            var chg = ((last - prAct) / prAct) * 100;
+                            var chgpct = Math.round(chg * 10000) / 10000;
+                            $('#result_' + coin).html("Buy:" + d.toLocaleString() + " at " + prAct + " " + chgpct + "% since.");
+                            BuyPrice = prAct;
+                            action_time = time_raw;
+                        }
+                        action = "Buy";
+                        phase = "Buying";
+                    } else {
+                        //no change
+                        // $('#dataHere').append(phase + " Time:" + time_raw + "Hold at " + prAct + "<br />");
+                        action = "None";
+                    }
+
+                }
+
+                
+
+            });
+            var priceHi = [];
+           // priceHi = localStorage.getItem("seriesArray" + coin + "Hi"); //get array
+            //var obj2 = jQuery.parseJSON(priceHi);
+            console.log(priceHi + " " + BuyPrice);
+            if (HiPrice > 0) {
+                var chg2 = ((HiPrice - BuyPrice) / HiPrice) * 100;
+                var chgpct2 = Math.round(chg2 * 10000) / 10000;
+                //var diff = parseInt(time_raw - HiTime);
+                $('#result_' + coin + "2").html("Hi: " + HiPrice + "   ch.: " + chgpct2 + "%");
+            }
+            // $('#result_' + coin + "2").html("qq");
+         
+        }
+
+        function drawChart(coin) {
+            console.log(coin);
+            //var st_hi = "seriesArray" + coin + "MA" + hi;
+            var MAlo = $('input[name = "MAlo"]').val();
+            var MAhi = $('input[name = "MAhi"]').val();
+            if (MAlo.length < 1) {
+                MAlo = 50;
+            }
+            if (MAhi.length < 1) {
+                MAhi = 100;
+            }
+            var coinArray = "seriesArray" + coin;
+            var ArrayMA1 = "seriesArray" + coin + "MA" + MAlo;
+            var ArrayMA2 = "seriesArray" + coin + "MA" + MAhi;
+            var coinArray_s = localStorage.getItem(coinArray);
+            coinArray_s = jQuery.parseJSON(coinArray_s);
+            var ArrayMA1_s = jQuery.parseJSON(localStorage.getItem(ArrayMA1));
+            var ArrayMA2_s = jQuery.parseJSON(localStorage.getItem(ArrayMA2));
+  
+            var chartName = "myChart" + coin;
+            let chartConfig2 = {
+                type: 'line',
+                title: {
+                    text: coin,
+                        width: 200,
+                    height: 150,
+                    'offset-x': 200
+                },
+                globals: {
+                    fontFamily: 'Lucida Sans Unicode'
+                },
+                plotarea: {
+                    margin: '50px 40px 40px 80px'
+                },
+                scaleX: {
+                    item: {
+                        fontSize: '10px'
+                    },
+                    transform: {
+                        type: 'date'
+                    },
+                    zooming: true
+                },
+                plot: {
+                    lineWidth: '2px',
+                    marker: {
+                        visible: false
+                    }
+                },
+                scaleY: {
+                    autoFit: true,
+                    guide: {
+                        lineStyle: 'solid'
+                    },
+                    item: {
+                        fontSize: '10px'
+                    },
+                    label: {
+                        text: 'Price'
+                    },
+                    minValue: 'auto',
+                    short: true
+                },
+                preview: {
+                    adjustLayout: true,
+                    borderWidth: '1px',
+                    handle: {
+                        height: '20px',
+                        lineWidth: '0px'
+                    }
+                },
+                noData: {
+                    text: 'No data found',
+                    backgroundColor: '#efefef'
+                },
+                options: {
+                    // define custom buttons
+                    buttons: [
+                        {
+                            text: '48h',
+                            type: 'hour',
+                            // Difference from farthest year 2013 - 2006
+                            count: 48
+                        },
+                        {
+                            text: '24h',
+                            type: 'hour',
+                            // Difference from farthest year 2013 - 2011
+                            count: 24
+                        },
+                        {
+                            text: '12h',
+                            type: 'hour',
+                            // Difference from farthest year 2013 - 2012
+                            count: 12
+                        },
+                        {
+                            text: 'All',
+                            type: 'all',
+                        },
+                    ]
+                },
+                // if fetching data remotely define an empty series
+                series: [{
+                    values: []
+                },
+                {
+                    values: []
+                    },
+                    {
+                        values: []
+                    },
+                    {
+                        values: []
+                    }
+                ]
+            };
+            zingchart.loadModules('zoom-buttons', () => {
+                // fetch the data remotely
+                //fetch('https://cdn.zingchart.com/datasets/timeseries-sample-data-2019.json')
+                //fetch(seriesArrayLINK)
+                //    .then(res => res.json())
+                //    .then(timeseriesData => {
+                // assign data
+                chartConfig2.series[0].values = coinArray_s;
+                chartConfig2.series[1].values = ArrayMA1_s;
+                chartConfig2.series[2].values = ArrayMA2_s;
+               // chartConfig2.series[3].values = seriesArrayMA9;
+                //zingchart.exec('myChart', 'setseriesvalues', {
+                //    values: [
+                //        seriesArrayLINK,
+                //        seriesArrayLINKma
+                //    ]
+                //});
+
+
+                //timeseriesData.values;
+                        // destroy the chart since we have to render the
+                        // chart with a module. if there is no module,
+                        // just use set data like the catch statement
+                zingchart.exec(chartName, 'destroy');
+                        // render chart with width and height to
+                        // fill the parent container CSS dimensions
+                        zingchart.render({
+                            id: chartName,
+                            data: chartConfig2,
+                            height: '100%',
+                            width: '100%',
+                            modules: 'zoom-buttons'
+                        });
+                   
+                  
+            });
+
+
+           
+            
+
+
+        }
+
+        function realTimeFeed(callback) {
+            var tick = {};
+            tick.plot0 = seriesArrayPct; //parseInt(10 + 90 * Math.random(), 10);
+            //tick.plot1 = //parseInt(10 + 90 * Math.random(), 10);
+            callback(JSON.stringify(tick));
+        };
+
+        function dataTest_o() {
+
+            $.ajax({
+                //$.getJSON({
+                type: "GET",
+                url: "https://api.nomics.com/v1/currencies/sparkline?key=90f82480889722d240fa5c3ac9342764&ids=ETH,BTC&start=2021-02-14T00%3A00%3A00Z&end=2021-02-15T00%3A00%3A00Z",
+                //data: "CID=" + CID + "&YID=" + YID,
+                jsonp: "callback",
+                dataType: "jsonp",
+                // crossDomain: true,
+
+                //dataType: 'json',
+                success: function (data) {
+                    //var json = eval('(' + data + ')');
+                    var obj = jQuery.parseJSON(data);
+                    createArrays(obj);
+
+
+
+
+                    //var coin = obj[1].currency;
+
+
+                    //$.each(obj[0].timestamps, function (i, result) {
+                    //    //    var id = result.UserID;
+
+                    //    timeArray.push(result);
+                    //    //    $('#scoretxt_' + id).html("Better luck next time.").trigger("create").fadeIn();
+                    //});
+                    //$.each(obj[0].prices, function (i, result) {
+                    //    //    var id = result.UserID;
+                    //    $('#dataHere2').append(result + "</br>");
+                    //    priceArray.push(result);
+                    //    //$('#dataHere2').append(priceArray + "</br>");
+                    //    //    $('#scoretxt_' + id).html("Better luck next time.").trigger("create").fadeIn();
+                    //});
+
+
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr); console.debug(error);
+                    alert(xhr + error);
+                }
+
+            });
+            // return false;
+
+
+        }
+
+       
+
+    </script>
+
+</body>
+</html >

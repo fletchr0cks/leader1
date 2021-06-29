@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="db61a6afb29dc84f4597e3a2b500ebed20Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="Event" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Coin" Type="nchar" MaxLength="10" />
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="Direction" Type="nchar" MaxLength="10" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="MarketValue" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="OrderID" Type="varchar(max)" />
+          <Property Name="Owner" Type="varchar" MaxLength="50" />
+          <Property Name="PL" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Fee" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="PLpct" Type="decimal" Precision="18" Scale="6" />
+        </EntityType>
+        <EntityType Name="PriceChanges">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Coin" Type="nchar" MaxLength="10" />
+          <Property Name="Time_start" Type="datetime" />
+          <Property Name="Time_end" Type="datetime" />
+          <Property Name="Up" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Down" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="UniqueID" Type="varchar" MaxLength="50" />
+          <Property Name="profit" Type="decimal" Precision="18" Scale="6" />
+        </EntityType>
+        <EntityType Name="PriceData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Coin" Type="nchar" MaxLength="10" />
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Rank" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Rankdelta" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Marketcap" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Symbol" Type="nchar" MaxLength="10" />
+          <Property Name="MA100" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="MA7" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="MA9" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="MA50" Type="decimal" Precision="18" Scale="6" />
+        </EntityType>
+        <EntityContainer Name="db61a6afb29dc84f4597e3a2b500ebed20ModelStoreContainer">
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PriceChanges" EntityType="Self.PriceChanges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PriceData" EntityType="Self.PriceData" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db61a6afb29dc84f4597e3a2b500ebed20Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PriceData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Coin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Rank" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Rankdelta" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Marketcap" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Symbol" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MA100" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="MA7" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="MA9" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="MA50" Type="Decimal" Precision="18" Scale="6" />
+        </EntityType>
+        <EntityContainer Name="db61a6afb29dc84f4597e3a2b500ebed20Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PriceDatas" EntityType="Self.PriceData" />
+          <EntitySet Name="PriceChanges" EntityType="db61a6afb29dc84f4597e3a2b500ebed20Model.PriceChanx" />
+          <EntitySet Name="Logs" EntityType="db61a6afb29dc84f4597e3a2b500ebed20Model.Log" />
+          <EntitySet Name="Orders" EntityType="db61a6afb29dc84f4597e3a2b500ebed20Model.Order" />
+        </EntityContainer>
+        <EntityType Name="PriceChanx">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Coin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Time_start" Type="DateTime" Precision="3" />
+          <Property Name="Time_end" Type="DateTime" Precision="3" />
+          <Property Name="Up" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Down" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="UniqueID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="profit" Type="Decimal" Precision="18" Scale="6" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="Event" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Coin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="Direction" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="MarketValue" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="OrderID" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Owner" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PL" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Fee" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="PLpct" Type="Decimal" Precision="18" Scale="6" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db61a6afb29dc84f4597e3a2b500ebed20ModelStoreContainer" CdmEntityContainer="db61a6afb29dc84f4597e3a2b500ebed20Entities">
+          <EntitySetMapping Name="PriceDatas">
+            <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model.PriceData">
+              <MappingFragment StoreEntitySet="PriceData">
+                <ScalarProperty Name="MA50" ColumnName="MA50" />
+                <ScalarProperty Name="MA9" ColumnName="MA9" />
+                <ScalarProperty Name="MA7" ColumnName="MA7" />
+                <ScalarProperty Name="MA100" ColumnName="MA100" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Coin" ColumnName="Coin" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="Rankdelta" ColumnName="Rankdelta" />
+                <ScalarProperty Name="Marketcap" ColumnName="Marketcap" />
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PriceChanges">
+            <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model.PriceChanx">
+              <MappingFragment StoreEntitySet="PriceChanges">
+                <ScalarProperty Name="profit" ColumnName="profit" />
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Down" ColumnName="Down" />
+                <ScalarProperty Name="Up" ColumnName="Up" />
+                <ScalarProperty Name="Time_end" ColumnName="Time_end" />
+                <ScalarProperty Name="Time_start" ColumnName="Time_start" />
+                <ScalarProperty Name="Coin" ColumnName="Coin" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="PLpct" ColumnName="PLpct" />
+                <ScalarProperty Name="Fee" ColumnName="Fee" />
+                <ScalarProperty Name="PL" ColumnName="PL" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="MarketValue" ColumnName="MarketValue" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Direction" ColumnName="Direction" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Coin" ColumnName="Coin" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

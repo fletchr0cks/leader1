@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db61a6afb29dc84f4597e3a2b500ebed20ModelStoreContainer" CdmEntityContainer="db61a6afb29dc84f4597e3a2b500ebed20Entities">
+    <EntitySetMapping Name="PriceDatas">
+      <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model.PriceData">
+        <MappingFragment StoreEntitySet="PriceData">
+          <ScalarProperty Name="MA50" ColumnName="MA50" />
+          <ScalarProperty Name="MA9" ColumnName="MA9" />
+          <ScalarProperty Name="MA7" ColumnName="MA7" />
+          <ScalarProperty Name="MA100" ColumnName="MA100" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Coin" ColumnName="Coin" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Rank" ColumnName="Rank" />
+          <ScalarProperty Name="Rankdelta" ColumnName="Rankdelta" />
+          <ScalarProperty Name="Marketcap" ColumnName="Marketcap" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceChanges">
+      <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model.PriceChanx">
+        <MappingFragment StoreEntitySet="PriceChanges">
+          <ScalarProperty Name="profit" ColumnName="profit" />
+          <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Down" ColumnName="Down" />
+          <ScalarProperty Name="Up" ColumnName="Up" />
+          <ScalarProperty Name="Time_end" ColumnName="Time_end" />
+          <ScalarProperty Name="Time_start" ColumnName="Time_start" />
+          <ScalarProperty Name="Coin" ColumnName="Coin" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Logs">
+      <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model.Log">
+        <MappingFragment StoreEntitySet="Log">
+          <ScalarProperty Name="Event" ColumnName="Event" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="db61a6afb29dc84f4597e3a2b500ebed20Model.Order">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="PLpct" ColumnName="PLpct" />
+          <ScalarProperty Name="Fee" ColumnName="Fee" />
+          <ScalarProperty Name="PL" ColumnName="PL" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="MarketValue" ColumnName="MarketValue" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Direction" ColumnName="Direction" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Coin" ColumnName="Coin" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

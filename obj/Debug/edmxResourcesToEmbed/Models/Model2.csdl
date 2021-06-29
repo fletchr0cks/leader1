@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db61a6afb29dc84f4597e3a2b500ebed20Model1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="PriceChanx">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Coin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Time_start" Type="DateTime" />
+    <Property Name="Time_end" Type="DateTime" />
+    <Property Name="Up" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Down" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Duration" Type="Int32" />
+    <Property Name="UniqueID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="PriceData">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Coin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Timestamp" Type="DateTime" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="Rank" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Rankdelta" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Marketcap" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Symbol" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="db61a6afb29dc84f4597e3a2b500ebed20Entities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="PriceChanges" EntityType="Self.PriceChanx" />
+    <EntitySet Name="PriceDatas" EntityType="Self.PriceData" />
+  </EntityContainer>
+</Schema>
